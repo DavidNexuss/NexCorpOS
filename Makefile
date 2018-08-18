@@ -3,7 +3,7 @@ LD = ld
 AS = nasm
 
 ASFLAGS = -f elf32
-CCFLAGS = -m32 -c 
+CCFLAGS = -m32 -ffreestanding -c 
 LDFLAGS = -m elf_i386
 
 ODIR = obj
