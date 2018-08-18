@@ -1,3 +1,4 @@
+/*Text color list*/
 #define BLACK 0x0
 #define BLUE 0x1
 #define GREEN 0x2

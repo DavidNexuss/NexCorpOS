@@ -8,9 +8,11 @@ void kmain(void)
 
 	char *vidptr = (char*)0xb8000; 	//video mem begins here.
 
+	/*Initialization*/
   initstdout(vidptr);
 	cls();
 
+	/*Debug Tests*/
 	char a = 0x0;
 	while(1){
 

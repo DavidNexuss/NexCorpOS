@@ -2,10 +2,11 @@
 
 struct CONSOLE_SCREEN cscreen = {85,20,0,0};
 
+/*Sets vidptr*/
 void initstdout(char* vidptr){
     cscreen.vidptr = vidptr;
 }
-
+/*Updates character value and color at a certain position*/
 void setCharacter(unsigned int pos,char text,char color){
 
   unsigned int p = pos*2;
@@ -14,16 +15,18 @@ void setCharacter(unsigned int pos,char text,char color){
   cscreen.vidptr[p + 1] = color;
   cscreen.charpos = pos;
 }
-
+/*Sets charposition to the chosen line*/
 void jumpToLine(unsigned int line){
 
   cscreen.charpos = line * cscreen.width;
 }
+/*Sets charposition to the next line*/
 void ln(){
 
     cscreen.charpos += cscreen.width - (cscreen.charpos % cscreen.width) - 5 * (cscreen.charpos / cscreen.width) - 5;
 }
 
+/*Prints to the current charposition*/
 void print(const char* str,char color){
 
   unsigned int i = 0;
@@ -36,12 +39,13 @@ void print(const char* str,char color){
     ++j;
   }
 }
-
+/*Same as print but moves charposition to the next line*/
 void println(const char* str,char color){
 
   print(str,color);
   ln();
 }
+/*Cleans screen*/
 void cls(){
 
   unsigned int j = 0;
