@@ -9,19 +9,16 @@ struct CONSOLE_SCREEN{
     char* vidptr;
 };
 
-extern struct CONSOLE_SCREEN cscreen;
-extern void setCharacter(unsigned int pos,char text,char color);
-extern void setColor(char color);
+struct CONSOLE_SCREEN cscreen;
+void setCharacter(unsigned int pos,char text,char color);
+void setColor(char color);
 
-extern void jumpToLine(unsigned int line);
-extern void ln();
+void jumpToLine(unsigned int line);
+void ln();
 
-extern void initstdout(char* vidptr);
-extern void print(char *str);
-extern void println(char *str);
-extern void printTestMessage();
-extern void cls();
-
-/*Basic functionality of types*/
-
-extern char intToChar(int number);
+void initstdout(char* vidptr);
+void print(char *str);
+void printint(int n);
+void println(char *str);
+void printTestMessage();
+void cls();

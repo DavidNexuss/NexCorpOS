@@ -45,6 +45,36 @@ void print(char* str){
     ++j;
   }
 }
+
+void printint(int a){
+
+    int temp = a*10;
+    int count = 0;
+    while(temp /= 10){
+        count++;
+    }
+
+    cscreen.charpos += count - 1;
+    int end = cscreen.charpos + 1;
+    temp = a*10;
+
+    while(temp /= 10){
+
+      if((temp % 10) == 0) print("0"); else
+      if((temp % 10) == 1) print("1"); else
+      if((temp % 10) == 2) print("2"); else
+      if((temp % 10) == 3) print("3"); else
+      if((temp % 10) == 4) print("4"); else
+      if((temp % 10) == 5) print("5"); else
+      if((temp % 10) == 6) print("6"); else
+      if((temp % 10) == 7) print("7"); else
+      if((temp % 10) == 8) print("8"); else
+      if((temp % 10) == 9) print("9");
+      cscreen.charpos -= 2;
+    }
+
+    cscreen.charpos = end;
+}
 /*Same as print but moves charposition to the next line*/
 void println(char* str){
 
@@ -82,44 +112,3 @@ void printTestMessage(){
   print("If that's your case hee... sry you may need to buy a new computer");
 }
 /*functionality*/
-
-/*NOT WORKING YET, NOT STACK BUILT, ONLY VOID RETURN TYPE FUNCTIONS POSSIBLE*/
-char intToChar(int number){
-
-  int temp = number;
-  unsigned int digits;
-
-  while(temp != 0){
-
-    digits ++;
-    temp /= 10;
-  }
-
-  char text[digits];
-  char a = 0x0;
-  temp = number;
-  unsigned int i = 0;
-
-  while( i != digits){
-
-       temp = number / (10 * i);
-       temp %= 10;
-
-       if(temp == 0) a = '0'; else
-       if(temp == 1) a = '1'; else
-       if(temp == 2) a = '2'; else
-       if(temp == 3) a = '3'; else
-       if(temp == 4) a = '4'; else
-       if(temp == 5) a = '5'; else
-       if(temp == 6) a = '6'; else
-       if(temp == 7) a = '7'; else
-       if(temp == 8) a = '8'; else
-       if(temp == 9) a = '9';
-
-       text[digits - 1 - i] = a;
-       i++;
-  }
-
-  return text;
-
-}
