@@ -21,6 +21,10 @@ void setColor(char col){
 
   cscreen.color = col;
 }
+void setBackgroundColor(char col){
+
+  cscreen.backColor = col;
+}
 /*Sets charposition to the chosen line*/
 void jumpToLine(unsigned int line){
 
@@ -40,7 +44,7 @@ void print(char* str){
   /* this loop writes the string to video memory */
   while(str[j] != '\0') {
     /* the character's ascii */
-    setCharacter(cscreen.charpos,str[j],cscreen.color);
+    setCharacter(cscreen.charpos,str[j],cscreen.color + (cscreen.backColor << 4));
     cscreen.charpos++;
     ++j;
   }
@@ -91,7 +95,7 @@ void cls(){
 		/* blank character */
     cscreen.vidptr[j] = ' ';
 		/* attribute-byte - light grey on black screen */
-		cscreen.vidptr[j+1] = 0x07;
+		cscreen.vidptr[j+1] = cscreen.color + (cscreen.backColor << 4);
 		j = j + 2;
 
   }
