@@ -10,10 +10,11 @@ void kmain(void)
 
 	/*Initialization*/
   initstdout(vidptr);
+	setBackgroundColor(LIGHT_CYAN);
 	cls();
-	printint(32);
-	print(" HELLO");
-
+	setBackgroundColor(BLACK);
+	setColor(LIGHT_RED);
+	print("HELLO");
 
 	return;
 }
