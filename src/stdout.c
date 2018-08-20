@@ -1,5 +1,5 @@
 #include "stdout.h"
-#include "color.h";
+#include "color.h"
 
 struct CONSOLE_SCREEN cscreen = {};
 /*Sets vidptr*/
@@ -64,17 +64,17 @@ void printint(int a){
 
     while(temp /= 10){
 
-      if((temp % 10) == 0) print("0"); else
-      if((temp % 10) == 1) print("1"); else
-      if((temp % 10) == 2) print("2"); else
-      if((temp % 10) == 3) print("3"); else
-      if((temp % 10) == 4) print("4"); else
-      if((temp % 10) == 5) print("5"); else
-      if((temp % 10) == 6) print("6"); else
-      if((temp % 10) == 7) print("7"); else
-      if((temp % 10) == 8) print("8"); else
-      if((temp % 10) == 9) print("9");
-      cscreen.charpos -= 2;
+      if((temp % 10) == 0) setCharacter(cscreen.charpos,'0',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 10) == 1) setCharacter(cscreen.charpos,'1',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 10) == 2) setCharacter(cscreen.charpos,'2',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 10) == 3) setCharacter(cscreen.charpos,'3',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 10) == 4) setCharacter(cscreen.charpos,'4',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 10) == 5) setCharacter(cscreen.charpos,'5',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 10) == 6) setCharacter(cscreen.charpos,'6',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 10) == 7) setCharacter(cscreen.charpos,'7',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 10) == 8) setCharacter(cscreen.charpos,'8',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 10) == 9) setCharacter(cscreen.charpos,'9',cscreen.color + (cscreen.backColor << 4));
+      cscreen.charpos --;
     }
 
     cscreen.charpos = end;
@@ -101,6 +101,10 @@ void cls(){
   }
 }
 
+char* val(){
+
+  return "";
+}
 void printTestMessage(){
 
   print("Hello! if you are running this means that you...  ");
@@ -109,7 +113,7 @@ void printTestMessage(){
   setColor(LIGHT_GREY);
   ln();
   print("Wich is cool but remember: ");
-  setColor(RED);
+  setColor(LIGHT_RED);
   print("Don't install this in your computer");
   jumpToLine(LAST_LINE);
   setColor(DARK_GREY);

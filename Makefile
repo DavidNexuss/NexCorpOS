@@ -3,7 +3,7 @@ LD = ld
 AS = nasm
 
 ASFLAGS = -f elf32
-CCFLAGS = -m32 -ffreestanding -c 
+CCFLAGS = -m32 -ffreestanding -c
 LDFLAGS = -m elf_i386
 
 ODIR = obj
@@ -23,7 +23,7 @@ S_OBJECTS = $(patsubst %.s, $(ODIR)/%.o,$(S_SOURCES))
 C_OBJECTS = $(patsubst %.c, $(ODIR)/%.o,$(C_SOURCES))
 
 build: $(IDIR)/link.ld $(C_OBJECTS) $(S_OBJECTS)
-	$(LD) $(LDFLAGS) -T $(IDIR)/link.ld -o $(BIN)/kernel.bin $(S_OBJECTS) $(C_OBJECTS)
+	$(LD) $(LDFLAGS) -T $(IDIR)/link.ld -o $(BIN)/nexcorp.bin $(S_OBJECTS) $(C_OBJECTS)
 
 dir:
 	mkdir $(ODIR)/
@@ -33,4 +33,6 @@ clean:
 	rm -r $(ODIR)
 	rm -r $(BIN)
 run:
-	qemu-system-x86_64 -kernel bin/kernel.bin
+	qemu-system-x86_64 -kernel bin/nexcorp.bin
+install: bin/nexcorp.bin
+	sudo cp $^ /boot/nexcorp.bin

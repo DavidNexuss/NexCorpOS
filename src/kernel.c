@@ -1,8 +1,11 @@
 #include "color.h"
 #include "stdout.h"
+#include "interrupt.h"
+#include "keyboard.h"
 /*
 *  kernel.c
 */
+
 void kmain(void)
 {
 
@@ -10,11 +13,10 @@ void kmain(void)
 
 	/*Initialization*/
   initstdout(vidptr);
-	setBackgroundColor(LIGHT_CYAN);
 	cls();
-	setBackgroundColor(BLACK);
-	setColor(LIGHT_RED);
-	print("HELLO");
-
+	println("Console started");
+	idt_init();
+	init_kb();
+	while(1);
 	return;
 }
