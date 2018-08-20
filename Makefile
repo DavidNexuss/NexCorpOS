@@ -10,6 +10,13 @@ ODIR = obj
 BIN  = bin
 IDIR = src
 
+all: $(ODIR) $(BIN) build
+
+$(ODIR):
+		mkdir $(ODIR)
+$(BIN):
+		mkdir $(BIN)
+
 $(ODIR)/%.o: $(IDIR)/%.s
 	$(AS) $(ASFLAGS) $^ -o $@
 
@@ -24,10 +31,6 @@ C_OBJECTS = $(patsubst %.c, $(ODIR)/%.o,$(C_SOURCES))
 
 build: $(IDIR)/link.ld $(C_OBJECTS) $(S_OBJECTS)
 	$(LD) $(LDFLAGS) -T $(IDIR)/link.ld -o $(BIN)/nexcorp.bin $(S_OBJECTS) $(C_OBJECTS)
-
-dir:
-	mkdir $(ODIR)/
-	mkdir $(BIN)/
 
 clean:
 	rm -r $(ODIR)
