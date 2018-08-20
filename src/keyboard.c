@@ -3,7 +3,7 @@
 #include "keyboard.h"
 #include "ports.h"
 
-void init_kb(){
+void kb_init(){
   println("initializing keyboard port");
   write_port(0x21 , 0xFD);
 }

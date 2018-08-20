@@ -1,5 +1,6 @@
 #include "color.h"
 #include "stdout.h"
+#include "stdlib.h"
 #include "interrupt.h"
 #include "keyboard.h"
 /*
@@ -16,7 +17,9 @@ void kmain(void)
 	cls();
 	println("Console started");
 	idt_init();
-	init_kb();
+	kb_init();
+	sleep(1);
+	cls();
 	while(1);
 	return;
 }

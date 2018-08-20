@@ -99,6 +99,8 @@ void cls(){
 		j = j + 2;
 
   }
+
+  cscreen.charpos = 0;
 }
 
 char* val(){
