@@ -1,7 +1,7 @@
 #include "color.h"
 #include "stdout.h"
 #include "keyboard.h"
-#include "port.h"
+#include "ports.h"
 
 void init_kb(){
   println("initializing keyboard port");

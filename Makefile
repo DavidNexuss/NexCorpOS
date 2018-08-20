@@ -17,7 +17,7 @@ $(ODIR):
 $(BIN):
 		mkdir $(BIN)
 
-$(ODIR)/%.o: $(IDIR)/%.s
+$(ODIR)/s_%.o: $(IDIR)/%.s
 	$(AS) $(ASFLAGS) $^ -o $@
 
 $(ODIR)/%.o: $(IDIR)/%.c
@@ -26,7 +26,7 @@ $(ODIR)/%.o: $(IDIR)/%.c
 S_SOURCES = $(shell find $(IDIR) -type f -name *.s -printf "%f\n")
 C_SOURCES = $(shell find $(IDIR) -type f -name *.c -printf "%f\n")
 
-S_OBJECTS = $(patsubst %.s, $(ODIR)/%.o,$(S_SOURCES))
+S_OBJECTS = $(patsubst %.s, $(ODIR)/s_%.o,$(S_SOURCES))
 C_OBJECTS = $(patsubst %.c, $(ODIR)/%.o,$(C_SOURCES))
 
 build: $(IDIR)/link.ld $(C_OBJECTS) $(S_OBJECTS)

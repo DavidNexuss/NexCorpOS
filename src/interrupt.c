@@ -1,7 +1,7 @@
 #include "interrupt.h"
 #include "stdout.h"
 #include "keyboard.h"
-#include "port.h"
+#include "ports.h"
 
 struct IDT_entry{
 	unsigned short int offset_lowerbits;
