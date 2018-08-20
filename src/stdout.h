@@ -12,6 +12,9 @@ struct CONSOLE_SCREEN{
 };
 
 struct CONSOLE_SCREEN cscreen;
+void setCursorPosition(unsigned int pos);
+void addCursorPosition(unsigned int pos);
+
 void setCharacter(unsigned int pos,char text,char color);
 void setColor(char color);
 void setBackgroundColor(char color);

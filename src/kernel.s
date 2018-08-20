@@ -13,7 +13,7 @@ extern kmain 				;this is defined in the c file
 start:
 	cli 				;block interrupts
 	mov esp, stack_space		;set stack pointer
-	call kmain
+  call kmain
 	hlt 				;halt the CPU
 
 section .bss

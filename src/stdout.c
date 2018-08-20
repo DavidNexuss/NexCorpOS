@@ -1,11 +1,32 @@
 #include "stdout.h"
 #include "color.h"
+#include "ports.h"
 
 struct CONSOLE_SCREEN cscreen = {};
 /*Sets vidptr*/
 void initstdout(char* vidptr){
     cscreen.vidptr = vidptr;
     cscreen.color = 0x7;
+}
+
+void setCursorPosition(unsigned int position){
+
+  unsigned short location= position;/* Short is a 16bit type , the formula is used here*/
+
+  //Cursor Low port
+  write_port(0x3D4, 0x0F);//Sending the cursor low byte to the VGA
+  write_port(0x3D5, (unsigned char)(location&0xFF));
+             //Cursor
+  write_port(0x3D4, 0x0E);//Sending the cursor high byte to the VGA Controller
+  write_port(0x3D5, (unsigned char )((location>>8)&0xFF)); //Char is a 8bit type
+
+  cscreen.charpos = position;
+}
+
+void addCursorPosition(unsigned int position){
+
+  cscreen.charpos += position;
+  setCursorPosition(cscreen.charpos);
 }
 /*Updates character value and color at a certain position*/
 void setCharacter(unsigned int pos,char text,char color){
@@ -14,7 +35,7 @@ void setCharacter(unsigned int pos,char text,char color){
 
   cscreen.vidptr[p] = text;
   cscreen.vidptr[p + 1] = color;
-  cscreen.charpos = pos;
+  setCursorPosition(pos);
 }
 
 void setColor(char col){
@@ -28,12 +49,12 @@ void setBackgroundColor(char col){
 /*Sets charposition to the chosen line*/
 void jumpToLine(unsigned int line){
 
-  cscreen.charpos = line * SWIDTH;
+  setCursorPosition(line * SWIDTH);
 }
 /*Sets charposition to the next line*/
 void ln(){
 
-    cscreen.charpos += SWIDTH - (cscreen.charpos % SWIDTH);
+    setCursorPosition(cscreen.charpos + SWIDTH - (cscreen.charpos % SWIDTH));
 }
 
 /*Prints to the current charposition*/
@@ -45,7 +66,7 @@ void print(char* str){
   while(str[j] != '\0') {
     /* the character's ascii */
     setCharacter(cscreen.charpos,str[j],cscreen.color + (cscreen.backColor << 4));
-    cscreen.charpos++;
+    addCursorPosition(1);
     ++j;
   }
 }
@@ -58,7 +79,7 @@ void printint(int a){
         count++;
     }
 
-    cscreen.charpos += count - 1;
+    addCursorPosition(count - 1);
     int end = cscreen.charpos + 1;
     temp = a*10;
 
@@ -74,10 +95,10 @@ void printint(int a){
       if((temp % 10) == 7) setCharacter(cscreen.charpos,'7',cscreen.color + (cscreen.backColor << 4)); else
       if((temp % 10) == 8) setCharacter(cscreen.charpos,'8',cscreen.color + (cscreen.backColor << 4)); else
       if((temp % 10) == 9) setCharacter(cscreen.charpos,'9',cscreen.color + (cscreen.backColor << 4));
-      cscreen.charpos --;
+      addCursorPosition(-1);
     }
 
-    cscreen.charpos = end;
+    setCursorPosition(end);
 }
 /*Same as print but moves charposition to the next line*/
 void println(char* str){
@@ -100,7 +121,7 @@ void cls(){
 
   }
 
-  cscreen.charpos = 0;
+  setCursorPosition(0);
 }
 
 char* val(){

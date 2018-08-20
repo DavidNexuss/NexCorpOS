@@ -7,19 +7,22 @@
 *  kernel.c
 */
 
-void kmain(void)
-{
+void init(char* vidptr){
 
-	char *vidptr = (char*)0xb8000; 	//video mem begins here.
-
-	/*Initialization*/
-  initstdout(vidptr);
+  /*Initialization*/
+	initstdout(vidptr);
 	cls();
 	println("Console started");
 	idt_init();
 	kb_init();
 	sleep(1);
 	cls();
+}
+void kmain(void)
+{
+
+	char *vidptr = (char*)0xb8000; 	//video mem begins here.
+	init(vidptr);
 	while(1);
 	return;
 }
