@@ -35,7 +35,7 @@ build: $(IDIR)/link.ld $(C_OBJECTS) $(S_OBJECTS)
 clean:
 	rm -r $(ODIR)
 	rm -r $(BIN)
-run:
+run: all
 	qemu-system-x86_64 -kernel bin/nexcorp.bin
 install: bin/nexcorp.bin
 	sudo cp $^ /boot/nexcorp.bin
