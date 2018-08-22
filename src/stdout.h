@@ -24,7 +24,7 @@ void ln();
 
 void initstdout(char* vidptr);
 void print(char *str);
-void printint(int n);
+void printint(unsigned int n);
 void println(char *str);
 void printTestMessage();
 void cls();

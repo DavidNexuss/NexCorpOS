@@ -1,6 +1,7 @@
 #include "color.h"
 #include "stdout.h"
 #include "stdlib.h"
+#include "mem.h"
 #include "interrupt.h"
 #include "keyboard.h"
 /*
@@ -15,6 +16,7 @@ void init(char* vidptr){
 	println("Console started");
 	idt_init();
 	kb_init();
+	mem_init();
 	sleep(1);
 	cls();
 }

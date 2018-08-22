@@ -1,4 +1,5 @@
 #include "stdout.h"
+#include "stdlib.h"
 #include "color.h"
 #include "ports.h"
 
@@ -71,16 +72,16 @@ void print(char* str){
   }
 }
 
-void printint(int a){
+void printint(unsigned int a){
 
-    int temp = a*10;
-    int count = 0;
+    unsigned int temp = a*10;
+    unsigned int count = 0;
     while(temp /= 10){
         count++;
     }
 
     addCursorPosition(count - 1);
-    int end = cscreen.charpos + 1;
+    unsigned int end = cscreen.charpos + 1;
     temp = a*10;
 
     while(temp /= 10){
