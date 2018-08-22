@@ -22,13 +22,18 @@ void keyboard_handler_main(void) {
 		if(keycode < 0)
 			return;
 
-    if(keyboard_map[keycode] != '\b'){
-      setCharacter(cscreen.charpos,keyboard_map[keycode],LIGHT_RED + (WHITE << 4));
-      addCursorPosition(1);
-	  }else{
+
+    if(keyboard_map[keycode] == '\b'){
 
       addCursorPosition(-1);
       setCharacter(cscreen.charpos,' ',0x07);
+	  }else if(keyboard_map[keycode] == '\n'){
+
+      ln();
+      setCursorPosition(cscreen.charpos);
+    }else{
+      setCharacter(cscreen.charpos,keyboard_map[keycode],LIGHT_RED + (WHITE << 4));
+      addCursorPosition(1);
     }
 
   }
