@@ -10,7 +10,7 @@ ODIR = obj
 BIN  = bin
 IDIR = src
 
-all: $(ODIR) $(BIN) build
+all: $(ODIR) $(BIN) $(BIN)/nexcorp.bin
 
 $(ODIR):
 		mkdir $(ODIR)
@@ -29,7 +29,7 @@ C_SOURCES = $(shell find $(IDIR) -type f -name *.c -printf "%f\n")
 S_OBJECTS = $(patsubst %.s, $(ODIR)/s_%.o,$(S_SOURCES))
 C_OBJECTS = $(patsubst %.c, $(ODIR)/%.o,$(C_SOURCES))
 
-build: $(IDIR)/link.ld $(C_OBJECTS) $(S_OBJECTS)
+$(BIN)/nexcorp.bin: $(IDIR)/link.ld $(C_OBJECTS) $(S_OBJECTS)
 	$(LD) $(LDFLAGS) -T $(IDIR)/link.ld -o $(BIN)/nexcorp.bin $(S_OBJECTS) $(C_OBJECTS)
 
 clean:
