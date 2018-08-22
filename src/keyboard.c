@@ -24,12 +24,10 @@ void keyboard_handler_main(void) {
 
     if(keyboard_map[keycode] != '\b'){
       setCharacter(cscreen.charpos,keyboard_map[keycode],LIGHT_RED + (WHITE << 4));
-      cscreen.charpos++;
-      setCursorPosition(cscreen.charpos);
+      addCursorPosition(1);
 	  }else{
 
-      cscreen.charpos--;
-      setCursorPosition(cscreen.charpos);
+      addCursorPosition(-1);
       setCharacter(cscreen.charpos,' ',0x07);
     }
 

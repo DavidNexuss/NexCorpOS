@@ -10,7 +10,7 @@ void initstdout(char* vidptr){
 }
 
 void setCursorPosition(unsigned int position){
-
+  if(position < 0) position = 0;
   unsigned short location= position;/* Short is a 16bit type , the formula is used here*/
 
   //Cursor Low port
@@ -24,8 +24,8 @@ void setCursorPosition(unsigned int position){
 }
 
 void addCursorPosition(unsigned int position){
-
   cscreen.charpos += position;
+  if(cscreen.charpos < 0) cscreen.charpos = 0;
   setCursorPosition(cscreen.charpos);
 }
 /*Updates character value and color at a certain position*/
