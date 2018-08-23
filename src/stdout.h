@@ -1,3 +1,5 @@
+#pragma once
+#include "color.h"
 #define SWIDTH 80
 #define SHEIGHT 25
 #define SSIZE SWIDTH*SHEIGHT

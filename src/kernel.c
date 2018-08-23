@@ -1,9 +1,6 @@
 #include "color.h"
 #include "stdout.h"
-#include "stdlib.h"
-#include "mem.h"
-#include "interrupt.h"
-#include "keyboard.h"
+#include "system.h"
 /*
 *  kernel.c
 */
