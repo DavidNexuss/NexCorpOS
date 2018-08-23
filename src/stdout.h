@@ -30,5 +30,3 @@ void printint(unsigned int n);
 void println(char *str);
 void printTestMessage();
 void cls();
-
-char* val();

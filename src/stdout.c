@@ -124,11 +124,6 @@ void cls(){
 
   setCursorPosition(0);
 }
-
-char* val(){
-
-  return "";
-}
 void printTestMessage(){
 
   print("Hello! if you are running this means that you...  ");

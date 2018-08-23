@@ -1,9 +1,11 @@
 #pragma once
+#include "types.h"
+
 void mem_init();
 
-extern char heap_size;
-extern char heap_bottom;
-extern char heap_top;
+extern size_t heap_size;
+extern byte_t heap_bottom;
+extern byte_t heap_top;
 
-extern char kernel_start;
-extern char kernel_after;
+extern byte_t kernel_start;
+extern byte_t kernel_after;
