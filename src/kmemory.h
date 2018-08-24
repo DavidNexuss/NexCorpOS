@@ -5,7 +5,7 @@
 
 struct memory_block{
 
-  bool free;
+  bool_t free;
   size_t size;
   struct memory_block* next;
 
@@ -16,6 +16,7 @@ void mem_init();
 void* kmalloc(size_t size);
 void* kfind_free_block(size_t size);
 void kfree(void* obj);
+size_t allocated(bool_t used);
 
 extern size_t heap_size;
 extern byte_t heap_bottom;

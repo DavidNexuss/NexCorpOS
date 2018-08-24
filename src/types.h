@@ -1,6 +1,9 @@
+#pragma once
 #define NULL 0
+#define FALSE 0
+#define TRUE 1
 
-typedef enum { FALSE = 0, TRUE = 1 } bool;
-
+typedef int bool_t;
 typedef long unsigned int size_t;
+
 typedef unsigned char byte_t;

@@ -74,6 +74,12 @@ void print(char* str){
 
 void printint(unsigned int a){
 
+    if(a == 0){
+
+      setCharacter(cscreen.charpos,'0',cscreen.color + (cscreen.backColor << 4));
+      addCursorPosition(1);
+      return;
+    }
     unsigned int temp = a*10;
     unsigned int count = 0;
     while(temp /= 10){
