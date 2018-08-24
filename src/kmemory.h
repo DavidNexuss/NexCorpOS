@@ -16,6 +16,10 @@ void mem_init();
 void* kmalloc(size_t size);
 void* kfind_free_block(size_t size);
 void kfree(void* obj);
+
+void kmemzero(void* position,size_t size);
+void kmemset(void* position,char val,size_t size);
+
 size_t allocated(bool_t used);
 
 extern size_t heap_size;

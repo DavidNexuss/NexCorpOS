@@ -26,7 +26,6 @@ void* kfind_free_block(size_t size){
 
     if(current->free && current->size >= size && (!best || current->size < best->size)){
       best = current;
-      println("NOOO");
     }
     current = current->next;
   }
@@ -61,6 +60,18 @@ void kfree(void* obj){
   block->free = 1;
 }
 
+void kmemzero(void* position,size_t size){
+
+  kmemset(position,0,size);
+}
+void kmemset(void* position,char val,size_t size){
+
+  void* end = position + size;
+    while (position < end) {
+        *(char*)(position) = val;
+        position++;
+      }
+}
 size_t allocated(bool_t used){
 
   size_t space = 0;
