@@ -24,6 +24,7 @@ void kmain(void)
 
 	char *vidptr = (char*)0xb8000; 	//video mem begins here.
 	init(vidptr);
+
 	while(1);
 	return;
 }

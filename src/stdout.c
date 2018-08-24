@@ -107,6 +107,17 @@ void printint(unsigned int a){
 
     setCursorPosition(end);
 }
+
+void printints(unsigned int* ints,size_t size){
+
+  print("{");
+  for(size_t i = 0; i < size ; i++){
+
+    printint(ints[i]);
+    if(i < size - 1) print(",");
+  }
+  print("}");
+}
 /*Same as print but moves charposition to the next line*/
 void println(char* str){
 

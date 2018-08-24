@@ -1,4 +1,5 @@
 #pragma once
+#include "types.h"
 #include "color.h"
 #define SWIDTH 80
 #define SHEIGHT 25
@@ -27,6 +28,7 @@ void ln();
 void initstdout(char* vidptr);
 void print(char *str);
 void printint(unsigned int n);
+void printints(unsigned int* ints,size_t size);
 void println(char *str);
 void printTestMessage();
 void cls();
