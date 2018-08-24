@@ -15,7 +15,7 @@ struct IDT_entry IDT[IDT_SIZE];
 
 void idt_init(){
 
-  println("initializing ports...");
+  println("initializing interrupts...");
 	unsigned long keyboard_address;
 	unsigned long idt_address;
 	unsigned long idt_ptr[2];
@@ -66,5 +66,5 @@ void idt_init(){
 	idt_ptr[1] = idt_address >> 16 ;
 
 	load_idt(idt_ptr);
-  println("Ports initialized");
+  println("Interrupts initialized");
 }
