@@ -1,6 +1,8 @@
 #include "color.h"
 #include "stdout.h"
 #include "system.h"
+#include "kmemory.h"
+
 /*
 *  kernel.c
 */
