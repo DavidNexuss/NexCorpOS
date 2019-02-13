@@ -59,7 +59,7 @@ void ln(){
 }
 
 /*Prints to the current charposition*/
-void print(char* str){
+void print(const char* str){
 
   unsigned int i = 0;
   unsigned int j = 0;
@@ -119,7 +119,7 @@ void printints(unsigned int* ints,size_t size){
   print("}");
 }
 /*Same as print but moves charposition to the next line*/
-void println(char* str){
+void println(const char* str){
 
   print(str);
   ln();

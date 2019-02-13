@@ -13,7 +13,7 @@ void keyboard_handler_main(void) {
 	char keycode;
 
 	/* write EOI */
-	write_port(0x20, 0x20);
+	CLEAR_EOI();
 
 	status = read_port(KEYBOARD_STATUS_PORT);
 	/* Lowest bit of status will be set if buffer is not empty */

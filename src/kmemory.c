@@ -4,8 +4,11 @@
 static void* next_address = &kernel_after;
 struct memory_block *last = NULL;
 
+size_t execution_timer = 0;
+
 void mem_init(){
 
+  execution_timer += 1;
   println("Initializing memory...");
   print("Heap Size: ");
   printint(heap_size);
@@ -42,6 +45,7 @@ void* kmalloc(size_t size){
 
     block = (struct memory_block*) next_address;
     block->size = size;
+    block->serial = MEMORY_BLOCK_SERIAL;
     next_address += BLOCK_SIZE + size;
 
     if(last){
@@ -71,6 +75,13 @@ void kmemset(void* position,char val,size_t size){
         *(char*)(position) = val;
         position++;
       }
+}
+void kmemSetZero(void *allocatedObject){
+
+  struct memory_block *block = (struct memory_block*)(allocatedObject - BLOCK_SIZE);
+  if(!isMemoryBlock(block)) return;
+  kmemzero(allocatedObject,block->size);
+
 }
 size_t allocated(bool_t used){
 

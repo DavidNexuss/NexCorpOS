@@ -26,9 +26,9 @@ void jumpToLine(unsigned int line);
 void ln();
 
 void initstdout(char* vidptr);
-void print(char *str);
+void print(const char *str);
 void printint(unsigned int n);
 void printints(unsigned int* ints,size_t size);
-void println(char *str);
+void println(const char *str);
 void printTestMessage();
 void cls();

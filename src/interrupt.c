@@ -2,7 +2,7 @@
 #include "stdout.h"
 #include "keyboard.h"
 #include "ports.h"
-
+#include "kmemory.h"
 struct IDT_entry{
 	unsigned short int offset_lowerbits;
 	unsigned short int selector;
@@ -13,6 +13,7 @@ struct IDT_entry{
 
 struct IDT_entry IDT[IDT_SIZE];
 
+const char * division_by_zero_error = "ERROR: division_by_zero";
 void idt_init(){
 
   println("initializing interrupts...");
@@ -28,6 +29,11 @@ void idt_init(){
 	IDT[0x21].type_attr = 0x8e; /* INTERRUPT_GATE */
 	IDT[0x21].offset_higherbits = (keyboard_address & 0xffff0000) >> 16;
 
+	IDT[0x00].offset_lowerbits = (unsigned long)division_by_zero & 0xffff;
+	IDT[0x00].selector = 0x08; /* KERNEL_CODE_SEGMENT_OFFSET */
+	IDT[0x00].zero = 0;
+	IDT[0x00].type_attr = 0x8e; /* INTERRUPT_GATE */
+	IDT[0x00].offset_higherbits = ((unsigned long)division_by_zero & 0xffff0000) >> 16;
 
 	/*     Ports
 	*	 PIC1	PIC2
@@ -67,4 +73,9 @@ void idt_init(){
 
 	load_idt(idt_ptr);
   println("Interrupts initialized");
+}
+
+void division_by_zero_handler(){
+	print(division_by_zero_error);
+	while(1);
 }
