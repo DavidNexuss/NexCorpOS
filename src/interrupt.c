@@ -72,7 +72,7 @@ void idt_init(){
 	idt_ptr[1] = idt_address >> 16 ;
 
 	load_idt(idt_ptr);
-  println("Interrupts initialized");
+  	println("Interrupts initialized");
 }
 
 void division_by_zero_handler(){
