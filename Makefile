@@ -51,7 +51,7 @@ CPP_OBJECTS = $(patsubst %.cpp, $(ODIR)/%.o,$(CPP_SOURCES))
 S_CODE = $(patsubst %.c, $(SDIR)/%.s,$(C_SOURCES))
 S_CODE += $(patsubst %.cpp, $(SDIR)/%.s,$(CPP_SOURCES))
 $(KERNEL): $(IDIR)/link.ld $(C_OBJECTS) $(CPP_OBJECTS) $(S_OBJECTS) 
-	$(LD) $(LDFLAGS) -T $(IDIR)/link.ld -o $(BIN)/nexcorp.bin $(S_OBJECTS) $(C_OBJECTS) $(CPP_OBJECTS)
+	$(LD) $(LDFLAGS) -T $(IDIR)/link.ld -o $(KERNEL) $(S_OBJECTS) $(C_OBJECTS) $(CPP_OBJECTS)
 
 clean:
 	rm -rf $(ODIR)
@@ -62,3 +62,6 @@ run: all
 install: all
 	sudo cp $(KERNEL) /boot/$(KERNEL_NAME)
 dis: all $(SDIR) $(S_CODE)
+
+flist: all
+	nm "$(KERNEL)" | grep 'T' | awk '{print $$3}'
