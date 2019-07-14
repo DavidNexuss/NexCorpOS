@@ -21,18 +21,17 @@ void keyboard_handler_main(void) {
 		keycode = read_port(KEYBOARD_DATA_PORT);
 		if(keycode < 0)
 			return;
-
-
+      
     if(keyboard_map[keycode] == '\b'){
 
       addCursorPosition(-1);
-      setCharacter(cscreen.charpos,' ',0x07);
+      setCharacter(getConsoleScreen().charpos,' ',0x07);
 	  }else if(keyboard_map[keycode] == '\n'){
 
       ln();
-      setCursorPosition(cscreen.charpos);
+      setCursorPosition(getConsoleScreen().charpos);
     }else{
-      setCharacter(cscreen.charpos,keyboard_map[keycode],LIGHT_RED + (WHITE << 4));
+      setCharacter(getConsoleScreen().charpos,keyboard_map[keycode],LIGHT_RED + (WHITE << 4));
       addCursorPosition(1);
     }
 

@@ -4,6 +4,11 @@
 #include "ports.h"
 
 struct CONSOLE_SCREEN cscreen = {};
+
+struct CONSOLE_SCREEN getConsoleScreen(){
+
+  return cscreen;
+}
 /*Sets vidptr*/
 void initstdout(char* vidptr){
     cscreen.vidptr = vidptr;

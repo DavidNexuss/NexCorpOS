@@ -14,7 +14,7 @@ struct CONSOLE_SCREEN{
     char* vidptr;
 };
 
-struct CONSOLE_SCREEN cscreen;
+struct CONSOLE_SCREEN getConsoleScreen();
 void setCursorPosition(unsigned int pos);
 void addCursorPosition(unsigned int pos);
 

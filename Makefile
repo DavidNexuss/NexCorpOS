@@ -37,6 +37,9 @@ $(ODIR)/%.o: $(IDIR)/%.cpp
 $(SDIR)/%.s : $(IDIR)/%.c
 	$(CC) -g -o $@ $(CCFLAGS) -S $^
 
+$(SDIR)/%.s : $(IDIR)/%.cpp
+	$(CC) -g -o $@ $(CCFLAGS) -S $^
+
 S_SOURCES = $(shell find $(IDIR) -type f -name *.s -printf "%f\n")
 C_SOURCES = $(shell find $(IDIR) -type f -name *.c -printf "%f\n")
 CPP_SOURCES = $(shell find $(IDIR) -type f -name *.cpp -printf "%f\n")
@@ -46,9 +49,9 @@ C_OBJECTS = $(patsubst %.c, $(ODIR)/%.o,$(C_SOURCES))
 CPP_OBJECTS = $(patsubst %.cpp, $(ODIR)/%.o,$(CPP_SOURCES))
 
 S_CODE = $(patsubst %.c, $(SDIR)/%.s,$(C_SOURCES))
-
+S_CODE += $(patsubst %.cpp, $(SDIR)/%.s,$(CPP_SOURCES))
 $(KERNEL): $(IDIR)/link.ld $(C_OBJECTS) $(CPP_OBJECTS) $(S_OBJECTS) 
-	$(LD) $(LDFLAGS) -T $(IDIR)/link.ld -o $(BIN)/nexcorp.bin $(S_OBJECTS) $(C_OBJECTS)
+	$(LD) $(LDFLAGS) -T $(IDIR)/link.ld -o $(BIN)/nexcorp.bin $(S_OBJECTS) $(C_OBJECTS) $(CPP_OBJECTS)
 
 clean:
 	rm -rf $(ODIR)
