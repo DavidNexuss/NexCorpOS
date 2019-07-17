@@ -4,4 +4,4 @@
 #include "kmemory.h"
 
 #define SLEEP 300000000
-void sleep(unsigned int t);
+extern "C" { void sleep(unsigned int t); } 

@@ -50,7 +50,7 @@ CPP_OBJECTS = $(patsubst %.cpp, $(ODIR)/%.o,$(CPP_SOURCES))
 
 S_CODE = $(patsubst %.c, $(SDIR)/%.s,$(C_SOURCES))
 S_CODE += $(patsubst %.cpp, $(SDIR)/%.s,$(CPP_SOURCES))
-$(KERNEL): $(IDIR)/link.ld $(C_OBJECTS) $(CPP_OBJECTS) $(S_OBJECTS) 
+$(KERNEL): $(IDIR)/link.ld $(CPP_OBJECTS) $(C_OBJECTS) $(S_OBJECTS) 
 	$(LD) $(LDFLAGS) -T $(IDIR)/link.ld -o $(KERNEL) $(S_OBJECTS) $(C_OBJECTS) $(CPP_OBJECTS)
 
 clean:

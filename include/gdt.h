@@ -4,9 +4,13 @@
 #define KERNELCODE_SEGMENTSELECTOR 64*1024*1024 //64MB
 #define KERNELDATA_SEGMENTSELECTOR 64*1024*1024 //64MB
 
-extern "C"{void load_gdt(uint64_t gdt_pointer);}
+#define GDT_TABLE_SIZE 3
+
+extern "C"{void load_gdt(uint32_t gdt_pointer);}
+
 class GlobalDescriptorTable{
 
+    
     public:
         class SegmentDescriptor
         {
@@ -18,20 +22,23 @@ class GlobalDescriptorTable{
             uint8_t flags_limit_hi;
             uint8_t base_vhi;
         public:
-            SegmentDescriptor(uint32_t base, uint32_t limit, uint8_t type);
+            SegmentDescriptor(){};
+            void setValues(uint32_t base, uint32_t limit, uint8_t type);
 
             uint32_t Base();
             uint32_t Limit();
 
         }__attribute__((packed));
+    
+    private:
 
-    SegmentDescriptor nullSegmentSelector;
-    SegmentDescriptor unusedSegmentSelector;
+    SegmentDescriptor gdt_table[GDT_TABLE_SIZE];
+
     SegmentDescriptor codeSegmentSelector;
     SegmentDescriptor dataSegmentSelector;
+    SegmentDescriptor nullSegmentSelector;
 
     public:
-
     GlobalDescriptorTable();
     ~GlobalDescriptorTable();
 

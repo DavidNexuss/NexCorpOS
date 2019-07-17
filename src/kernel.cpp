@@ -5,6 +5,7 @@ extern "C"{
 	#include "kmemory.h"
 }
 #include "gdt.h"
+#include "interrupt.h"
 
 /*
 *  kernel.c
@@ -13,14 +14,23 @@ extern "C"{
 void init(char* vidptr){
 
   /*Initialization*/
-  	GlobalDescriptorTable gdt;
+
 	initstdout(vidptr);
 	cls();
 	println("Console started");
-	idt_init();
+  	
+	GlobalDescriptorTable gdt;
+	print("GDT loaded  ");
+	printint((uint32_t)&gdt); print(" Code Segment Selector: ");
+	printint(gdt.CodeSegmentSelector()); print(" Data Segment Selector: ");
+	printint(gdt.DataSegmentSelector());
+	ln();
+	InterruptManager idt = InterruptManager(gdt);
+	idt.Activate();
+//	idt_init();
 	kb_init();
 	mem_init();
-	sleep(1);
+	sleep(10);
 	cls();
 }
 
