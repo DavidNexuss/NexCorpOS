@@ -6,7 +6,7 @@ extern dataSegmentSelectortemp
 load_gdt:
     mov edx, [esp + 4]
     lgdt [edx]
-    mov ax, 0x10
+    mov ax, [dataSegmentSelectortemp]
     mov ds,ax
     mov es,ax
     mov fs,ax
