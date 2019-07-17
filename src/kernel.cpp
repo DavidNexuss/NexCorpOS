@@ -18,18 +18,20 @@ void init(char* vidptr){
 	initstdout(vidptr);
 	cls();
 	println("Console started");
-  	printint(sizeof(GlobalDescriptorTable::SegmentDescriptor));
-	GlobalDescriptorTable* gdt = new GlobalDescriptorTable();
+	mem_init(); //Init heap
+	
+	GlobalDescriptorTable gdt;
+  	gdt.flushGDT();
+	printint(sizeof(GlobalDescriptorTable::SegmentDescriptor));
 	print("GDT loaded  ");
 	printint((uint32_t)&gdt); print(" Code Segment Selector: ");
-	printint(gdt->CodeSegmentSelector()); print(" Data Segment Selector: ");
-	printint(gdt->DataSegmentSelector());
+	printint(gdt.CodeSegmentSelector()); print(" Data Segment Selector: ");
+	printint(gdt.DataSegmentSelector());
 	ln();
-	InterruptManager idt = InterruptManager(*gdt);
-	idt.Activate();
+	//InterruptManager idt = InterruptManager(*gdt);
+	//idt.Activate();
 //	idt_init();
 	kb_init();
-	mem_init();
 	sleep(10);
 	cls();
 }

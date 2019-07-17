@@ -30,6 +30,13 @@ class GlobalDescriptorTable{
 
         }__attribute__((packed));
     
+
+    struct GlobalDescriptorTablePointer{
+        uint16_t limit;
+        uint32_t base;
+        
+    }__attribute__((packed));
+    
     private:
 
     SegmentDescriptor gdt_table[GDT_TABLE_SIZE];
@@ -44,4 +51,6 @@ class GlobalDescriptorTable{
 
     uint16_t CodeSegmentSelector();
     uint16_t DataSegmentSelector();
+
+    void flushGDT();
 };

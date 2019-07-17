@@ -1,13 +1,8 @@
 #include "gdt.h"
 
 
-struct GlobalDescriptorTablePointer{
-    uint16_t limit;
-    uint32_t base;
-}__attribute__((packed));
-        
+GlobalDescriptorTable::GlobalDescriptorTablePointer gdt_pointer;
 
-GlobalDescriptorTablePointer gdt_pointer;
 uint16_t codeSegmentSelectortemp;
 uint16_t dataSegmentSelectortemp;
 
@@ -27,6 +22,9 @@ GlobalDescriptorTable::GlobalDescriptorTable()
 
     gdt_pointer.limit = sizeof(GlobalDescriptorTable::SegmentDescriptor)*GDT_TABLE_SIZE - 1;
     gdt_pointer.base = (uint32_t)gdt_table;
+}
+
+void GlobalDescriptorTable::flushGDT(){
 
     codeSegmentSelectortemp = CodeSegmentSelector();
     dataSegmentSelectortemp = DataSegmentSelector();
@@ -38,12 +36,12 @@ GlobalDescriptorTable::~GlobalDescriptorTable(){}
 
 uint16_t GlobalDescriptorTable::DataSegmentSelector(){
 
-    return 0x10;
+    return (uint8_t*)&gdt_table[kernelDataSegmentSelectorindex] - (uint8_t*)gdt_table;
 }
 
 uint16_t GlobalDescriptorTable::CodeSegmentSelector(){
 
-    return 0x8;
+    return (uint8_t*)&gdt_table[kernelCodeSegmentSelectorindex] - (uint8_t*)gdt_table;
 }
 
 void GlobalDescriptorTable::SegmentDescriptor::setValues(uint32_t base,uint32_t limit,uint8_t flags){
