@@ -18,6 +18,7 @@ load_idt:
 	mov edx, [esp + 4]
 	lidt [edx]
 	ret
+global int_bottom
 int_bottom:
 
 	pusha
@@ -29,7 +30,7 @@ int_bottom:
 	push dword [interruptnumber]
 	call _ZN16InterruptManager15handleInterruptEhj
 	
-	mov eax, esp
+	mov esp, eax
 
 	pop gs
 	pop fs
@@ -37,7 +38,7 @@ int_bottom:
 	pop ds
 	popa
 	
-	iret
+	iretd
 
 section .data
 	interruptnumber dd 0x0

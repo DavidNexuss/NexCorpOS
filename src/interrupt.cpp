@@ -1,8 +1,13 @@
 #include "interrupt.h"
+#include "pic.h"
+
 extern "C" {
     #include "stdout.h"
+    #include "keyboard.h"
+    #include "ports.h"
 }
 extern "C" {void load_idt(void* idt_pointer);}
+extern "C" {void int_bottom();}
 
 InterruptManager::GateDescriptor InterruptManager::interruptDescriptorTable[256];
 
@@ -30,7 +35,7 @@ InterruptManager::InterruptManager(GlobalDescriptorTable &gdt){
     uint16_t codeSegment = gdt.CodeSegmentSelector();
 
     for (uint16_t i = 0; i < 256; i++)
-        SetInterruptDescriptorTableEntry(i,codeSegment, &ignoreInterruptRequest,0,IDT_INTERRUPT_GATE);
+        SetInterruptDescriptorTableEntry(i,codeSegment, &int_bottom,0,IDT_INTERRUPT_GATE);
     
     
     SetInterruptDescriptorTableEntry(0x20,codeSegment, &handleInterruptRequest0x20,0,IDT_INTERRUPT_GATE);
@@ -42,19 +47,26 @@ InterruptManager::InterruptManager(GlobalDescriptorTable &gdt){
 
     load_idt(&idt);
 }
-
 void InterruptManager::ignoreInterruptRequest(){}
 
 void InterruptManager::Activate(){
     
     asm("sti");
 }
-InterruptManager::~InterruptManager(){
+InterruptManager::~InterruptManager(){}
 
-
-}
 uint32_t InterruptManager::handleInterrupt(uint8_t interruptNumber, uint32_t esp){
 
-    println("INTERRUPT");
+    
+    switch (interruptNumber)
+    {
+    case KEYBOARD_INTERRUPT_NUMBER:
+        keyboard_handler();
+        break;
+    
+    default:
+        ignoreInterruptRequest();
+        break;
+    }
     return esp;
 }

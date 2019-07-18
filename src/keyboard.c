@@ -7,7 +7,7 @@ void kb_init(){
   println("initializing keyboard port");
   write_port(0x21 , 0xFD);
 }
-void keyboard_handler_main(void) {
+void keyboard_handler() {
 
 	unsigned char status;
 	char keycode;

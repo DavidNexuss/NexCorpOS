@@ -6,6 +6,7 @@ extern "C"{
 }
 #include "gdt.h"
 #include "interrupt.h"
+#include "pic.h"
 
 /*
 *  kernel.c
@@ -28,12 +29,16 @@ void init(char* vidptr){
 	printint(gdt.CodeSegmentSelector()); print(" Data Segment Selector: ");
 	printint(gdt.DataSegmentSelector());
 	ln();
-	//InterruptManager idt = InterruptManager(*gdt);
-	//idt.Activate();
-//	idt_init();
+	sys::init_pics();
+	println("PICs loaded");
+	InterruptManager idt = InterruptManager(gdt);
+	idt.Activate();
 	kb_init();
-	sleep(10);
+//	idt_init();
+	sleep(2);
 	cls();
+	while (1){}
+	
 }
 
 extern "C"{
@@ -42,8 +47,6 @@ extern "C"{
 
 		char *vidptr = (char*)0xb8000; 	//video mem begins here.
 		init(vidptr);
-		println("END INIT");
-		while(1);
 		return;
 	}
 }
