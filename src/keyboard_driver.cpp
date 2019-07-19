@@ -1,15 +1,21 @@
-#include "color.h"
+#include "stdafx.h"
+#include "keyboard_driver.h"
 #include "stdout.h"
-#include "keyboard.h"
 #include "ports.h"
+KeyboardDriver::KeyboardDriver(){}
+KeyboardDriver::~KeyboardDriver(){}
 
-void kb_init(){
-  println("initializing keyboard port");
+void KeyboardDriver::init(){
+
+  println("Initializing Keyboard Driver");
   write_port(0x21 , 0xFD);
 }
-void keyboard_handler() {
 
-	unsigned char status;
+void KeyboardDriver::unload(){}
+
+void KeyboardDriver::handleInterrupt(){
+
+  unsigned char status;
 	char keycode;
 
 	/* write EOI */
@@ -21,7 +27,8 @@ void keyboard_handler() {
 		keycode = read_port(KEYBOARD_DATA_PORT);
 		if(keycode < 0)
 			return;
-      
+
+
     if(keyboard_map[keycode] == '\b'){
 
       addCursorPosition(-1);
@@ -36,5 +43,4 @@ void keyboard_handler() {
     }
 
   }
-
 }

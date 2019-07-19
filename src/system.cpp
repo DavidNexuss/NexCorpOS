@@ -1,17 +1,25 @@
+#include "stdafx.h"
 #include "system.h"
 
-
-//Runtime C++ disabled features
-extern "C"{
-
-  void *__gxx_personality_v0;
-  void *_Unwind_Resume;
-
-
-  void sleep(unsigned int t){
+void sleep(unsigned int t){
 
     t*= SLEEP;
     while(t--){}
-  }
 }
+
+System::System(){
+
+    keyboard_driver = new KeyboardDriver();
+
+    #ifdef DEBUG
+    println("System structure created");
+    #endif
+}
+System::~System(){}
+
+void System::setPICsStatus(bool newStatus){
+    m_pics_status = newStatus;
+}
+
+bool System::getPICsStatus(){return m_pics_status;}
 

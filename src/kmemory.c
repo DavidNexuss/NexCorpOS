@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "kmemory.h"
 #include "stdout.h"
 
@@ -9,12 +10,15 @@ size_t execution_timer = 0;
 void mem_init(){
 
   execution_timer += 1;
+  #ifdef DEBUG
   println("Initializing memory...");
   print("Heap Size: ");
   printint(heap_size);
   ln();
   print("Kernel After: ");
   printint(kernel_after);
+  ln();
+  #endif
 }
 
 void* kfind_free_block(size_t size){

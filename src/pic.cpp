@@ -1,8 +1,8 @@
+#include "stdafx.h"
 #include "pic.h"
 #include "types.h"
-extern "C" {
-	#include "ports.h"
-}
+#include "ports.h"
+#include "stdout.h"
 
 void sys::init_pics(){
 
@@ -30,4 +30,8 @@ void sys::init_pics(){
 	/* mask interrupts */
 	write_port(0x21 , 0xff);
 	write_port(0xA1 , 0xff);
+
+	#ifdef DEBUG
+	println("PICs loaded");
+	#endif
 }

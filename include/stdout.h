@@ -1,3 +1,7 @@
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 #pragma once
 #include "types.h"
 #include "color.h"
@@ -32,3 +36,7 @@ void printints(unsigned int* ints,size_t size);
 void println(const char *str);
 void printTestMessage();
 void cls();
+
+#ifdef __cplusplus
+}
+#endif

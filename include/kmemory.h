@@ -1,4 +1,8 @@
 #pragma once
+#ifdef __cplusplus
+extern "C"{
+#endif
+
 #include "types.h"
 
 #define BLOCK_SIZE sizeof(struct memory_block)
@@ -34,3 +38,7 @@ extern byte_t kernel_start;
 extern byte_t kernel_after;
 
 extern size_t execution_timer;
+
+#ifdef __cplusplus
+}
+#endif

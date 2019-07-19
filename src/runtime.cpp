@@ -1,9 +1,13 @@
+#include "stdafx.h"
 #define ATEXIT_MAX_FUNCS	128
 
 extern "C"{
 
     #include "kmemory.h"
     #include "stdout.h"
+
+	  void *__gxx_personality_v0;
+  	  void *_Unwind_Resume;
 }
 
 /*

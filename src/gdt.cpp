@@ -1,5 +1,6 @@
+#include "stdafx.h"
 #include "gdt.h"
-
+#include "stdout.h"
 
 GlobalDescriptorTable::GlobalDescriptorTablePointer gdt_pointer;
 
@@ -30,6 +31,15 @@ void GlobalDescriptorTable::flushGDT(){
     dataSegmentSelectortemp = DataSegmentSelector();
 
     load_gdt((uint32_t)(&gdt_pointer));
+
+    #ifdef DEBUG
+	printint(sizeof(GlobalDescriptorTable::SegmentDescriptor));
+	print("GDT loaded  ");
+	printint((uint32_t)this); print(" Code Segment Selector: ");
+	printint(CodeSegmentSelector()); print(" Data Segment Selector: ");
+	printint(DataSegmentSelector());
+	ln();
+    #endif
 }
 
 GlobalDescriptorTable::~GlobalDescriptorTable(){}

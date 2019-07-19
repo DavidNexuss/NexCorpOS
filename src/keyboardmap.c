@@ -1,5 +1,4 @@
-#include "keyboard.h"
-
+#include "stdafx.h"
 unsigned char keyboard_map[128] = {
     0,  27, '1', '2', '3', '4', '5', '6', '7', '8',	/* 9 */
   '9', '0', '-', '=', '\b',	/* Backspace */

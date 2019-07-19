@@ -1,11 +1,10 @@
+#include "stdafx.h"
 #include "interrupt.h"
+#include "keyboard_driver.h"
 #include "pic.h"
+#include "stdout.h"
+#include "ports.h"
 
-extern "C" {
-    #include "stdout.h"
-    #include "keyboard.h"
-    #include "ports.h"
-}
 extern "C" {void load_idt(void* idt_pointer);}
 extern "C" {void int_bottom();}
 
@@ -51,17 +50,19 @@ void InterruptManager::ignoreInterruptRequest(){}
 
 void InterruptManager::Activate(){
     
+    #ifdef DEBUG
+    println("IDT activated");
+    #endif
     asm("sti");
 }
 InterruptManager::~InterruptManager(){}
 
 uint32_t InterruptManager::handleInterrupt(uint8_t interruptNumber, uint32_t esp){
 
-    
     switch (interruptNumber)
     {
     case KEYBOARD_INTERRUPT_NUMBER:
-        keyboard_handler();
+        KeyboardDriver::handleInterrupt();
         break;
     
     default:

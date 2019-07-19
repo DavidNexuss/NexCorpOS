@@ -1,52 +1,56 @@
-extern "C"{
-	#include "color.h"
-	#include "stdout.h"
-	#include "system.h"
-	#include "kmemory.h"
-}
+#include "stdafx.h"
+
+#include "color.h"
+#include "stdout.h"
+#include "kmemory.h"
 #include "gdt.h"
+
+#include "system.h"
 #include "interrupt.h"
 #include "pic.h"
-
+#include "keyboard_driver.h"
 /*
-*  kernel.c
+*  kernel.cpp
 */
-
-void init(char* vidptr){
-
-  /*Initialization*/
-
-	initstdout(vidptr);
-	cls();
-	println("Console started");
-	mem_init(); //Init heap
-	
-	GlobalDescriptorTable gdt;
-  	gdt.flushGDT();
-	printint(sizeof(GlobalDescriptorTable::SegmentDescriptor));
-	print("GDT loaded  ");
-	printint((uint32_t)&gdt); print(" Code Segment Selector: ");
-	printint(gdt.CodeSegmentSelector()); print(" Data Segment Selector: ");
-	printint(gdt.DataSegmentSelector());
-	ln();
-	sys::init_pics();
-	println("PICs loaded");
-	InterruptManager idt = InterruptManager(gdt);
-	idt.Activate();
-	kb_init();
-//	idt_init();
-	sleep(2);
-	cls();
-	while (1){}
-	
-}
 
 extern "C"{
 	void kmain(void)
 	{
+	
+	char *vidptr = (char*)0xb8000; 	//video mem begins here.
+	initstdout(vidptr);
+	cls();
+	println("Console started");
+	
+	mem_init(); //Init kernel heap
 
-		char *vidptr = (char*)0xb8000; 	//video mem begins here.
-		init(vidptr);
-		return;
+	//Creating system Struct
+
+	g_system = new System();
+	
+	/*--------------Start SETUP------------------- */
+
+	//GDT
+	GlobalDescriptorTable gdt;
+  	gdt.flushGDT();
+
+	//PICs
+	sys::init_pics();
+
+
+	//IDT
+	InterruptManager idt = InterruptManager(gdt);
+	idt.Activate();
+
+	//*******************DRIVERS*********************/
+
+	g_system->keyboard_driver->Activate();
+
+	//------------------END-SETUP---------------------
+
+	sleep(20);
+	cls();
+	while (1){}
+
 	}
 }
