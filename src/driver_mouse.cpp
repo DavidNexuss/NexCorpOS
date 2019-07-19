@@ -45,4 +45,6 @@ void MouseDriver::handleInterrupt(){
         y -= buffer[2];
     }
 
+    setCursorPosition(SWIDTH*y + x);
+
 }
