@@ -12,9 +12,11 @@ ODIR = obj
 BIN  = bin
 IDIR = src
 SDIR = as
+ISO = iso
 
 KERNEL_NAME = nexcorp.bin
 KERNEL = $(BIN)/$(KERNEL_NAME)
+KERNEL_IMAGE= nexcorp.iso
 
 all: $(ODIR) $(BIN) $(KERNEL)
 
@@ -57,10 +59,30 @@ clean:
 	rm -rf $(ODIR)
 	rm -rf $(BIN)
 	rm -rf $(SDIR)
+	rm -rf $(ISO)
 run: all
-	qemu-system-x86_64 -kernel bin/nexcorp.bin
+	qemu-system-x86_64 -kernel $(KERNEL)
 install: all
 	sudo cp $(KERNEL) /boot/$(KERNEL_NAME)
+
+iso: all
+	rm -rf $(ISO)
+	mkdir $(ISO)
+	mkdir $(ISO)/boot
+	mkdir $(ISO)/boot/grub
+	cp $(KERNEL) $(ISO)/boot/
+	echo 'set timeout=15' > iso/boot/grub/grub.cfg
+	echo 'set default=0' >> iso/boot/grub/grub.cfg
+	echo '' >> iso/boot/grub/grub.cfg
+	echo 'menuentry "NexCorp OS"' >> iso/boot/grub/grub.cfg
+	echo '	multiboot /boot/$(KERNEL_NAME)' >> iso/boot/grub/grub.cfg
+	echo '	boot' >> iso/boot/grub/grub.cfg
+	echo '}' >> iso/boot/grub/grub.cfg
+	grub-mkrescue --output=$(KERNEL_IMAGE) iso
+	rm -rf $(ISO)
+	mkdir $(ISO)
+	mv $(KERNEL_IMAGE) $(ISO)/
+
 dis: all $(SDIR) $(S_CODE)
 
 flist: all
