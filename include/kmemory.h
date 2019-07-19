@@ -28,6 +28,7 @@ void kmemzero(void* position,size_t size);
 void kmemset(void* position,char val,size_t size);
 void kmemSetZero(void* allocatedObject);
 
+void printAllMemoryBlocks();
 size_t allocated(bool_t used);
 
 extern size_t heap_size;

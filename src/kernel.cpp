@@ -50,8 +50,10 @@ extern "C"{
 	//------------------END-SETUP---------------------
 
 	idt.Activate();
+	#ifdef DEBUG
+	printAllMemoryBlocks();
+	#endif
 	sleep(5);
-	cls();
 	while (1){}
 	}
 }

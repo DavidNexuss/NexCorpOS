@@ -61,7 +61,6 @@ InterruptManager::~InterruptManager(){}
 
 uint32_t InterruptManager::handleInterrupt(uint8_t interruptNumber, uint32_t esp){
     
-    
     switch (interruptNumber)
     {
     case KEYBOARD_INTERRUPT_NUMBER:
@@ -71,7 +70,6 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interruptNumber, uint32_t esp
     default:
         ignoreInterruptRequest();
         print("Interrupt unmaped: ");
-        printint(interruptNumber);
         ln();
         break;
     }

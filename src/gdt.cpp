@@ -33,7 +33,6 @@ void GlobalDescriptorTable::flushGDT(){
     load_gdt((uint32_t)(&gdt_pointer));
 
     #ifdef DEBUG
-	printint(sizeof(GlobalDescriptorTable::SegmentDescriptor));
 	print("GDT loaded  ");
 	printint((uint32_t)this); print(" Code Segment Selector: ");
 	printint(CodeSegmentSelector()); print(" Data Segment Selector: ");

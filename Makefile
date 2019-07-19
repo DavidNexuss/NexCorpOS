@@ -71,7 +71,7 @@ iso: all
 	mkdir $(ISO)/boot
 	mkdir $(ISO)/boot/grub
 	cp $(KERNEL) $(ISO)/boot/
-	echo 'set timeout=15' > iso/boot/grub/grub.cfg
+	echo 'set timeout=20' > iso/boot/grub/grub.cfg
 	echo 'set default=0' >> iso/boot/grub/grub.cfg
 	echo '' >> iso/boot/grub/grub.cfg
 	echo 'menuentry "NexCorp OS"' >> iso/boot/grub/grub.cfg

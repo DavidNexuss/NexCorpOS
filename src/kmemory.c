@@ -103,3 +103,27 @@ size_t allocated(bool_t used){
   }
   return space;
 }
+
+void printAllMemoryBlocks(){
+
+  struct memory_block *it = last;
+  uint32_t n = 0;
+  ln();
+  println("Kernel memory block debug info:");
+  while (it != NULL)
+  {
+      print("Block address: ");
+      printint((uint32_t)it);
+      ln();
+      print("Block Size: ");
+      printint(it->size);
+      ln();
+      it = it->next;
+      n++;
+  }
+
+  print("Block count: ");
+  printint(n);
+  ln();
+  
+}
