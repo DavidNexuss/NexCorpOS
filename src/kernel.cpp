@@ -8,7 +8,7 @@
 #include "system.h"
 #include "interrupt.h"
 #include "pic.h"
-#include "keyboard_driver.h"
+#include "driver_keyboard.h"
 /*
 *  kernel.cpp
 */
