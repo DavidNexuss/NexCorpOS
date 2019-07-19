@@ -2,12 +2,17 @@
 #include "driver_keyboard.h"
 #include "stdout.h"
 #include "ports.h"
-KeyboardDriver::KeyboardDriver(){}
+
+KeyboardDriver::KeyboardDriver():
+keyboard_data_port(KEYBOARD_DATA_PORT),
+keyboard_status_port(KEYBOARD_STATUS_PORT){
+
+}
 KeyboardDriver::~KeyboardDriver(){}
 
 void KeyboardDriver::init(){
 
-  println("Initializing Keyboard Driver");
+  println("Keyboard Driver Activated");
   write_port(0x21 , 0xFD);
 }
 
@@ -17,7 +22,6 @@ void KeyboardDriver::handleInterrupt(){
 
   unsigned char status;
 	char keycode;
-
 	/* write EOI */
 	CLEAR_EOI();
 

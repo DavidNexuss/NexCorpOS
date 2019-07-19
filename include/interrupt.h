@@ -40,4 +40,5 @@ class InterruptManager{
         static void ignoreInterruptRequest();
         static void handleInterruptRequest0x20();
         static void handleInterruptRequest0x21();
+        static void handleInterruptRequest0x2C();
 };

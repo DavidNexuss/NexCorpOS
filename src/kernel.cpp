@@ -40,17 +40,18 @@ extern "C"{
 
 	//IDT
 	InterruptManager idt = InterruptManager(gdt);
-	idt.Activate();
+
 
 	//*******************DRIVERS*********************/
 
 	g_system->keyboard_driver->Activate();
+	g_system->mouse_driver->Activate();
 
 	//------------------END-SETUP---------------------
 
-	sleep(20);
+	idt.Activate();
+	sleep(5);
 	cls();
 	while (1){}
-
 	}
 }

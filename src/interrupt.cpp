@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "system.h"
 #include "interrupt.h"
 #include "driver_keyboard.h"
 #include "pic.h"
@@ -39,6 +40,7 @@ InterruptManager::InterruptManager(GlobalDescriptorTable &gdt){
     
     SetInterruptDescriptorTableEntry(0x20,codeSegment, &handleInterruptRequest0x20,0,IDT_INTERRUPT_GATE);
     SetInterruptDescriptorTableEntry(0x21,codeSegment, &handleInterruptRequest0x21,0,IDT_INTERRUPT_GATE);
+    SetInterruptDescriptorTableEntry(0x2C,codeSegment, &handleInterruptRequest0x2C,0,IDT_INTERRUPT_GATE);
     
     interruptDescriptorTablePointer idt;
     idt.size = 256 * sizeof(GateDescriptor) - 1;
@@ -58,15 +60,19 @@ void InterruptManager::Activate(){
 InterruptManager::~InterruptManager(){}
 
 uint32_t InterruptManager::handleInterrupt(uint8_t interruptNumber, uint32_t esp){
-
+    
+    
     switch (interruptNumber)
     {
     case KEYBOARD_INTERRUPT_NUMBER:
-        KeyboardDriver::handleInterrupt();
+        g_system->keyboard_driver->handleInterrupt();
         break;
     
     default:
         ignoreInterruptRequest();
+        print("Interrupt unmaped: ");
+        printint(interruptNumber);
+        ln();
         break;
     }
     return esp;

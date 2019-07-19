@@ -12,6 +12,7 @@ extern _ZN16InterruptManager15handleInterruptEhj
 
 HandleInterruptRequest 0x20
 HandleInterruptRequest 0x21
+HandleInterruptRequest 0x2C
 
 global load_idt
 load_idt:

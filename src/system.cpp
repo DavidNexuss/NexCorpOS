@@ -10,7 +10,8 @@ void sleep(unsigned int t){
 System::System(){
 
     keyboard_driver = new KeyboardDriver();
-
+    mouse_driver = new MouseDriver();
+    
     #ifdef DEBUG
     println("System structure created");
     #endif
@@ -22,4 +23,3 @@ void System::setPICsStatus(bool newStatus){
 }
 
 bool System::getPICsStatus(){return m_pics_status;}
-
