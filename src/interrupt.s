@@ -4,8 +4,26 @@ section .text
 global _ZN16InterruptManager26handleInterruptRequest%1Ev
 
 _ZN16InterruptManager26handleInterruptRequest%1Ev:
-	mov dword [interruptnumber], $1
-	jmp int_bottom
+	;mov dword [interruptnumber], %1
+	
+	pusha
+	push ds
+	push es
+	push fs
+	push gs
+	push esp
+	push dword %1
+	call _ZN16InterruptManager15handleInterruptEhj
+	
+	mov esp, eax
+
+	pop gs
+	pop fs
+	pop es
+	pop ds
+	popa
+	
+	iretd
 %endmacro
 
 extern _ZN16InterruptManager15handleInterruptEhj

@@ -23,7 +23,8 @@ extern "C"{
 	println("Console started");
 	
 	mem_init(); //Init kernel heap
-
+	sys::init_pics();
+	
 	//Creating system Struct
 
 	g_system = new System();
@@ -35,12 +36,9 @@ extern "C"{
   	g_system->kernel_globalDescriptorTable->flushGDT();
 
 	//PICs
-	sys::init_pics();
-
 
 	//IDT
-	g_system->interruptManager = new InterruptManager(g_system->kernel_globalDescriptorTable);
-
+	 g_system->interruptManager = new InterruptManager(g_system->kernel_globalDescriptorTable);
 	//*******************DRIVERS*********************/
 
 	g_system->keyboard_driver->Activate();
@@ -49,7 +47,7 @@ extern "C"{
 	//------------------END-SETUP---------------------
 
 	g_system->interruptManager->Activate();
-	
+
 	#ifdef DEBUG
 	printAllMemoryBlocks();
 	#endif

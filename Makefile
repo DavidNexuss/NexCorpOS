@@ -79,9 +79,11 @@ iso: all
 	echo '	boot' >> iso/boot/grub/grub.cfg
 	echo '}' >> iso/boot/grub/grub.cfg
 	grub-mkrescue --output=$(KERNEL_IMAGE) iso
-	rm -rf $(ISO)
-	mkdir $(ISO)
+	#rm -rf $(ISO)
+	#mkdir $(ISO)
 	mv $(KERNEL_IMAGE) $(ISO)/
+runvm: iso
+	VBoxManage startvm "NexCorpOS"
 install-pen: iso
 	sudo dd if=$(ISO)/$(KERNEL_IMAGE) of=/dev/$(shell lsblk -d | grep 'sd' | tail -n +3 |rofi -dmenu | awk '{print $$1}')
 dis: all $(SDIR) $(S_CODE)

@@ -2,7 +2,7 @@
 #include "driver_keyboard.h"
 #include "stdout.h"
 #include "ports.h"
-
+#include "pic.h"
 KeyboardDriver::KeyboardDriver():
 keyboard_data_port(KEYBOARD_DATA_PORT),
 keyboard_status_port(KEYBOARD_STATUS_PORT){
@@ -12,8 +12,9 @@ KeyboardDriver::~KeyboardDriver(){}
 
 void KeyboardDriver::init(){
 
-  println("Keyboard Driver Activated");
+  sys::init_pic(1);
   write_port(0x21 , 0xFD);
+  println("Keyboard Driver Activated");
 }
 
 void KeyboardDriver::unload(){}
@@ -31,8 +32,7 @@ void KeyboardDriver::handleInterrupt(){
 		keycode = read_port(KEYBOARD_DATA_PORT);
 		if(keycode < 0)
 			return;
-
-
+      
     if(keyboard_map[keycode] == '\b'){
 
       addCursorPosition(-1);
@@ -41,6 +41,8 @@ void KeyboardDriver::handleInterrupt(){
 
       ln();
       setCursorPosition(getConsoleScreen().charpos);
+    }else if(keycode == 63){
+      cls();
     }else{
       setCharacter(getConsoleScreen().charpos,keyboard_map[keycode],LIGHT_RED + (WHITE << 4));
       addCursorPosition(1);

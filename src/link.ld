@@ -9,7 +9,7 @@ ENTRY(start)
  */
 
 heap_size = 0x100000;
-
+secure_offset = 0x10000;
 SECTIONS
  {
    . = 0x100000;
@@ -24,7 +24,8 @@ SECTIONS
 	    heap_top = .;
    }
 
+   kernel_after = .;
+   
    .bss  : { *(.bss) }
 
-   kernel_after = .;
  }

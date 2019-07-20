@@ -18,6 +18,8 @@ void mem_init(){
   ln();
   print("Kernel After: ");
   printint(kernel_after);
+  print(" Next Address:");
+  printint((uint32_t)next_address);
   ln();
   #endif
 }

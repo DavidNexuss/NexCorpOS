@@ -48,7 +48,9 @@ InterruptManager::InterruptManager(GlobalDescriptorTable *gdt){
 
     load_idt(&idt);
 }
-void InterruptManager::ignoreInterruptRequest(){}
+
+void InterruptManager::ignoreInterruptRequest(){
+}
 
 void InterruptManager::Activate(){
     
@@ -60,18 +62,21 @@ void InterruptManager::Activate(){
 InterruptManager::~InterruptManager(){}
 
 uint32_t InterruptManager::handleInterrupt(uint8_t interruptNumber, uint32_t esp){
-    
     switch (interruptNumber)
     {
     case KEYBOARD_INTERRUPT_NUMBER:
         g_system->keyboard_driver->handleInterrupt();
         break;
-    
+    case MOUSE_INTERRUPT_NUMBER:
+        g_system->mouse_driver->handleInterrupt();
     default:
         ignoreInterruptRequest();
-        print("Interrupt unmaped: ");
+        print("Ignore interrupt: ");
+        printint(interruptNumber);
         ln();
         break;
     }
+
+    CLEAR_EOI();
     return esp;
 }
