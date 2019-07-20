@@ -79,8 +79,8 @@ iso: all
 	echo '	boot' >> iso/boot/grub/grub.cfg
 	echo '}' >> iso/boot/grub/grub.cfg
 	grub-mkrescue --output=$(KERNEL_IMAGE) iso
-	#rm -rf $(ISO)
-	#mkdir $(ISO)
+	rm -rf $(ISO)
+	mkdir $(ISO)
 	mv $(KERNEL_IMAGE) $(ISO)/
 runvm: iso
 	VBoxManage startvm "NexCorpOS"
