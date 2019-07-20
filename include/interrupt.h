@@ -30,7 +30,7 @@ class InterruptManager{
     
     public:
 
-        InterruptManager(GlobalDescriptorTable &gdt);
+        InterruptManager(GlobalDescriptorTable *gdt);
         ~InterruptManager();
 
         void Activate();

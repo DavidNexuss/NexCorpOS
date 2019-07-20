@@ -82,7 +82,8 @@ iso: all
 	rm -rf $(ISO)
 	mkdir $(ISO)
 	mv $(KERNEL_IMAGE) $(ISO)/
-
+install-pen: iso
+	sudo dd if=$(ISO)/$(KERNEL_IMAGE) of=/dev/$(shell lsblk -d | grep 'sd' | tail -n +3 |rofi -dmenu | awk '{print $$1}')
 dis: all $(SDIR) $(S_CODE)
 
 flist: all

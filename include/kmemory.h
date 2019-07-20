@@ -21,6 +21,7 @@ struct memory_block{
 void mem_init();
 
 void* kmalloc(size_t size);
+void* kmalloczero(size_t size);
 void* kfind_free_block(size_t size);
 void kfree(void* obj);
 
@@ -36,7 +37,7 @@ extern byte_t heap_bottom;
 extern byte_t heap_top;
 
 extern byte_t kernel_start;
-extern byte_t kernel_after;
+extern uint32_t kernel_after;
 
 extern size_t execution_timer;
 

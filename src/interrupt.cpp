@@ -29,10 +29,10 @@ void InterruptManager::SetInterruptDescriptorTableEntry(
     interruptDescriptorTable[interruptNumber].reserved = 0;
 }
 
-InterruptManager::InterruptManager(GlobalDescriptorTable &gdt){
+InterruptManager::InterruptManager(GlobalDescriptorTable *gdt){
 
     const uint8_t IDT_INTERRUPT_GATE = 0xE;
-    uint16_t codeSegment = gdt.CodeSegmentSelector();
+    uint16_t codeSegment = gdt->CodeSegmentSelector();
 
     for (uint16_t i = 0; i < 256; i++)
         SetInterruptDescriptorTableEntry(i,codeSegment, &int_bottom,0,IDT_INTERRUPT_GATE);

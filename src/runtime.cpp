@@ -15,12 +15,12 @@ extern "C"{
  */
 void *operator new(size_t size)
 {
-    return kmalloc(size);
+    return kmalloczero(size);
 }
  
 void *operator new[](size_t size)
 {
-    return kmalloc(size);
+    return kmalloczero(size);
 }
  
 void operator delete(void *p)

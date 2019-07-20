@@ -31,16 +31,15 @@ extern "C"{
 	/*--------------Start SETUP------------------- */
 
 	//GDT
-	GlobalDescriptorTable gdt;
-  	gdt.flushGDT();
+	g_system->kernel_globalDescriptorTable = new GlobalDescriptorTable();
+  	g_system->kernel_globalDescriptorTable->flushGDT();
 
 	//PICs
 	sys::init_pics();
 
 
 	//IDT
-	InterruptManager idt = InterruptManager(gdt);
-
+	g_system->interruptManager = new InterruptManager(g_system->kernel_globalDescriptorTable);
 
 	//*******************DRIVERS*********************/
 
@@ -49,7 +48,8 @@ extern "C"{
 
 	//------------------END-SETUP---------------------
 
-	idt.Activate();
+	g_system->interruptManager->Activate();
+	
 	#ifdef DEBUG
 	printAllMemoryBlocks();
 	#endif

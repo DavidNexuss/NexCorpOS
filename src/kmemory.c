@@ -13,7 +13,8 @@ void mem_init(){
   #ifdef DEBUG
   println("Initializing memory...");
   print("Heap Size: ");
-  printint(heap_size);
+  printint((heap_size >> 16) & 0xFFFFFFFF);
+  
   ln();
   print("Kernel After: ");
   printint(kernel_after);
@@ -38,6 +39,13 @@ void* kfind_free_block(size_t size){
   }
 
   return best;
+}
+
+void* kmalloczero(size_t size){
+
+  void* ptr = kmalloc(size);
+  kmemzero(ptr,size);
+  return ptr;
 }
 void* kmalloc(size_t size){
 
