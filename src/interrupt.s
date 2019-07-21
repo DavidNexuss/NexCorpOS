@@ -28,6 +28,10 @@ _ZN16InterruptManager26handleInterruptRequest%1Ev:
 
 extern _ZN16InterruptManager15handleInterruptEhj
 
+HandleInterruptRequest 0x02; Not maskable interrupt
+
+HandleInterruptRequest 0x00;	Divide by zero
+
 HandleInterruptRequest 0x20
 HandleInterruptRequest 0x21
 HandleInterruptRequest 0x2C

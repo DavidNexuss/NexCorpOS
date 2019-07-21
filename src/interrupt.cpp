@@ -35,8 +35,10 @@ InterruptManager::InterruptManager(GlobalDescriptorTable *gdt){
     uint16_t codeSegment = gdt->CodeSegmentSelector();
 
     for (uint16_t i = 0; i < 256; i++)
-        SetInterruptDescriptorTableEntry(i,codeSegment, &int_bottom,0,IDT_INTERRUPT_GATE);
+        SetInterruptDescriptorTableEntry(i,codeSegment, &handleInterruptRequest0x02,0,IDT_INTERRUPT_GATE);
     
+    
+    SetInterruptDescriptorTableEntry(0x00,codeSegment, &handleInterruptRequest0x00,0,IDT_INTERRUPT_GATE);
     
     SetInterruptDescriptorTableEntry(0x20,codeSegment, &handleInterruptRequest0x20,0,IDT_INTERRUPT_GATE);
     SetInterruptDescriptorTableEntry(0x21,codeSegment, &handleInterruptRequest0x21,0,IDT_INTERRUPT_GATE);
@@ -62,6 +64,7 @@ void InterruptManager::Activate(){
 InterruptManager::~InterruptManager(){}
 
 uint32_t InterruptManager::handleInterrupt(uint8_t interruptNumber, uint32_t esp){
+    
     switch (interruptNumber)
     {
     case KEYBOARD_INTERRUPT_NUMBER:
@@ -69,6 +72,14 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interruptNumber, uint32_t esp
         break;
     case MOUSE_INTERRUPT_NUMBER:
         g_system->mouse_driver->handleInterrupt();
+    case 0x00:
+        println("Can't divide by zero!");
+        break;
+    case 0x02:
+        ignoreInterruptRequest();
+        print("Not maskable interrupt!");
+        ln();
+        break;
     default:
         ignoreInterruptRequest();
         print("Ignore interrupt: ");

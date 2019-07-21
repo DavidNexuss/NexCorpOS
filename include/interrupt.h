@@ -38,6 +38,12 @@ class InterruptManager{
         static uint32_t handleInterrupt(uint8_t interruptNumber, uint32_t esp);
         
         static void ignoreInterruptRequest();
+
+        static void handleInterruptRequest0x02(); //Not maskable interrupts
+        
+        static void handleInterruptRequest0x00(); //
+
+        //Hardware interrupts
         static void handleInterruptRequest0x20();
         static void handleInterruptRequest0x21();
         static void handleInterruptRequest0x2C();

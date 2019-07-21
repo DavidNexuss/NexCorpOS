@@ -47,7 +47,7 @@ extern "C"{
 	//------------------END-SETUP---------------------
 
 	g_system->interruptManager->Activate();
-
+	
 	#ifdef DEBUG
 	printAllMemoryBlocks();
 	#endif
