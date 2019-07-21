@@ -14,18 +14,12 @@ void sleep(unsigned int t);
 
 class System{
 
-
-    bool m_pics_status = false;
-
     public:
         GlobalDescriptorTable* kernel_globalDescriptorTable;
         InterruptManager* interruptManager;
 
         KeyboardDriver* keyboard_driver;
         MouseDriver* mouse_driver;
-        
-        void setPICsStatus(bool newStatus);
-        bool getPICsStatus();
 
         System();
         ~System();

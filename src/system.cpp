@@ -17,9 +17,3 @@ System::System(){
     #endif
 }
 System::~System(){}
-
-void System::setPICsStatus(bool newStatus){
-    m_pics_status = newStatus;
-}
-
-bool System::getPICsStatus(){return m_pics_status;}
