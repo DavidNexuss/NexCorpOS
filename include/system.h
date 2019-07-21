@@ -6,6 +6,7 @@
 #include "driver_mouse.h"
 #include "gdt.h"
 #include "interrupt.h"
+#include "pci.h"
 #include "vector.h"
 
 #define SLEEP 300000000
@@ -21,6 +22,8 @@ class System{
         KeyboardDriver* keyboard_driver;
         MouseDriver* mouse_driver;
 
+        PCIController pci;
+        
         System();
         ~System();
 
