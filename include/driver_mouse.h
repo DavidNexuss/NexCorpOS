@@ -14,8 +14,9 @@ class MouseDriver : public Driver {
     void init();
     void unload();
 
-    Port dataPort;
-    Port commandPort;
+    Port8Bit dataPort;
+    Port8Bit commandPort;
+    
     uint8_t buffer[3];
     uint8_t offset;
     uint8_t buttons;

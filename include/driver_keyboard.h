@@ -16,8 +16,8 @@ class KeyboardDriver : public Driver{
 
     public:
 
-        Port keyboard_status_port;
-        Port keyboard_data_port;
+        Port8Bit keyboard_status_port;
+        Port8Bit keyboard_data_port;
         
         KeyboardDriver();
         ~KeyboardDriver();

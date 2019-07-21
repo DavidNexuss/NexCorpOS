@@ -3,17 +3,46 @@
 #include "types.h"
 #include "stdafx.h"
 
-Port::Port(uint16_t portNumber){
+Port8Bit::Port8Bit(uint16_t portNumber){
     m_portNumber = portNumber;
 }
 
-Port::~Port(){}
+Port8Bit::~Port8Bit(){}
 
-void Port::write(uint8_t data){
+void Port8Bit::write(uint8_t data){
     write_port(m_portNumber,data);
 }
 
-uint8_t Port::read(){
+uint8_t Port8Bit::read(){
     return read_port(m_portNumber);
 }
+//--------------------------------------16BIT
 
+Port16Bit::Port16Bit(uint16_t portNumber){
+    m_portNumber = portNumber;
+}
+
+Port16Bit::~Port16Bit(){}
+
+void Port16Bit::write(uint16_t data){
+    write_port(m_portNumber,data);
+}
+
+uint16_t Port16Bit::read(){
+    return read_port(m_portNumber);
+}
+//--------------------------------------32BIT
+
+Port32Bit::Port32Bit(uint16_t portNumber){
+    m_portNumber = portNumber;
+}
+
+Port32Bit::~Port32Bit(){}
+
+void Port32Bit::write(uint32_t data){
+    write_port(m_portNumber,data);
+}
+
+uint32_t Port32Bit::read(){
+    return read_port(m_portNumber);
+}
