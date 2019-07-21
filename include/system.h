@@ -21,8 +21,9 @@ class System{
 
         KeyboardDriver* keyboard_driver;
         MouseDriver* mouse_driver;
-
+        
         PCIController pci;
+        DriverManager driver_manager;
         
         System();
         ~System();

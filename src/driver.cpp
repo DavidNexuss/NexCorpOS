@@ -7,12 +7,12 @@ Driver::~Driver(){}
 
 void Driver::Activate(){
 
-
     if(ready) println("Device already started");
     else
     {
         ready = true;
         init();
+        
     }
     
 }
@@ -32,4 +32,22 @@ void Driver::Reload(){
 bool Driver::Status(){
 
     return ready;
+}
+
+DriverManager::DriverManager(){}
+DriverManager::~DriverManager(){}
+
+void DriverManager::addDriver(Driver* driver){
+    drivers[numDrivers] = driver;
+    numDrivers++;
+}
+
+void DriverManager::ActivateAll(){
+
+    
+    for (size_t i = 0; i < numDrivers; i++)
+    {
+        drivers[i]->Activate();
+    }
+    
 }

@@ -41,9 +41,6 @@ extern "C"{
 	 g_system->interruptManager = new InterruptManager(g_system->kernel_globalDescriptorTable);
 	//*******************DRIVERS*********************/
 
-	g_system->keyboard_driver->Activate();
-	g_system->mouse_driver->Activate();
-
 	//------------------END-SETUP---------------------
 
 	g_system->interruptManager->Activate();

@@ -4,7 +4,6 @@
 #include "types.h"
 #include "port.h"
 
-
 #define MOUSE_STATUS_PORT 0x64
 #define MOUSE_DATA_PORT 0x60
 #define MOUSE_INTERRUPT_NUMBER 0x2C
@@ -13,7 +12,7 @@ class MouseDriver : public Driver {
 
     void init();
     void unload();
-
+    
     Port8Bit dataPort;
     Port8Bit commandPort;
     

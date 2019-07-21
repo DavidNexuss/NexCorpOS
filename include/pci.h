@@ -16,5 +16,6 @@ class PCIController{
 
     uint32_t Read(uint16_t busNumber,uint16_t deviceNumber,uint16_t functionNumber,uint32_t registerOffset);
     void Write(uint16_t busNumber,uint16_t deviceNumber,uint16_t functionNumber,uint32_t registerOffset,uint32_t value);
+    bool deviceHasFunctions(uint16_t busNumber,uint16_t deviceNumber);
     
 };
