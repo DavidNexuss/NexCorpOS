@@ -113,7 +113,17 @@ size_t allocated(bool_t used){
   }
   return space;
 }
+uint32_t blockCount(){
 
+   struct memory_block *it = last;
+    uint32_t n = 0;
+  while (it != NULL)
+  {
+      it = it->next;
+      n++;
+  }
+  return n;
+}
 void printAllMemoryBlocks(){
 
   struct memory_block *it = last;

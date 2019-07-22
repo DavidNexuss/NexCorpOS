@@ -1,3 +1,4 @@
+#pragma once
 #include "types.h"
 #include "driver.h"
 #include "port.h"
@@ -59,4 +60,6 @@ class PCIController{
 
     PCIDeviceDescriptor& getDeviceDescriptor(uint32_t n);
     size_t getDeviceCount();
+
+    void printAllDevices();
 };

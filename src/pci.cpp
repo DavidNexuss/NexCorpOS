@@ -49,8 +49,6 @@ bool PCIController::deviceHasFunctions(uint16_t busNumber,uint16_t deviceNumber)
 static Node* last = 0;
 void PCIController::selectDrivers(DriverManager *driverManager){
 
-
-    size_t devices_count = 0;
     for (size_t bus = 0; bus < 8; bus++)
     {
         for (size_t device = 0; device < 32; device++)
@@ -69,29 +67,42 @@ void PCIController::selectDrivers(DriverManager *driverManager){
         
     }
     devices_table = new PCIDeviceDescriptor[devices_count];
-    int n = 0;
+    int n = devices_count;
     while (last != 0)
     {
+
+        n--;
         devices_table[n] = *(PCIDeviceDescriptor*)last->m_object;
         Node* tmp = last;
         last = last->m_last;
         delete tmp;
-        n++;
-    }
-    
-    for (size_t i = 0; i < devices_count; i++)
-    {
-        printhex(devices_table[i].vendor_id);
     }
     
     #ifdef DEBUG
-    print("Devices count: ");
-    printint(devices_count);
-    ln();        
+    printAllDevices();
     #endif
     
 }
+void PCIController::printAllDevices(){
 
+    for (size_t i = 0; i < devices_count; i++)
+    {
+        print("Device: ");
+        printint(devices_table[i].device);
+        print(":");
+        printint(devices_table[i].function);
+        print(", vendor: ");
+        printhex(devices_table[i].vendor_id);
+        print(", class:");
+        printhex(devices_table[i].class_id);
+        print(":");
+        printhex(devices_table[i].subclass_id);
+        print(", int: ");
+        printhex(devices_table[i].interrupt);
+        ln();
+    }
+    
+}
 PCIDeviceDescriptor& PCIController::getDeviceDescriptor(uint32_t n){
 
     return devices_table[n];

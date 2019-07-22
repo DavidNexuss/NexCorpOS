@@ -28,6 +28,7 @@ void kfree(void* obj);
 void kmemzero(void* position,size_t size);
 void kmemset(void* position,char val,size_t size);
 void kmemSetZero(void* allocatedObject);
+uint32_t blockCount();
 
 void printAllMemoryBlocks();
 size_t allocated(bool_t used);

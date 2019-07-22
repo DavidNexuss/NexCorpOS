@@ -91,7 +91,6 @@ void printhex(unsigned int a){
     while(temp /= 16){
         count++;
     }
-
     addCursorPosition(count - 1);
     unsigned int end = cscreen.charpos + 1;
     temp = a*16;

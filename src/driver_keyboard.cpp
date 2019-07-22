@@ -3,6 +3,8 @@
 #include "stdout.h"
 #include "ports.h"
 #include "pic.h"
+#include "system.h"
+
 KeyboardDriver::KeyboardDriver():
 keyboard_data_port(KEYBOARD_DATA_PORT),
 keyboard_status_port(KEYBOARD_STATUS_PORT){
@@ -43,6 +45,8 @@ void KeyboardDriver::handleInterrupt(){
       setCursorPosition(getConsoleScreen().charpos);
     }else if(keycode == 63){
       cls();
+    }else if(keycode >= 0x3B && keycode <= 0x44){
+     g_system->debugScreen.handleKey(keycode - 0x3B);
     }else{
       setCharacter(getConsoleScreen().charpos,keyboard_map[keycode],LIGHT_RED + (WHITE << 4));
       addCursorPosition(1);

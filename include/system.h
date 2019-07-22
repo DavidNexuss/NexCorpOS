@@ -8,6 +8,7 @@
 #include "interrupt.h"
 #include "pci.h"
 #include "vector.h"
+#include "debug.h"
 
 #define SLEEP 300000000
 
@@ -24,6 +25,8 @@ class System{
         
         PCIController pci;
         DriverManager driver_manager;
+        
+        DebugScreen debugScreen;
         
         System();
         ~System();

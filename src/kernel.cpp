@@ -45,8 +45,10 @@ extern "C"{
 
 	g_system->interruptManager->Activate();
 	#ifdef DEBUG
-	printAllMemoryBlocks();
+	//printAllMemoryBlocks();
 	//printint(g_system->pci.Read(0,0,0,0));
+	print("Heap Blocks: ");
+	printint(blockCount());
 	#endif
 	sleep(5);
 	while (1){}
