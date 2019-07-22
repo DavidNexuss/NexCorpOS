@@ -41,6 +41,10 @@ class PCIController{
     Port32Bit dataPort;
     Port32Bit commandPort;
 
+
+    PCIDeviceDescriptor* devices_table;
+    size_t devices_count;
+
     public:
 
         PCIController();
@@ -52,4 +56,7 @@ class PCIController{
     
     void selectDrivers(DriverManager *driverManager);
     PCIDeviceDescriptor getDeviceDescriptor(uint16_t busNumber,uint16_t deviceNumber,uint16_t functionNumber);
+
+    PCIDeviceDescriptor& getDeviceDescriptor(uint32_t n);
+    size_t getDeviceCount();
 };

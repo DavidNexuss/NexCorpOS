@@ -14,7 +14,7 @@ void MouseDriver::init(){
    // sys::init_pic(0xC);
     offset = 0;
     buttons = 0;
-
+    
     commandPort.write(0xA8);
     commandPort.write(0x20);
     uint8_t status = dataPort.read() | 2;

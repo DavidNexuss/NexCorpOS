@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "stdout.h"
 #include "pci.h"
+#include "node.h"
 
 #define getID()                         \
 (uint32_t)((busNumber << 16)\
@@ -45,6 +46,7 @@ bool PCIController::deviceHasFunctions(uint16_t busNumber,uint16_t deviceNumber)
     return Read(busNumber,deviceNumber,0, 0x0E) & (1 << 7);
 }
 
+static Node* last = 0;
 void PCIController::selectDrivers(DriverManager *driverManager){
 
 
@@ -60,12 +62,28 @@ void PCIController::selectDrivers(DriverManager *driverManager){
                 if(dev.vendor_id == 0x0000 || dev.vendor_id == 0xFFFF)
                     break;
                 devices_count ++;
+                last = new Node(new PCIDeviceDescriptor(dev),last);
             }
             
         }
         
     }
-
+    devices_table = new PCIDeviceDescriptor[devices_count];
+    int n = 0;
+    while (last != 0)
+    {
+        devices_table[n] = *(PCIDeviceDescriptor*)last->m_object;
+        Node* tmp = last;
+        last = last->m_last;
+        delete tmp;
+        n++;
+    }
+    
+    for (size_t i = 0; i < devices_count; i++)
+    {
+        printhex(devices_table[i].vendor_id);
+    }
+    
     #ifdef DEBUG
     print("Devices count: ");
     printint(devices_count);
@@ -74,6 +92,14 @@ void PCIController::selectDrivers(DriverManager *driverManager){
     
 }
 
+PCIDeviceDescriptor& PCIController::getDeviceDescriptor(uint32_t n){
+
+    return devices_table[n];
+}
+
+size_t PCIController::getDeviceCount(){
+    return devices_count;
+}
 PCIDeviceDescriptor PCIController::getDeviceDescriptor(uint16_t busNumber,uint16_t deviceNumber,uint16_t functionNumber){
 
     PCIDeviceDescriptor result;
