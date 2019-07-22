@@ -1,5 +1,5 @@
 #include "types.h"
-#define CLEAR_EOI() write_port(0x20,0x20)
+#define CLEAR_EOI() write_port8(0x20,0x20)
 
 namespace sys{
 

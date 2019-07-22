@@ -21,11 +21,11 @@ void setCursorPosition(unsigned int position){
   unsigned short location= position;/* Short is a 16bit type , the formula is used here*/
 
   //Cursor Low port
-  write_port(0x3D4, 0x0F);//Sending the cursor low byte to the VGA
-  write_port(0x3D5, (unsigned char)(location&0xFF));
+  write_port8(0x3D4, 0x0F);//Sending the cursor low byte to the VGA
+  write_port8(0x3D5, (unsigned char)(location&0xFF));
              //Cursor
-  write_port(0x3D4, 0x0E);//Sending the cursor high byte to the VGA Controller
-  write_port(0x3D5, (unsigned char )((location>>8)&0xFF)); //Char is a 8bit type
+  write_port8(0x3D4, 0x0E);//Sending the cursor high byte to the VGA Controller
+  write_port8(0x3D5, (unsigned char )((location>>8)&0xFF)); //Char is a 8bit type
 
   cscreen.charpos = position;
 }

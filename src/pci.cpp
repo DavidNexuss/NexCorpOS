@@ -2,11 +2,12 @@
 #include "stdout.h"
 #include "pci.h"
 
-#define getID() 0x1 << 31 \
-                    | ((busNumber & 0xFF) << 16) \
-                    | ((deviceNumber & 0x1F) << 11) \
-                    | ((functionNumber & 0x07) << 8) \
-                    | (registerOffset & 0xFC)
+#define getID()                         \
+(uint32_t)((busNumber << 16)\
+|(deviceNumber << 11)\
+|(functionNumber << 8)\
+|(registerOffset & 0xFC)\
+|((uint32_t)0x80000000))
 
 PCIController::PCIController():
 commandPort(PCI_COMMAND_PORT),
@@ -58,7 +59,6 @@ void PCIController::selectDrivers(DriverManager *driverManager){
                 PCIDeviceDescriptor dev =  getDeviceDescriptor(bus,device,function);
                 if(dev.vendor_id == 0x0000 || dev.vendor_id == 0xFFFF)
                     break;
-                
                 devices_count ++;
             }
             

@@ -13,7 +13,7 @@ KeyboardDriver::~KeyboardDriver(){}
 void KeyboardDriver::init(){
 
   sys::init_pic(1);
-  write_port(0x21 , 0xFD);
+  write_port8(0x21 , 0xFD);
   println("Keyboard Driver Activated");
 }
 
@@ -26,10 +26,10 @@ void KeyboardDriver::handleInterrupt(){
 	/* write EOI */
 	CLEAR_EOI();
 
-	status = read_port(KEYBOARD_STATUS_PORT);
+	status = read_port8(KEYBOARD_STATUS_PORT);
 	/* Lowest bit of status will be set if buffer is not empty */
 	if (status & 0x01) {
-		keycode = read_port(KEYBOARD_DATA_PORT);
+		keycode = read_port8(KEYBOARD_DATA_PORT);
 		if(keycode < 0)
 			return;
       

@@ -44,8 +44,6 @@ extern "C"{
 	//------------------END-SETUP---------------------
 
 	g_system->interruptManager->Activate();
-	printhex((g_system->pci.Read(0,0,0,0) & 0xFF00) >> 8);
-	printhex(g_system->pci.Read(0,0,0,0) & 0xFF);
 	#ifdef DEBUG
 	printAllMemoryBlocks();
 	//printint(g_system->pci.Read(0,0,0,0));

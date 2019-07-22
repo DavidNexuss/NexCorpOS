@@ -24,8 +24,8 @@ void MouseDriver::init(){
     commandPort.write(0xD4);
     dataPort.write(0xF4);
     dataPort.read();
-
-    write_port(0x2C , 0xFD);
+    
+    write_port8(0x2C , 0xFD);
     #ifdef DEBUG
     println("Mouse Driver Activated");
     #endif
