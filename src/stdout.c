@@ -77,6 +77,49 @@ void print(const char* str){
     ++j;
   }
 }
+void printhex(unsigned int a){
+
+    if(a == 0){
+
+      setCharacter(cscreen.charpos,'0',cscreen.color + (cscreen.backColor << 4));
+      addCursorPosition(1);
+      return;
+    }
+
+    unsigned int temp = a*16;
+    unsigned int count = 0;
+    while(temp /= 16){
+        count++;
+    }
+
+    addCursorPosition(count - 1);
+    unsigned int end = cscreen.charpos + 1;
+    temp = a*16;
+
+    while(temp /= 16){
+
+      if((temp % 16) == 0) setCharacter(cscreen.charpos,'0',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 16) == 1) setCharacter(cscreen.charpos,'1',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 16) == 2) setCharacter(cscreen.charpos,'2',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 16) == 3) setCharacter(cscreen.charpos,'3',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 16) == 4) setCharacter(cscreen.charpos,'4',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 16) == 5) setCharacter(cscreen.charpos,'5',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 16) == 6) setCharacter(cscreen.charpos,'6',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 16) == 7) setCharacter(cscreen.charpos,'7',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 16) == 8) setCharacter(cscreen.charpos,'8',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 16) == 9) setCharacter(cscreen.charpos,'9',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 16) == 10) setCharacter(cscreen.charpos,'A',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 16) == 11) setCharacter(cscreen.charpos,'B',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 16) == 12) setCharacter(cscreen.charpos,'C',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 16) == 13) setCharacter(cscreen.charpos,'D',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 16) == 14) setCharacter(cscreen.charpos,'E',cscreen.color + (cscreen.backColor << 4)); else
+      if((temp % 16) == 15) setCharacter(cscreen.charpos,'F',cscreen.color + (cscreen.backColor << 4));
+      
+      addCursorPosition(-1);
+    }
+
+    setCursorPosition(end);
+}
 
 void printint(unsigned int a){
 
