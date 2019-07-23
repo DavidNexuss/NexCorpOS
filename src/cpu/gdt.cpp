@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "gdt.h"
-#include "stdout.h"
+#include "cpu/gdt.h"
+#include "std/stdout.h"
 
 GlobalDescriptorTable::GlobalDescriptorTablePointer gdt_pointer;
 

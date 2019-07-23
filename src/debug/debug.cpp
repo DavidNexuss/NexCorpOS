@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "debug.h"
-#include "stdout.h"
-#include "pci.h"
+#include "debug/debug.h"
+#include "std/stdout.h"
+#include "hardware/pci.h"
 #include "system.h"
 
 static uint16_t mapped = 0;

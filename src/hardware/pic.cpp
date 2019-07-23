@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "pic.h"
+#include "hardware/pic.h"
 #include "types.h"
-#include "ports.h"
-#include "stdout.h"
+#include "hardware/ports.h"
+#include "std/stdout.h"
 
 void sys::init_pics(){
 

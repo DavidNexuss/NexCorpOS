@@ -1,8 +1,8 @@
 #pragma once
 #include "stdafx.h"
-#include "driver.h"
+#include "drivers/driver.h"
+#include "hardware/port.h"
 #include "types.h"
-#include "port.h"
 
 #define MOUSE_STATUS_PORT 0x64
 #define MOUSE_DATA_PORT 0x60

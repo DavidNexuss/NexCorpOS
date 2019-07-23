@@ -1,6 +1,6 @@
 #pragma once
 #include "types.h"
-#include "gdt.h"
+#include "cpu/gdt.h"
 class InterruptManager{
 
     protected:

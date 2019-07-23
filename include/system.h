@@ -1,14 +1,14 @@
 #pragma once
 
-#include "interrupt.h"
-#include "kmemory.h"
-#include "driver_keyboard.h"
-#include "driver_mouse.h"
-#include "gdt.h"
-#include "interrupt.h"
-#include "pci.h"
-#include "vector.h"
-#include "debug.h"
+#include "cpu/interrupt.h"
+#include "memory/kmemory.h"
+#include "drivers/driver_keyboard.h"
+#include "drivers/driver_mouse.h"
+#include "cpu/gdt.h"
+#include "cpu/interrupt.h"
+#include "hardware/pci.h"
+#include "runtime/vector.h"
+#include "debug/debug.h"
 
 #define SLEEP 300000000
 

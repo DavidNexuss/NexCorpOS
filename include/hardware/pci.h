@@ -1,7 +1,7 @@
 #pragma once
 #include "types.h"
-#include "driver.h"
-#include "port.h"
+#include "drivers/driver.h"
+#include "hardware/port.h"
 
 #define PCI_DATA_PORT 0xCFC
 #define PCI_COMMAND_PORT 0xCF8

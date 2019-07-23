@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "driver_mouse.h"
-#include "stdout.h"
-#include "pic.h"
+#include "drivers/driver_mouse.h"
+#include "std/stdout.h"
+#include "hardware/pic.h"
 
 MouseDriver::MouseDriver():
 commandPort(MOUSE_STATUS_PORT),

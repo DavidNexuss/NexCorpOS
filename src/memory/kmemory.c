@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "kmemory.h"
-#include "stdout.h"
+#include "memory/kmemory.h"
+#include "std/stdout.h"
 
 static void* next_address = &kernel_after;
 struct memory_block *last = NULL;

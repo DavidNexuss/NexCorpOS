@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "stdout.h"
-#include "stdlib.h"
-#include "color.h"
-#include "ports.h"
+#include "std/stdout.h"
+#include "std/stdlib.h"
+#include "std/color.h"
+#include "hardware/ports.h"
 
 struct CONSOLE_SCREEN cscreen = {};
 

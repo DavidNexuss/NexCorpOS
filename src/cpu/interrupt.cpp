@@ -1,10 +1,10 @@
 #include "stdafx.h"
 #include "system.h"
-#include "interrupt.h"
-#include "driver_keyboard.h"
-#include "pic.h"
-#include "stdout.h"
-#include "ports.h"
+#include "hardware/pic.h"
+#include "hardware/ports.h"
+#include "cpu/interrupt.h"
+#include "drivers/driver_keyboard.h"
+#include "std/stdout.h"
 
 extern "C" {void load_idt(void* idt_pointer);}
 extern "C" {void int_bottom();}

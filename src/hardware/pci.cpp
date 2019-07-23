@@ -1,7 +1,7 @@
 #include "stdafx.h"
-#include "stdout.h"
-#include "pci.h"
-#include "node.h"
+#include "std/stdout.h"
+#include "hardware/pci.h"
+#include "runtime/node.h"
 
 #define getID()                         \
 (uint32_t)((busNumber << 16)\

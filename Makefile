@@ -42,6 +42,22 @@ $(SDIR)/%.s : $(IDIR)/%.c
 $(SDIR)/%.s : $(IDIR)/%.cpp
 	$(CC) -g -o $@ $(CCFLAGS) -S $^
 
+
+$(ODIR)/s_%.o: $(IDIR)/**/%.s
+	$(AS) $(ASFLAGS) $^ -o $@
+
+$(ODIR)/%.o: $(IDIR)/**/%.c
+	$(CC) $(CCFLAGS) $^ -o $@
+
+$(ODIR)/%.o: $(IDIR)/**/%.cpp
+	$(GCC) $(GCCFLAGS) $^ -o $@
+
+$(SDIR)/%.s : $(IDIR)/**/%.c
+	$(CC) -g -o $@ $(CCFLAGS) -S $^
+
+$(SDIR)/%.s : $(IDIR)/**/%.cpp
+	$(CC) -g -o $@ $(CCFLAGS) -S $^
+
 S_SOURCES = $(shell find $(IDIR) -type f -name *.s -printf "%f\n")
 C_SOURCES = $(shell find $(IDIR) -type f -name *.c -printf "%f\n")
 CPP_SOURCES = $(shell find $(IDIR) -type f -name *.cpp -printf "%f\n")

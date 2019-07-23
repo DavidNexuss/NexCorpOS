@@ -3,8 +3,8 @@
 
 extern "C"{
 
-    #include "kmemory.h"
-    #include "stdout.h"
+    #include "memory/kmemory.h"
+    #include "std/stdout.h"
 
 	  void *__gxx_personality_v0;
   	  void *_Unwind_Resume;

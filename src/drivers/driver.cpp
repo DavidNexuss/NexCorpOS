@@ -1,6 +1,6 @@
 #include "stdafx.h"
-#include "driver.h"
-#include "stdout.h"
+#include "drivers/driver.h"
+#include "std/stdout.h"
 
 Driver::Driver(){}
 Driver::~Driver(){}

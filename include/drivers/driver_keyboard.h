@@ -1,7 +1,7 @@
 #pragma once
-#include "driver.h"
-#include "interrupt_handler.h"
-#include "port.h"
+#include "drivers/driver.h"
+#include "cpu/interrupt_handler.h"
+#include "hardware/port.h"
 
 #define KEYBOARD_STATUS_PORT 0x64
 #define KEYBOARD_DATA_PORT 0x60

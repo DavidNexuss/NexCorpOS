@@ -1,8 +1,8 @@
 #include "stdafx.h"
-#include "driver_keyboard.h"
-#include "stdout.h"
-#include "ports.h"
-#include "pic.h"
+#include "drivers/driver_keyboard.h"
+#include "std/stdout.h"
+#include "hardware/ports.h"
+#include "hardware/pic.h"
 #include "system.h"
 
 KeyboardDriver::KeyboardDriver():

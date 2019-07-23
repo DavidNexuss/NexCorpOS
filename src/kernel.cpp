@@ -1,14 +1,14 @@
 #include "stdafx.h"
 
-#include "color.h"
-#include "stdout.h"
-#include "kmemory.h"
-#include "gdt.h"
+#include "std/color.h"
+#include "std/stdout.h"
+#include "memory/kmemory.h"
+#include "cpu/gdt.h"
 
 #include "system.h"
-#include "interrupt.h"
-#include "pic.h"
-#include "driver_keyboard.h"
+#include "cpu/interrupt.h"
+#include "hardware/pic.h"
+#include "drivers/driver_keyboard.h"
 /*
 *  kernel.cpp
 */

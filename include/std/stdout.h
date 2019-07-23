@@ -4,7 +4,7 @@ extern "C" {
 
 #pragma once
 #include "types.h"
-#include "color.h"
+#include "std/color.h"
 #define SWIDTH 80
 #define SHEIGHT 25
 #define SSIZE SWIDTH*SHEIGHT
