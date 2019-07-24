@@ -43,6 +43,16 @@ void DebugScreen::handleKey(uint32_t index){
     cls();
     if(index == 0){
 
-        g_system->pci.printAllDevices();
+        cls();
+    }
+
+    if(index == 1){
+
+        printAllMemoryBlocks();
+    }
+
+    if(index == 2){
+
+        g_system->pci->printAllDevices();
     }
 }

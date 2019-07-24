@@ -9,8 +9,8 @@ void sleep(unsigned int t){
 
 System::System(){
     
-
-    pci.selectDrivers(&driver_manager);
+    pci = new PCIController();
+    pci->selectDrivers(&driver_manager);
     
     keyboard_driver = new KeyboardDriver();
     mouse_driver = new MouseDriver();

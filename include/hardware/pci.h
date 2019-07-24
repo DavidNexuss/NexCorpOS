@@ -43,8 +43,8 @@ class PCIController{
     Port32Bit commandPort;
 
 
-    PCIDeviceDescriptor* devices_table;
-    size_t devices_count;
+    PCIDeviceDescriptor** devices_table;
+    size_t* devices_count;
 
     public:
 

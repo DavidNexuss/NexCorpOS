@@ -46,9 +46,9 @@ bool PCIController::deviceHasFunctions(uint16_t busNumber,uint16_t deviceNumber)
     return Read(busNumber,deviceNumber,0, 0x0E) & (1 << 7);
 }
 
-static Node* last = 0;
 void PCIController::selectDrivers(DriverManager *driverManager){
 
+    LinkedList* list = new LinkedList();
     for (size_t bus = 0; bus < 8; bus++)
     {
         for (size_t device = 0; device < 32; device++)
@@ -59,24 +59,15 @@ void PCIController::selectDrivers(DriverManager *driverManager){
                 PCIDeviceDescriptor dev =  getDeviceDescriptor(bus,device,function);
                 if(dev.vendor_id == 0x0000 || dev.vendor_id == 0xFFFF)
                     break;
-                devices_count ++;
-                last = new Node(new PCIDeviceDescriptor(dev),last);
+                list->push_back(new PCIDeviceDescriptor(dev));
             }
             
         }
         
     }
-    devices_table = new PCIDeviceDescriptor[devices_count];
-    int n = devices_count;
-    while (last != 0)
-    {
-
-        n--;
-        devices_table[n] = *(PCIDeviceDescriptor*)last->m_object;
-        Node* tmp = last;
-        last = last->m_last;
-        delete tmp;
-    }
+    devices_count = new size_t(list->getSize());
+    devices_table = (PCIDeviceDescriptor**)list->getList();
+    delete list;
     
     #ifdef DEBUG
     printAllDevices();
@@ -85,31 +76,34 @@ void PCIController::selectDrivers(DriverManager *driverManager){
 }
 void PCIController::printAllDevices(){
 
-    for (size_t i = 0; i < devices_count; i++)
+    print("Device Count: ");
+    printint(*devices_count);
+    ln();
+    for (size_t i = 0; i < *devices_count; i++)
     {
         print("Device: ");
-        printint(devices_table[i].device);
+        printint(devices_table[i]->device);
         print(":");
-        printint(devices_table[i].function);
+        printint(devices_table[i]->function);
         print(", vendor: ");
-        printhex(devices_table[i].vendor_id);
+        printhex(devices_table[i]->vendor_id);
         print(", class:");
-        printhex(devices_table[i].class_id);
+        printhex(devices_table[i]->class_id);
         print(":");
-        printhex(devices_table[i].subclass_id);
+        printhex(devices_table[i]->subclass_id);
         print(", int: ");
-        printhex(devices_table[i].interrupt);
+        printhex(devices_table[i]->interrupt);
         ln();
     }
     
 }
 PCIDeviceDescriptor& PCIController::getDeviceDescriptor(uint32_t n){
 
-    return devices_table[n];
+    return *devices_table[n];
 }
 
 size_t PCIController::getDeviceCount(){
-    return devices_count;
+    return *devices_count;
 }
 PCIDeviceDescriptor PCIController::getDeviceDescriptor(uint16_t busNumber,uint16_t deviceNumber,uint16_t functionNumber){
 

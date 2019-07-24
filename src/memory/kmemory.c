@@ -13,7 +13,7 @@ void mem_init(){
   #ifdef DEBUG
   println("Initializing memory...");
   print("Heap Size: ");
-  printint((heap_size >> 16) & 0xFFFFFFFF);
+  printhex(heap_size);
   
   ln();
   print("Kernel After: ");
@@ -65,6 +65,12 @@ void* kmalloc(size_t size){
     if(last){
       block->next = last;
     }
+  }else{
+    print("Finded free block! Demanded: ");
+    printint(size);
+    print(":");
+    printint(block->size);
+    ln();
   }
 
   last = block;
@@ -132,10 +138,8 @@ void printAllMemoryBlocks(){
   println("Kernel memory block debug info:");
   while (it != NULL)
   {
-      print("Block address: ");
-      printint((uint32_t)it);
-      ln();
-      print("Block Size: ");
+      print("Block: "); printint((uint32_t)it);
+      print(" ,size: ");
       printint(it->size);
       ln();
       it = it->next;

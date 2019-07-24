@@ -8,6 +8,7 @@ extern "C"{
 
 	  void *__gxx_personality_v0;
   	  void *_Unwind_Resume;
+	  void *__cxa_throw_bad_array_new_length;
 }
 
 /*
@@ -15,12 +16,14 @@ extern "C"{
  */
 void *operator new(size_t size)
 {
-    return kmalloczero(size);
+    return kmalloc(size);
 }
  
 void *operator new[](size_t size)
 {
-    return kmalloczero(size);
+	print("Allocating array: ");
+	printint(size);
+    return kmalloc(size);
 }
  
 void operator delete(void *p)
