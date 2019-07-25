@@ -58,7 +58,7 @@ void PCIController::selectDrivers(DriverManager *driverManager){
             {
                 PCIDeviceDescriptor dev =  getDeviceDescriptor(bus,device,function);
                 if(dev.vendor_id == 0x0000 || dev.vendor_id == 0xFFFF)
-                    break;
+                    continue;
                 list->push_back(new PCIDeviceDescriptor(dev));
             }
             
