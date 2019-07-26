@@ -8,6 +8,7 @@
 #include "system.h"
 #include "cpu/interrupt.h"
 #include "hardware/pic.h"
+#include "hardware/serial.h"
 #include "drivers/driver_keyboard.h"
 /*
 *  kernel.cpp
@@ -42,7 +43,7 @@ extern "C"{
 	//*******************DRIVERS*********************/
 
 	//------------------END-SETUP---------------------
-
+	
 	g_system->interruptManager->Activate();
 	#ifdef DEBUG
 	//printAllMemoryBlocks();

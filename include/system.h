@@ -7,6 +7,7 @@
 #include "cpu/gdt.h"
 #include "cpu/interrupt.h"
 #include "hardware/pci.h"
+#include "hardware/serial.h"
 #include "runtime/vector.h"
 #include "debug/debug.h"
 
@@ -25,7 +26,7 @@ class System{
         
         PCIController* pci;
         DriverManager driver_manager;
-        
+        COM_Manager com_manager;
         DebugScreen debugScreen;
         
         System();
