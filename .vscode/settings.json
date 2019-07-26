@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "chrono": "cpp",
-        "stdafx.h": "c"
+        "stdafx.h": "c",
+        "system_error": "cpp"
     }
 }

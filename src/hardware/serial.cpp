@@ -20,8 +20,6 @@ COM_Interface::COM_Interface(COMPort *definition){
     print("COM initialized in: ");
     printhex(portNumber);
     ln();
-    printhex(comPort.lineControlRegister);
-    ln();
     #endif
 }
 

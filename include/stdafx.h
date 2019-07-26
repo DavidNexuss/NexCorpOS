@@ -1,10 +1,2 @@
-#pragma once
-#ifdef __cplusplus
-extern "C" {
-#endif
-
 #define DEBUG
-
-#ifdef __cplusplus
-}
-#endif
+#define _ENABLE_GDB_STUB_

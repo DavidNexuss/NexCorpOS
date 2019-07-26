@@ -10,6 +10,7 @@
 #include "hardware/pic.h"
 #include "hardware/serial.h"
 #include "drivers/driver_keyboard.h"
+#include "debug/gdb.h"
 /*
 *  kernel.cpp
 */
@@ -43,8 +44,16 @@ extern "C"{
 	//*******************DRIVERS*********************/
 
 	//------------------END-SETUP---------------------
+	#ifdef _ENABLE_GDB_STUB_
 	
+	initGDBStub();
 	g_system->interruptManager->Activate();
+    print("Waiting for GDB connection...");
+	__asm__("int3");
+	#else
+	g_system->interruptManager->Activate();
+	#endif
+
 	#ifdef DEBUG
 	//printAllMemoryBlocks();
 	//printint(g_system->pci.Read(0,0,0,0));
@@ -52,6 +61,11 @@ extern "C"{
 	printint(blockCount());
 	#endif
 	sleep(5);
-	while (1){}
+	while (1){
+
+		#ifdef _ENABLE_GDB_STUB_
+	//	putDebugChar('a');
+		#endif
+	}
 	}
 }
