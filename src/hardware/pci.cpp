@@ -82,6 +82,8 @@ void PCIController::printAllDevices(){
     for (size_t i = 0; i < *devices_count; i++)
     {
         print("Device: ");
+        printint(devices_table[i]->bus);
+        print(":");
         printint(devices_table[i]->device);
         print(":");
         printint(devices_table[i]->function);
