@@ -18,6 +18,18 @@ KERNEL_NAME = nexcorp.bin
 KERNEL = $(BIN)/$(KERNEL_NAME)
 KERNEL_IMAGE= nexcorp.iso
 
+stdafx-clean:
+	rm include/stdafx.h
+	touch include/stdafx.h
+stdafx-debug:
+	echo "#define DEBUG" >> include/stdafx.h
+stdafx-gdb:
+	echo "#define _ENABLE_GDB_STUB_" >> include/stdafx.h
+
+iso-options: stdafx-clean stdafx-debug
+qemu-options: stdafx-clean stdafx-debug stdafx-gdb
+release-options: stdafx-clean
+
 all: $(ODIR) $(BIN) $(KERNEL)
 
 $(ODIR):
@@ -76,12 +88,14 @@ clean:
 	rm -rf $(BIN)
 	rm -rf $(SDIR)
 	rm -rf $(ISO)
-run: all
-	qemu-system-x86_64 -kernel $(KERNEL)
-install: all
+debug: qemu-options all
+	
+run: qemu-options all
+	qemu-system-x86_64 -gdb serial -kernel $(KERNEL)
+install: qemu-options all
 	sudo cp $(KERNEL) /boot/$(KERNEL_NAME)
 
-iso: all
+iso: iso-options all
 	rm -rf $(ISO)
 	mkdir $(ISO)
 	mkdir $(ISO)/boot
@@ -100,7 +114,7 @@ iso: all
 	mv $(KERNEL_IMAGE) $(ISO)/
 runvm: iso
 	VBoxManage startvm "NexCorpOS"
-install-pen: iso
+install-pen: clean iso
 	sudo dd if=$(ISO)/$(KERNEL_IMAGE) of=/dev/$(shell lsblk -d | grep 'sd' | tail -n +3 |rofi -dmenu | awk '{print $$1}')
 dis: all $(SDIR) $(S_CODE)
 
