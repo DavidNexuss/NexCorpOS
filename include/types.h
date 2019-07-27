@@ -2,6 +2,7 @@
 #define NULL 0
 #define FALSE 0
 #define TRUE 1
+#define nullptr 0
 
 typedef int bool_t;
 typedef unsigned int size_t;
