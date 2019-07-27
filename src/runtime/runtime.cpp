@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #define ATEXIT_MAX_FUNCS	128
-
+#include "runtime/segment.h"
 extern "C"{
 
     #include "memory/kmemory.h"

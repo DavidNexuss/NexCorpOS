@@ -18,6 +18,8 @@ KERNEL_NAME = nexcorp.bin
 KERNEL = $(BIN)/$(KERNEL_NAME)
 KERNEL_IMAGE= nexcorp.iso
 
+all-debug: stdafx-clean stdafx-debug stdafx-gdb all
+
 stdafx-clean:
 	rm include/stdafx.h
 	touch include/stdafx.h
@@ -91,7 +93,7 @@ clean:
 debug: qemu-options all
 	
 run: qemu-options all
-	qemu-system-x86_64 -gdb serial -kernel $(KERNEL)
+	qemu-system-x86_64 -s -kernel $(KERNEL)
 install: qemu-options all
 	sudo cp $(KERNEL) /boot/$(KERNEL_NAME)
 
@@ -112,7 +114,7 @@ iso: iso-options all
 	rm -rf $(ISO)
 	mkdir $(ISO)
 	mv $(KERNEL_IMAGE) $(ISO)/
-runvm: iso
+runvm: clean iso
 	VBoxManage startvm "NexCorpOS"
 install-pen: clean iso
 	sudo dd if=$(ISO)/$(KERNEL_IMAGE) of=/dev/$(shell lsblk -d | grep 'sd' | tail -n +3 |rofi -dmenu | awk '{print $$1}')

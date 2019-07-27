@@ -87,7 +87,7 @@ COM_Interface* COM_Manager::initPort(uint8_t dataBits,uint8_t parity,bool stopBi
     COMPort definition;
     definition.lineControlRegister = 0;
     definition.portNumber = n % 2 == 1 ? COM24:COM13;
-    definition.lineControlRegister |= (dataBits & 0xFF);
+    definition.lineControlRegister |= dataBits;
     definition.lineControlRegister |= stopBit << 2;
     definition.lineControlRegister |= parity << 3;
     return coms[++n] = new COM_Interface(&definition);

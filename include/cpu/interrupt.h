@@ -1,6 +1,14 @@
 #pragma once
 #include "types.h"
 #include "cpu/gdt.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+extern void enableInterrupts();
+extern void disableInterrupts();
+#ifdef __cplusplus
+}
 class InterruptManager{
 
     protected:
@@ -68,3 +76,5 @@ class InterruptManager{
         static void handleInterruptRequest0x21();
         static void handleInterruptRequest0x2C();
 };
+
+#endif

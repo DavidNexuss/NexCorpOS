@@ -4,13 +4,14 @@
 #include "std/stdout.h"
 #include "memory/kmemory.h"
 #include "cpu/gdt.h"
-
+#include "runtime/segment.h"
 #include "system.h"
 #include "cpu/interrupt.h"
 #include "hardware/pic.h"
 #include "hardware/serial.h"
 #include "drivers/driver_keyboard.h"
 #include "debug/gdb.h"
+#include "hardware/pit.h"
 /*
 *  kernel.cpp
 */
@@ -43,11 +44,14 @@ extern "C"{
 	 g_system->interruptManager = new InterruptManager(g_system->kernel_globalDescriptorTable);
 	//*******************DRIVERS*********************/
 
+	g_system->interruptManager->Activate();
 	//------------------END-SETUP---------------------
+
+	PIT_Manager manager;
+	manager.sleep(2000);
 	#ifdef _ENABLE_GDB_STUB_
 	
 	initGDBStub();
-	g_system->interruptManager->Activate();
     print("Waiting for GDB connection...");
 	__asm__("int3");
 	#else

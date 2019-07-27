@@ -5,6 +5,7 @@
 #include "cpu/interrupt.h"
 #include "drivers/driver_keyboard.h"
 #include "std/stdout.h"
+#include "runtime/segment.h"
 
 extern "C" {void load_idt(void* idt_pointer);}
 extern "C" {void int_bottom();}
@@ -91,7 +92,8 @@ void InterruptManager::Activate(){
 InterruptManager::~InterruptManager(){}
 
 uint32_t InterruptManager::handleInterrupt(uint8_t interruptNumber, uint32_t esp){
-    
+
+
     switch (interruptNumber)
     {
     case KEYBOARD_INTERRUPT_NUMBER:

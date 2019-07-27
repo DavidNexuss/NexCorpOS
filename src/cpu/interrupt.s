@@ -79,5 +79,14 @@ int_bottom:
 	
 	iretd
 
+global enableInterrupts
+enableInterrupts:
+	sti
+	ret
+global disableInterrupts
+disableInterrupts:
+	cli
+	ret
+
 section .data
 	interruptnumber dd 0x0

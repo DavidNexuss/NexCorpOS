@@ -33,6 +33,10 @@ void setCursorPosition(unsigned int position){
 void addCursorPosition(unsigned int position){
   cscreen.charpos += position;
   if(cscreen.charpos < 0) cscreen.charpos = 0;
+  if(cscreen.charpos > SWIDTH * SHEIGHT){
+    cscreen.charpos = 0;
+    cls();
+  }
   setCursorPosition(cscreen.charpos);
 }
 /*Updates character value and color at a certain position*/
@@ -67,7 +71,6 @@ void ln(){
 /*Prints to the current charposition*/
 void print(const char* str){
 
-  unsigned int i = 0;
   unsigned int j = 0;
   /* this loop writes the string to video memory */
   while(str[j] != '\0') {
