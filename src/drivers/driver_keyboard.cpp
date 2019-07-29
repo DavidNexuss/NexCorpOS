@@ -5,7 +5,7 @@
 #include "hardware/pic.h"
 #include "system.h"
 
-KeyboardDriver::KeyboardDriver():
+KeyboardDriver::KeyboardDriver(): 
 keyboard_data_port(KEYBOARD_DATA_PORT),
 keyboard_status_port(KEYBOARD_STATUS_PORT){
 
@@ -28,10 +28,10 @@ void KeyboardDriver::handleInterrupt(){
 	/* write EOI */
 	CLEAR_EOI();
 
-	status = read_port8(KEYBOARD_STATUS_PORT);
+	status = keyboard_status_port.read();
 	/* Lowest bit of status will be set if buffer is not empty */
 	if (status & 0x01) {
-		keycode = read_port8(KEYBOARD_DATA_PORT);
+		keycode = keyboard_data_port.read();
 		if(keycode < 0)
 			return;
       
@@ -46,7 +46,7 @@ void KeyboardDriver::handleInterrupt(){
     }else if(keycode == 63){
       cls();
     }else if(keycode >= 0x3B && keycode <= 0x44){
-     g_system->debugScreen.handleKey(keycode - 0x3B);
+     sys::debug_screen->handleKey(keycode - 0x3B);
     }else{
       setCharacter(getConsoleScreen().charpos,keyboard_map[keycode],LIGHT_RED + (WHITE << 4));
       addCursorPosition(1);

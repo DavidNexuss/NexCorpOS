@@ -11,7 +11,7 @@ extern "C"{
 COM_Interface* debug_interface;
 void initGDBStub(){
 
-    debug_interface = g_system->com_manager.initPort(COM_8BITS_LENGHT,PARITY_NONE,COM_ONE_STOP_BIT);
+    debug_interface = sys::com_manager->initPort(COM_8BITS_LENGHT,PARITY_NONE,COM_ONE_STOP_BIT);
     set_debug_traps();
 }
 extern "C" void putDebugChar(uint8_t data){
@@ -24,6 +24,6 @@ extern "C" int getDebugChar(){
 }	/* read and return a single char */
 extern "C" void exceptionHandler(int exception_number, void *exception_address){
 
-    g_system->interruptManager->overrideInterruptGate(exception_number,exception_address);
+    sys::interrupt_manager->overrideInterruptGate(exception_number,exception_address);
 }	/* assign an exception handler   */
 #endif

@@ -15,22 +15,13 @@
 
 void sleep(unsigned int t);
 
-class System{
+namespace sys{
 
-    public:
-        InterruptManager* interruptManager;
-
-        KeyboardDriver* keyboard_driver;
-        MouseDriver* mouse_driver;
-        
-        PCIController* pci;
-        DriverManager driver_manager;
-        COM_Manager com_manager;
-        DebugScreen debugScreen;
-        
-        System();
-        ~System();
-
-};
-
-static System* g_system;
+    extern DriverManager* driver_manager;
+    extern PCIController* pci_controller;
+    extern InterruptManager* interrupt_manager;
+    extern KeyboardDriver* keyboard_driver;
+    extern MouseDriver* mouse_driver;
+    extern COM_Manager* com_manager;
+    extern DebugScreen* debug_screen;
+}

@@ -77,18 +77,15 @@ InterruptManager::InterruptManager(GlobalDescriptorTable *gdt){
     idt.base = (uint32_t)interruptDescriptorTable;
 
     load_idt(&idt);
+
+    #ifdef DEBUG
+    println("IDT loaded");
+    #endif
 }
 
 void InterruptManager::ignoreInterruptRequest(){
 }
 
-void InterruptManager::Activate(){
-    
-    #ifdef DEBUG
-    println("IDT activated");
-    #endif
-    asm("sti");
-}
 InterruptManager::~InterruptManager(){}
 
 uint32_t InterruptManager::handleInterrupt(uint8_t interruptNumber, uint32_t esp){
@@ -97,10 +94,11 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interruptNumber, uint32_t esp
     switch (interruptNumber)
     {
     case KEYBOARD_INTERRUPT_NUMBER:
-        g_system->keyboard_driver->handleInterrupt();
+        sys::keyboard_driver->handleInterrupt();
         break;
     case MOUSE_INTERRUPT_NUMBER:
-        g_system->mouse_driver->handleInterrupt();
+        println("mouse interrupt");
+        sys::mouse_driver->handleInterrupt();
     case 0x00:
         println("Can't divide by zero!");
         break;

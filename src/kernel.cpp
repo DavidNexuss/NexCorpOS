@@ -33,22 +33,35 @@ extern "C"{
 	
 	//Creating system Struct
 
-	g_system = new System();
+	sys::pci_controller = new PCIController();
+    sys::driver_manager = new DriverManager();
+    sys::pci_controller->selectDrivers(sys::driver_manager);
+    
+    sys::keyboard_driver = new KeyboardDriver();
+    sys::mouse_driver = new MouseDriver();
+    
+    sys::driver_manager->addDriver(sys::keyboard_driver);
+    sys::driver_manager->addDriver(sys::mouse_driver);
+
+    sys::driver_manager->ActivateAll();
+
+    #ifdef DEBUG
+    println("System structure created");
+    #endif
 
 	//IDT
-	 g_system->interruptManager = new InterruptManager(&gdt);
+	 sys::interrupt_manager = new InterruptManager(&gdt);
 	//*******************DRIVERS*********************/
-
-	g_system->interruptManager->Activate();
 	//------------------END-SETUP---------------------
 
-	#ifndef _ENABLE_GDB_STUB_
+	#ifdef _ENABLE_GDB_STUB_
 	
-	initGDBStub();
-    print("Waiting for GDB connection...");
-	__asm__("int3");
+		initGDBStub();
+    	println("Waiting for GDB connection...");
+		enableInterrupts();
+		//__asm__("int3");
 	#else
-	g_system->interruptManager->Activate();
+	enableInterrupts();
 	#endif
 
 	#ifdef DEBUG

@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "debug/debug.h"
+#include "runtime/segment.h"
 #include "std/stdout.h"
 #include "hardware/pci.h"
 #include "system.h"
@@ -53,6 +54,6 @@ void DebugScreen::handleKey(uint32_t index){
 
     if(index == 2){
 
-        g_system->pci->printAllDevices();
+        sys::pci_controller->printAllDevices();
     }
 }

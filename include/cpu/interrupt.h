@@ -41,8 +41,7 @@ class InterruptManager{
 
         InterruptManager(GlobalDescriptorTable *gdt);
         ~InterruptManager();
-
-        void Activate();
+        
         void overrideInterruptGate(uint8_t interruptNumber,void* handler);
 
         static uint32_t handleInterrupt(uint8_t interruptNumber, uint32_t esp);

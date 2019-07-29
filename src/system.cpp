@@ -1,27 +1,17 @@
 #include "stdafx.h"
 #include "system.h"
 
+DriverManager* sys::driver_manager;
+PCIController* sys::pci_controller;
+KeyboardDriver* sys::keyboard_driver;
+MouseDriver* sys::mouse_driver;
+DebugScreen* sys::debug_screen;
+COM_Manager* sys::com_manager;
+InterruptManager* sys::interrupt_manager;
+
+
 void sleep(unsigned int t){
 
     t*= SLEEP;
     while(t--){}
 }
-
-System::System(){
-    
-    pci = new PCIController();
-    pci->selectDrivers(&driver_manager);
-    
-    keyboard_driver = new KeyboardDriver();
-    mouse_driver = new MouseDriver();
-    
-    driver_manager.addDriver(keyboard_driver);
-    driver_manager.addDriver(mouse_driver);
-
-    driver_manager.ActivateAll();
-
-    #ifdef DEBUG
-    println("System structure created");
-    #endif
-}
-System::~System(){}

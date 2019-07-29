@@ -114,7 +114,7 @@ iso: iso-options all
 	rm -rf $(ISO)
 	mkdir $(ISO)
 	mv $(KERNEL_IMAGE) $(ISO)/
-runvm: clean iso
+runvm: iso
 	VBoxManage startvm "NexCorpOS"
 install-pen: clean iso
 	sudo dd if=$(ISO)/$(KERNEL_IMAGE) of=/dev/$(shell lsblk -d | grep 'sd' | tail -n +3 |rofi -dmenu | awk '{print $$1}')
