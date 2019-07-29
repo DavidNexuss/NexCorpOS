@@ -54,6 +54,8 @@ extern "C"{
 	//*******************DRIVERS*********************/
 	//------------------END-SETUP---------------------
 
+	PIT_Manager manager;
+	manager.sleep(200000);
 	#ifdef _ENABLE_GDB_STUB_
 	
 		initGDBStub();

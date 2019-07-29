@@ -32,6 +32,10 @@ void PIT_Manager::initChannel(uint32_t channelIndex,uint8_t accesMode,uint8_t op
     #endif
 }
 
+void PIT_Manager::latchCommand(uint8_t channels){
+
+    channel_command.write(channels << 6);
+}
 void PIT_Manager::readback(uint8_t channels){
 
     channel_command.write(0b11 << 5);
@@ -42,20 +46,25 @@ void PIT_Manager::sleep(uint32_t ms){
     if(ms == 0) return;
     disableInterrupts();
     uint32_t reloadValue = ms * 3579545 / 3000;
-    initChannel(0,3,0,0);
-    channel0_p.write(reloadValue >> 7);
+    initChannel(0,3,1,0);
     channel0_p.write(reloadValue);
+    channel0_p.write(reloadValue >> 8);
     while (channel0_p.read() < 128)
     {
         readback(0);
     }
     enableInterrupts();
-    uint32_t val = 255;
+    uint16_t lo = 0;
+    uint16_t hi = 0;
+    uint16_t readVal = 10000;
     //cls();
-    while (val > 0){
+    while (readVal > 30){
 
-        printint(val = channel0_p.read());
-        channel0_p.read();
-        ln();
+        latchCommand(0);
+        lo = channel0_p.read();
+        hi = (channel0_p.read());
+        readVal = lo | (hi << 8);
+     //   printint(readVal);
+    //    ln();
     }
 }

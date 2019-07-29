@@ -80,6 +80,8 @@ class PIT_Manager{
     
     void initChannel(uint32_t channelIndex,uint8_t accesMode,uint8_t operatingMode,bool bcdBinary);
     void readback(uint8_t channels);
+    void latchCommand(uint8_t channels);
+    
     tip_t readBackStatus();
 
         PIT_Manager();
