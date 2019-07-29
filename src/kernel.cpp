@@ -25,31 +25,24 @@ extern "C"{
 	cls();
 	println("Console started");
 	
+	GlobalDescriptorTable gdt;
+	gdt.flushGDT();
+
 	mem_init(); //Init kernel heap
 	sys::init_pics();
 	
 	//Creating system Struct
 
 	g_system = new System();
-	
-	/*--------------Start SETUP------------------- */
-
-	//GDT
-	g_system->kernel_globalDescriptorTable = new GlobalDescriptorTable();
-  	g_system->kernel_globalDescriptorTable->flushGDT();
-
-	//PICs
 
 	//IDT
-	 g_system->interruptManager = new InterruptManager(g_system->kernel_globalDescriptorTable);
+	 g_system->interruptManager = new InterruptManager(&gdt);
 	//*******************DRIVERS*********************/
 
 	g_system->interruptManager->Activate();
 	//------------------END-SETUP---------------------
 
-	PIT_Manager manager;
-	manager.sleep(2000);
-	#ifdef _ENABLE_GDB_STUB_
+	#ifndef _ENABLE_GDB_STUB_
 	
 	initGDBStub();
     print("Waiting for GDB connection...");

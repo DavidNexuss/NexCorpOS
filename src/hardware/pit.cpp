@@ -39,10 +39,11 @@ void PIT_Manager::readback(uint8_t channels){
 
 void PIT_Manager::sleep(uint32_t ms){
 
+    if(ms == 0) return;
     disableInterrupts();
     uint32_t reloadValue = ms * 3579545 / 3000;
     initChannel(0,3,0,0);
-    channel0_p.write(reloadValue >> 8);
+    channel0_p.write(reloadValue >> 7);
     channel0_p.write(reloadValue);
     while (channel0_p.read() < 128)
     {
@@ -50,14 +51,11 @@ void PIT_Manager::sleep(uint32_t ms){
     }
     enableInterrupts();
     uint32_t val = 255;
-    cls();
-    while (val > 5){
+    //cls();
+    while (val > 0){
 
         printint(val = channel0_p.read());
         channel0_p.read();
         ln();
     }
-    
-
-    cls();
 }

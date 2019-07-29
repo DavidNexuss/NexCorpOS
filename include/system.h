@@ -18,7 +18,6 @@ void sleep(unsigned int t);
 class System{
 
     public:
-        GlobalDescriptorTable* kernel_globalDescriptorTable;
         InterruptManager* interruptManager;
 
         KeyboardDriver* keyboard_driver;
