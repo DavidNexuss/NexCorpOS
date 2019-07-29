@@ -117,7 +117,8 @@ iso: iso-options all
 runvm: iso
 	VBoxManage startvm "NexCorpOS"
 install-pen: clean iso
-	sudo dd if=$(ISO)/$(KERNEL_IMAGE) of=/dev/$(shell lsblk -d | grep 'sd' | tail -n +3 |rofi -dmenu | awk '{print $$1}')
+	passui | sudo -S dd if=$(ISO)/$(KERNEL_IMAGE) of=/dev/$(shell lsblk -d | grep 'sd' | tail -n +3 |rofi -dmenu | awk '{print $$1}')
+	# I'm using a custom script to pass my password to sudo in a pipeline
 dis: all $(SDIR) $(S_CODE)
 
 flist: all

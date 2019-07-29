@@ -97,7 +97,7 @@
 
 #define NULL 0
 //#include <stdio.h>
-#include <string.h>
+//#include <string.h>
 #include "runtime/string.h"
 /************************************************************************
  *
