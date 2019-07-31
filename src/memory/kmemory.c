@@ -2,7 +2,7 @@
 #include "memory/kmemory.h"
 #include "std/stdout.h"
 
-static void* next_address = &kernel_after;
+static void* next_address = &heap_bottom;
 struct memory_block *last = NULL;
 
 size_t execution_timer = 0;

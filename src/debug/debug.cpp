@@ -4,7 +4,7 @@
 #include "std/stdout.h"
 #include "hardware/pci.h"
 #include "system.h"
-
+#include "memory/paging.h"
 static uint16_t mapped = 0;
 static void (*handler [12])();
 static const char* names[12];
@@ -55,5 +55,10 @@ void DebugScreen::handleKey(uint32_t index){
     if(index == 2){
 
         sys::pci_controller->printAllDevices();
+    }
+
+    if(index == 3){
+
+        sys::printPageAddresses();
     }
 }

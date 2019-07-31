@@ -10,7 +10,6 @@ extern "C"{
   	  void *_Unwind_Resume;
 	  void *__cxa_throw_bad_array_new_length;
 }
-
 /*
     New and delete operators.
  */

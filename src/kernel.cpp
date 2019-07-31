@@ -3,6 +3,7 @@
 #include "std/color.h"
 #include "std/stdout.h"
 #include "memory/kmemory.h"
+#include "memory/paging.h"
 #include "cpu/gdt.h"
 #include "runtime/segment.h"
 #include "system.h"
@@ -25,6 +26,7 @@ extern "C"{
 	cls();
 	println("Console started");
 	
+	PageManager m;
 	GlobalDescriptorTable gdt;
 	gdt.flushGDT();
 
@@ -56,6 +58,7 @@ extern "C"{
 
 	PIT_Manager manager;
 	manager.sleep(200000);
+
 	#ifdef _ENABLE_GDB_STUB_
 	
 		initGDBStub();
