@@ -6,6 +6,7 @@ extern "C" {
 #include "types.h"
 #include "std/color.h"
 #define SWIDTH 80
+#define TTY_COUNT 8
 #define SHEIGHT 25
 #define SSIZE SWIDTH*SHEIGHT
 #define LAST_LINE 24
@@ -15,10 +16,19 @@ struct CONSOLE_SCREEN{
     unsigned int charpos;
     char color;
     char backColor;
-    char* vidptr;
+};
+
+struct TTY{
+
+    struct CONSOLE_SCREEN consoleScreen;
+    char data[80*25*2];
+    bool graphicsMode;
+    bool shell;
 };
 
 struct CONSOLE_SCREEN getConsoleScreen();
+
+bool loadTTY(int index);
 void setCursorPosition(unsigned int pos);
 void addCursorPosition(unsigned int pos);
 

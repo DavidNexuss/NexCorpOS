@@ -4,18 +4,25 @@
 #include "std/color.h"
 #include "hardware/port.h"
 
-struct CONSOLE_SCREEN cscreen = {};
+struct TTY tty[TTY_COUNT];
+struct TTY buffer_tty;
 
-struct CONSOLE_SCREEN getConsoleScreen(){
+uint32_t current_tty_index = 0;
 
-  return cscreen;
-}
+char* _vidptr;
 /*Sets vidptr*/
 void initstdout(char* vidptr){
-    cscreen.vidptr = vidptr;
-    cscreen.color = 0x7;
+    _vidptr = vidptr;
+    for (size_t i = 0; i < TTY_COUNT; i++)
+    {
+      tty[i].consoleScreen.color = 0x7;
+    }
+    
 }
 
+struct CONSOLE_SCREEN getConsoleScreen(){
+  return tty[current_tty_index].consoleScreen; 
+}
 void setCursorPosition(unsigned int position){
   if(position < 0) position = 0;
   unsigned short location= position;/* Short is a 16bit type , the formula is used here*/
@@ -27,35 +34,56 @@ void setCursorPosition(unsigned int position){
   write_port8(0x3D4, 0x0E);//Sending the cursor high byte to the VGA Controller
   write_port8(0x3D5, (unsigned char )((location>>8)&0xFF)); //Char is a 8bit type
 
-  cscreen.charpos = position;
+  tty[current_tty_index].consoleScreen.charpos = position;
 }
 
 void addCursorPosition(unsigned int position){
-  cscreen.charpos += position;
-  if(cscreen.charpos < 0) cscreen.charpos = 0;
-  if(cscreen.charpos > SWIDTH * SHEIGHT){
-    cscreen.charpos = 0;
+  tty[current_tty_index].consoleScreen.charpos += position;
+  if(tty[current_tty_index].consoleScreen.charpos < 0) tty[current_tty_index].consoleScreen.charpos = 0;
+  if(tty[current_tty_index].consoleScreen.charpos > SWIDTH * SHEIGHT){
+    tty[current_tty_index].consoleScreen.charpos = 0;
     cls();
   }
-  setCursorPosition(cscreen.charpos);
+  setCursorPosition(tty[current_tty_index].consoleScreen.charpos);
+}
+
+bool loadTTY(int index){
+
+  if(current_tty_index == index) return false;
+  
+  for (size_t i = 0; i < SWIDTH * SHEIGHT * 2; i++)
+  {
+    _vidptr[i] = tty[index].data[i];
+
+  }
+  
+ // tty[current_tty_index].consoleScreen = tty[index].consoleScreen;
+  current_tty_index = index;
+  setCursorPosition(tty[current_tty_index].consoleScreen.charpos);
+  
+  return true;
 }
 /*Updates character value and color at a certain position*/
 void setCharacter(unsigned int pos,char text,char color){
 
   unsigned int p = pos*2;
 
-  cscreen.vidptr[p] = text;
-  cscreen.vidptr[p + 1] = color;
+  _vidptr[p] = text;
+  _vidptr[p + 1] = color;
+
+  tty[current_tty_index].data[p] = text;
+  tty[current_tty_index].data[p + 1] = color;
+  
   setCursorPosition(pos);
 }
 
 void setColor(char col){
 
-  cscreen.color = col;
+  tty[current_tty_index].consoleScreen.color = col;
 }
 void setBackgroundColor(char col){
 
-  cscreen.backColor = col;
+  tty[current_tty_index].consoleScreen.backColor = col;
 }
 /*Sets charposition to the chosen line*/
 void jumpToLine(unsigned int line){
@@ -65,7 +93,7 @@ void jumpToLine(unsigned int line){
 /*Sets charposition to the next line*/
 void ln(){
 
-    setCursorPosition(cscreen.charpos + SWIDTH - (cscreen.charpos % SWIDTH));
+    setCursorPosition(tty[current_tty_index].consoleScreen.charpos + SWIDTH - (tty[current_tty_index].consoleScreen.charpos % SWIDTH));
 }
 
 /*Prints to the current charposition*/
@@ -75,7 +103,7 @@ void print(const char* str){
   /* this loop writes the string to video memory */
   while(str[j] != '\0') {
     /* the character's ascii */
-    setCharacter(cscreen.charpos,str[j],cscreen.color + (cscreen.backColor << 4));
+    setCharacter(tty[current_tty_index].consoleScreen.charpos,str[j],tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4));
     addCursorPosition(1);
     ++j;
   }
@@ -84,7 +112,7 @@ void printhex(unsigned int a){
 
     if(a == 0){
 
-      setCharacter(cscreen.charpos,'0',cscreen.color + (cscreen.backColor << 4));
+      setCharacter(tty[current_tty_index].consoleScreen.charpos,'0',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4));
       addCursorPosition(1);
       return;
     }
@@ -95,27 +123,27 @@ void printhex(unsigned int a){
         count++;
     }
     addCursorPosition(count - 1);
-    unsigned int end = cscreen.charpos + 1;
+    unsigned int end = tty[current_tty_index].consoleScreen.charpos + 1;
     temp = a*16;
 
     while(temp /= 16){
 
-      if((temp % 16) == 0) setCharacter(cscreen.charpos,'0',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 16) == 1) setCharacter(cscreen.charpos,'1',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 16) == 2) setCharacter(cscreen.charpos,'2',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 16) == 3) setCharacter(cscreen.charpos,'3',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 16) == 4) setCharacter(cscreen.charpos,'4',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 16) == 5) setCharacter(cscreen.charpos,'5',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 16) == 6) setCharacter(cscreen.charpos,'6',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 16) == 7) setCharacter(cscreen.charpos,'7',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 16) == 8) setCharacter(cscreen.charpos,'8',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 16) == 9) setCharacter(cscreen.charpos,'9',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 16) == 10) setCharacter(cscreen.charpos,'A',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 16) == 11) setCharacter(cscreen.charpos,'B',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 16) == 12) setCharacter(cscreen.charpos,'C',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 16) == 13) setCharacter(cscreen.charpos,'D',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 16) == 14) setCharacter(cscreen.charpos,'E',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 16) == 15) setCharacter(cscreen.charpos,'F',cscreen.color + (cscreen.backColor << 4));
+      if((temp % 16) == 0) setCharacter(tty[current_tty_index].consoleScreen.charpos,'0',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 16) == 1) setCharacter(tty[current_tty_index].consoleScreen.charpos,'1',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 16) == 2) setCharacter(tty[current_tty_index].consoleScreen.charpos,'2',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 16) == 3) setCharacter(tty[current_tty_index].consoleScreen.charpos,'3',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 16) == 4) setCharacter(tty[current_tty_index].consoleScreen.charpos,'4',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 16) == 5) setCharacter(tty[current_tty_index].consoleScreen.charpos,'5',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 16) == 6) setCharacter(tty[current_tty_index].consoleScreen.charpos,'6',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 16) == 7) setCharacter(tty[current_tty_index].consoleScreen.charpos,'7',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 16) == 8) setCharacter(tty[current_tty_index].consoleScreen.charpos,'8',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 16) == 9) setCharacter(tty[current_tty_index].consoleScreen.charpos,'9',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 16) == 10) setCharacter(tty[current_tty_index].consoleScreen.charpos,'A',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 16) == 11) setCharacter(tty[current_tty_index].consoleScreen.charpos,'B',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 16) == 12) setCharacter(tty[current_tty_index].consoleScreen.charpos,'C',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 16) == 13) setCharacter(tty[current_tty_index].consoleScreen.charpos,'D',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 16) == 14) setCharacter(tty[current_tty_index].consoleScreen.charpos,'E',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 16) == 15) setCharacter(tty[current_tty_index].consoleScreen.charpos,'F',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4));
       
       addCursorPosition(-1);
     }
@@ -127,7 +155,7 @@ void printint(unsigned int a){
 
     if(a == 0){
 
-      setCharacter(cscreen.charpos,'0',cscreen.color + (cscreen.backColor << 4));
+      setCharacter(tty[current_tty_index].consoleScreen.charpos,'0',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4));
       addCursorPosition(1);
       return;
     }
@@ -138,21 +166,21 @@ void printint(unsigned int a){
     }
 
     addCursorPosition(count - 1);
-    unsigned int end = cscreen.charpos + 1;
+    unsigned int end = tty[current_tty_index].consoleScreen.charpos + 1;
     temp = a*10;
 
     while(temp /= 10){
 
-      if((temp % 10) == 0) setCharacter(cscreen.charpos,'0',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 10) == 1) setCharacter(cscreen.charpos,'1',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 10) == 2) setCharacter(cscreen.charpos,'2',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 10) == 3) setCharacter(cscreen.charpos,'3',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 10) == 4) setCharacter(cscreen.charpos,'4',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 10) == 5) setCharacter(cscreen.charpos,'5',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 10) == 6) setCharacter(cscreen.charpos,'6',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 10) == 7) setCharacter(cscreen.charpos,'7',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 10) == 8) setCharacter(cscreen.charpos,'8',cscreen.color + (cscreen.backColor << 4)); else
-      if((temp % 10) == 9) setCharacter(cscreen.charpos,'9',cscreen.color + (cscreen.backColor << 4));
+      if((temp % 10) == 0) setCharacter(tty[current_tty_index].consoleScreen.charpos,'0',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 10) == 1) setCharacter(tty[current_tty_index].consoleScreen.charpos,'1',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 10) == 2) setCharacter(tty[current_tty_index].consoleScreen.charpos,'2',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 10) == 3) setCharacter(tty[current_tty_index].consoleScreen.charpos,'3',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 10) == 4) setCharacter(tty[current_tty_index].consoleScreen.charpos,'4',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 10) == 5) setCharacter(tty[current_tty_index].consoleScreen.charpos,'5',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 10) == 6) setCharacter(tty[current_tty_index].consoleScreen.charpos,'6',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 10) == 7) setCharacter(tty[current_tty_index].consoleScreen.charpos,'7',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 10) == 8) setCharacter(tty[current_tty_index].consoleScreen.charpos,'8',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4)); else
+      if((temp % 10) == 9) setCharacter(tty[current_tty_index].consoleScreen.charpos,'9',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4));
       addCursorPosition(-1);
     }
 
@@ -183,9 +211,12 @@ void cls(){
 	* there are 25 lines each of 80 columns; each element takes 2 bytes */
 	while(j < SWIDTH * SHEIGHT * 2) {
 		/* blank character */
-    cscreen.vidptr[j] = ' ';
+    _vidptr[j] = ' ';
+    tty[current_tty_index].data[j] = ' ';
 		/* attribute-byte - light grey on black screen */
-		cscreen.vidptr[j+1] = cscreen.color + (cscreen.backColor << 4);
+		_vidptr[j+1] = tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4);
+    tty[current_tty_index].data[j + 1] = LIGHT_GREY + (tty[current_tty_index].consoleScreen.backColor <<  4);
+
 		j = j + 2;
 
   }

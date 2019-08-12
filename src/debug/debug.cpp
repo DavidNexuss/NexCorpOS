@@ -41,24 +41,5 @@ void DebugScreen::setHandler(uint32_t index,void (*func)(),const char* name){
 
 void DebugScreen::handleKey(uint32_t index){
 
-    cls();
-    if(index == 0){
-
-        cls();
-    }
-
-    if(index == 1){
-
-        printAllMemoryBlocks();
-    }
-
-    if(index == 2){
-
-        sys::pci_controller->printAllDevices();
-    }
-
-    if(index == 3){
-
-        sys::printPageAddresses();
-    }
+    loadTTY(index);
 }
