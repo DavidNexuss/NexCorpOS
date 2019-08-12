@@ -19,3 +19,7 @@ typedef char int8_t;
 typedef short int16_t;
 typedef int int32_t;
 typedef long int64_t;
+
+#ifdef __cplusplus
+#include "runtime/string.h"
+#endif
