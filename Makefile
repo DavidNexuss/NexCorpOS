@@ -47,7 +47,7 @@ $(ODIR)/s_%.o: $(IDIR)/%.s
 $(ODIR)/%.o: $(IDIR)/%.c
 	$(CC) $(CCFLAGS) $^ -o $@
 
-$(ODIR)/%.o: $(IDIR)/%.cpp
+$(ODIR)/cpp_%.o: $(IDIR)/%.cpp
 	$(GCC) $(GCCFLAGS) $^ -o $@
 
 $(SDIR)/%.s : $(IDIR)/%.c
@@ -63,13 +63,13 @@ $(ODIR)/s_%.o: $(IDIR)/**/%.s
 $(ODIR)/%.o: $(IDIR)/**/%.c
 	$(CC) $(CCFLAGS) $^ -o $@
 
-$(ODIR)/%.o: $(IDIR)/**/%.cpp
+$(ODIR)/cpp_%.o: $(IDIR)/**/%.cpp
 	$(GCC) $(GCCFLAGS) $^ -o $@
 
 $(SDIR)/%.s : $(IDIR)/**/%.c
 	$(CC) -g -o $@ $(CCFLAGS) -S $^
 
-$(SDIR)/%.s : $(IDIR)/**/%.cpp
+$(SDIR)/cpp_%.s : $(IDIR)/**/%.cpp
 	$(CC) -g -o $@ $(CCFLAGS) -S $^
 
 S_SOURCES = $(shell find $(IDIR) -type f -name *.s -printf "%f\n")
@@ -78,10 +78,11 @@ CPP_SOURCES = $(shell find $(IDIR) -type f -name *.cpp -printf "%f\n")
 
 S_OBJECTS = $(patsubst %.s, $(ODIR)/s_%.o,$(S_SOURCES))
 C_OBJECTS = $(patsubst %.c, $(ODIR)/%.o,$(C_SOURCES))
-CPP_OBJECTS = $(patsubst %.cpp, $(ODIR)/%.o,$(CPP_SOURCES))
+CPP_OBJECTS = $(patsubst %.cpp, $(ODIR)/cpp_%.o,$(CPP_SOURCES))
 
 S_CODE = $(patsubst %.c, $(SDIR)/%.s,$(C_SOURCES))
 S_CODE += $(patsubst %.cpp, $(SDIR)/%.s,$(CPP_SOURCES))
+
 $(KERNEL): $(IDIR)/link.ld $(CPP_OBJECTS) $(C_OBJECTS) $(S_OBJECTS) 
 	$(LD) $(LDFLAGS) -T $(IDIR)/link.ld -o $(KERNEL) $(S_OBJECTS) $(C_OBJECTS) $(CPP_OBJECTS)
 

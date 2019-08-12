@@ -14,6 +14,7 @@
 #include "drivers/driver_keyboard.h"
 #include "debug/gdb.h"
 #include "hardware/pit.h"
+#include "types.h"
 /*
 *  kernel.cpp
 */
@@ -35,6 +36,7 @@ extern "C"{
 	mem_init(); //Init kernel heap
 	sys::init_pics();
 	
+	string s("awd");
 	//Creating system Struct
 
 	sys::pci_controller = new PCIController();
