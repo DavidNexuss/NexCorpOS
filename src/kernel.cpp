@@ -7,6 +7,7 @@
 #include "cpu/gdt.h"
 #include "runtime/segment.h"
 #include "system.h"
+#include "runtime/shell.h"
 #include "cpu/interrupt.h"
 #include "hardware/pic.h"
 #include "hardware/serial.h"
@@ -26,6 +27,7 @@ extern "C"{
 	cls();
 	println("Console started");
 	
+	addDebugCommands();
 	PageManager m;
 	GlobalDescriptorTable gdt;
 	gdt.flushGDT();

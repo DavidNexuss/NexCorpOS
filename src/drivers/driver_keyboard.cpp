@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "drivers/driver_keyboard.h"
 #include "std/stdout.h"
+#include "runtime/shell.h"
 #include "hardware/port.h"
 #include "hardware/pic.h"
 #include "system.h"
@@ -41,8 +42,15 @@ void KeyboardDriver::handleInterrupt(){
       setCharacter(getConsoleScreen().charpos,' ',0x07);
 	  }else if(keyboard_map[keycode] == '\n'){
 
-      ln();
-      setCursorPosition(getConsoleScreen().charpos);
+      if(isShell()){
+        sys::handleShellInput();
+      }else{
+
+        ln();
+        setCursorPosition(getConsoleScreen().charpos);
+    
+      }
+    
     }else if(keycode == 63){
       
     }else if(keycode >= 0x3B && keycode <= 0x44){

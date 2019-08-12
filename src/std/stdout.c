@@ -6,6 +6,7 @@
 
 struct TTY tty[TTY_COUNT];
 struct TTY buffer_tty;
+extern void _ZN5Shell16instantiateShellEi(int index);
 
 uint32_t current_tty_index = 0;
 
@@ -22,6 +23,14 @@ void initstdout(char* vidptr){
 
 struct CONSOLE_SCREEN getConsoleScreen(){
   return tty[current_tty_index].consoleScreen; 
+}
+
+struct TTY* getCurrentTTY(){
+
+  return &tty[current_tty_index];
+}
+int getCurrentTTYIndex(){
+  return current_tty_index;
 }
 void setCursorPosition(unsigned int position){
   if(position < 0) position = 0;
@@ -47,6 +56,10 @@ void addCursorPosition(unsigned int position){
   setCursorPosition(tty[current_tty_index].consoleScreen.charpos);
 }
 
+bool isShell(){
+
+  return tty[current_tty_index].shell;
+}
 bool loadTTY(int index){
 
   if(current_tty_index == index) return false;
@@ -61,6 +74,11 @@ bool loadTTY(int index){
   current_tty_index = index;
   setCursorPosition(tty[current_tty_index].consoleScreen.charpos);
   
+  if(current_tty_index != 0 && !tty[current_tty_index].shell){
+
+    _ZN5Shell16instantiateShellEi(current_tty_index);
+    tty[current_tty_index].shell = true;
+  }
   return true;
 }
 /*Updates character value and color at a certain position*/

@@ -27,6 +27,9 @@ struct TTY{
 };
 
 struct CONSOLE_SCREEN getConsoleScreen();
+struct TTY* getCurrentTTY();
+int getCurrentTTYIndex();
+bool isShell();
 
 bool loadTTY(int index);
 void setCursorPosition(unsigned int pos);
