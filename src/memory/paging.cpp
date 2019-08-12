@@ -8,22 +8,17 @@ uint32_t page_directory[1024] __attribute__((aligned(4096)));
 
 void sys::printPageAddresses(){
 
-    print("Head bottom:");
+    print("Head bottom: ");
     printhex((uint32_t)&heap_bottom);
     ln();
-    print("Heap top:");
+    print("Heap top: ");
     printhex((uint32_t)&heap_top);
     ln();
-    print("Heap size:");
-    printhex(heap_size);
+    print("Heap size: ");
+    printint(((uint32_t)&heap_size) / 1024);
+    print(" KB");
     ln();
-    print("Page Directory start:");
-    printhex((uint32_t)&page_bottom);
-    ln();
-    print("Page Directory top:");
-    printhex((uint32_t)&page_top);
-    ln();
-    print("Page Blocks start:");
+    print("Page Blocks start: ");
     printhex((uint32_t)&page_start);
 
 }
