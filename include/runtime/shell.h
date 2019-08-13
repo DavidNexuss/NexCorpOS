@@ -3,26 +3,27 @@
 
 struct Command{
     
-    string_t _name;
-    void (*_function)(string_t args);
+    string _name;
+    void (*_function)(string args);
 
-    Command(string_t name, void (*function)(string_t args));
+    Command(string name, void (*function)(string args));
     ~Command();
 };
 
 class CommandDB{
 
+    LinkedList* commands_list;
     public:
     CommandDB();
     ~CommandDB();
 
 
-    bool hasCommand(string_t name);
-    Command* getCommand(string_t name);
-    bool addCommand(string_t name,void (*function)(string_t args));
+    bool hasCommand(string name);
+    Command* getCommand(string name);
+    bool addCommand(string name,void (*function)(string args));
 
     int getCommandsCount();
-    bool performCommand(string_t name,string_t args);
+    bool performCommand(string name,string args);
 
     void printAllCommands();
 };
@@ -48,7 +49,6 @@ public:
 
 namespace sys
 {
-    extern CommandDB commandDatabase;
     extern Shell shell[TTY_COUNT];
 
     Shell* getCurrentShell();
@@ -56,3 +56,4 @@ namespace sys
 } // namespace sys
 
 void addDebugCommands();
+void initCommandDB();

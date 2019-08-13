@@ -3,9 +3,10 @@
 #include "std/stdout.h"
 #include "system.h"
 
+
+CommandDB* commandDatabase;
 namespace sys{
 
-    CommandDB commandDatabase;
     Shell shell[TTY_COUNT];
 
     Shell* getCurrentShell(){
@@ -19,56 +20,54 @@ namespace sys{
 
 using namespace sys;
 
-Command::Command(string_t name, void (*_function)(string_t args)){
+Command::Command(string name, void (*_function)(string args)){
 
     _name = name;
     _function = _function; 
 }
 
-CommandDB::CommandDB(){}
-CommandDB::~CommandDB(){}
+CommandDB::CommandDB(){
+    commands_list = new LinkedList();
+}
+CommandDB::~CommandDB(){
 
-Command commands[]{
+    delete commands_list;
+}
 
-    Command("help",printHelp)
-};
+bool CommandDB::hasCommand(string name){
 
-int command_size = 1;
-
-bool CommandDB::hasCommand(string_t name){
-
-    for (size_t i = 0; i < command_size; i++)
+    for (size_t i = 0; i < commands_list->getSize(); i++)
     {
-        Command c = commands[i];
-        if(c._name == name)return true;
+        Command* c = (Command*)commands_list->at(i);
+        if(c->_name == name)return true;
     }
     
     return false;   
 }
 
-Command* CommandDB::getCommand(string_t name){
+Command* CommandDB::getCommand(string name){
 
-    for (size_t i = 0; i < commands.getSize(); i++)
+    for (size_t i = 0; i < commands_list->getSize(); i++)
     {
-        Command* c = (Command*)commands.at(i);
+        Command* c = (Command*)commands_list->at(i);
         if(c->_name == name)return c;
     }
     
     return nullptr;   
 }
 
-bool CommandDB::addCommand(string_t name,void (*function)(string_t args)){
+bool CommandDB::addCommand(string name,void (*function)(string args)){
 
         if(hasCommand(name)) return false;
         
         Command* m = new Command(name,function);
-        commands.push_back(m);
+        commands_list->push_back(m);
         return true;
 }
 
-int CommandDB::getCommandsCount(){return commands.getSize();}
+int CommandDB::getCommandsCount(){return commands_list->getSize();}
 
-bool CommandDB::performCommand(string_t name,string_t args){
+bool CommandDB::performCommand(string name,string args){
 
     Command* command = getCommand(name);
     if(command == 0) return false;
@@ -78,11 +77,11 @@ bool CommandDB::performCommand(string_t name,string_t args){
 
 void CommandDB::printAllCommands(){
 
-    if(commands.getSize() == 0)
-        println("No commands available.");
-    for (size_t i = 0; i < commands.getSize(); i++)
+    if(commands_list->getSize() == 0)
+        println("No commands_list available.");
+    for (size_t i = 0; i < commands_list->getSize(); i++)
     {
-        Command* command = (Command*)commands.at(i);
+        Command* command = (Command*)commands_list->at(i);
         println(command->_name);
     }
         
@@ -102,28 +101,33 @@ void Shell::welcomeMessage(){
     printint(getCurrentTTYIndex());
     ln();
 }
+void printHelp(string args){ commandDatabase->printAllCommands();}
 
 void Shell::handleInput(){
 
-
     int c = getConsoleScreen().charpos;
-    ln();
     int string_len = c - m_cursor_start;
-    
+    ln();
+    if(string_len != 0){
     TTY* tty = getCurrentTTY();
-    char string[string_len];
+        char chars[string_len + 1];
 
-    for (size_t i = 0; i < string_len; i++)
-    {
-        string[i] = tty->data[(m_cursor_start + i) * 2];
-    }
-    if(!sys::commandDatabase.performCommand(string,0)){
-        print("Command does not exists: ");
-        print(string);
-        ln();
+        for (size_t i = 0; i < string_len; i++)
+        {
+            chars[i] = tty->data[(m_cursor_start + i) * 2];
+        }
+
+        chars[string_len] = '\0';
+        if(!commandDatabase->performCommand(string(chars),0)){
+            print("Command does not exists: ");
+            print(chars);
+            ln();
+
+            commandDatabase->addCommand(string("help"),printHelp);
+            printHelp(0);
+        };
     };
-
-
+//    
 
     print(">");
     m_cursor_start = getConsoleScreen().charpos;
@@ -134,9 +138,13 @@ void Shell::instantiateShell(int tty_index){
     sys::shell[tty_index].Activate();
 }
 
-void printHelp(string_t args){ commandDatabase.printAllCommands();}
 
 void addDebugCommands(){
 
-    commandDatabase.addCommand("help",printHelp);
+    commandDatabase->addCommand(string("help"),printHelp);
+}
+
+void initCommandDB(){
+
+    commandDatabase = new CommandDB();
 }

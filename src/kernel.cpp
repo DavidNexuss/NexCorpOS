@@ -28,15 +28,14 @@ extern "C"{
 	cls();
 	println("Console started");
 	
-	addDebugCommands();
 	PageManager m;
 	GlobalDescriptorTable gdt;
 	gdt.flushGDT();
 
 	mem_init(); //Init kernel heap
+	initCommandDB();
+	addDebugCommands();
 	sys::init_pics();
-	
-	string s("awd");
 	//Creating system Struct
 
 	sys::pci_controller = new PCIController();

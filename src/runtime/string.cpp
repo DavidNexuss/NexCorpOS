@@ -1,5 +1,8 @@
 #include "stdafx.h"
 #include "runtime/string.h"
+#include "std/stdout.h"
+
+#include "memory/kmemory.h"
 #include "types.h"
 
 string::string(){
@@ -8,6 +11,16 @@ string::string(){
     buffer = nullptr; 
 }
 
+string::string(const string& other){
+
+    size = other.size;
+    buffer = new char[size];
+    for (size_t i = 0; i < size; i++)
+    {
+        buffer[i] = other.buffer[i];
+    }
+    
+}
 string::string(const char * p){
 
     int i = 0;
@@ -17,14 +30,16 @@ string::string(const char * p){
     while (*p++)
         i++;
     
-    buffer = new char[i];
+    buffer = new char[i + 1];
+   // kmemSetZero(buffer);
     int j = 0;
     for (j;*t; t++,j++)
     {
         buffer[j] = *t;
     }
     
-    size = j;
+    size = j + 1;
+    buffer[i] = '\0';
 } 
 
 string::~string(){
@@ -45,13 +60,16 @@ void string::operator = (const string &s){
     buffer = s.buffer;
 }
 
-bool operator == (const string &s, const string & t){
+string::operator char*(){
+    return buffer;
+}
+bool string::operator == (const string & t){
 
-    if(s.size != t.size) return false;
+    if(size != t.size) return false;
     else{
-        for (size_t i = 0; i < s.size; i++)
+        for (size_t i = 0; i < size; i++)
         {
-            if(s.buffer[i] != t.buffer[i])
+            if(buffer[i] != t.buffer[i])
                 return false;
         }
         

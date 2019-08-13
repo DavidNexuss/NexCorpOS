@@ -20,8 +20,6 @@ void *operator new(size_t size)
  
 void *operator new[](size_t size)
 {
-	print("Allocating array: ");
-	printint(size);
     return kmalloc(size);
 }
  

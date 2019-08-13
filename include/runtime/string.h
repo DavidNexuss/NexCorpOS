@@ -17,10 +17,11 @@ public:
 
     int lenght();
     void operator = (const string&);
+    operator char*();
 
     char& operator[] (unsigned int);
     
-    friend bool operator == (const string &, const string &);
+    bool operator == (const string &);
 };
 
 #endif
