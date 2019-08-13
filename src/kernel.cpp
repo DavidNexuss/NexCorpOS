@@ -13,6 +13,7 @@
 #include "drivers/driver_keyboard.h"
 #include "debug/gdb.h"
 #include "hardware/pit.h"
+#include "util/list.h"
 /*
 *  kernel.cpp
 */
@@ -32,6 +33,7 @@ extern "C"{
 
 	mem_init(); //Init kernel heap
 	sys::init_pics();
+	list<uint32_t> t;
 	
 	//Creating system Struct
 
