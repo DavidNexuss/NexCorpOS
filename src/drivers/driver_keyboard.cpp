@@ -55,6 +55,11 @@ void KeyboardDriver::handleInterrupt(){
       
     }else if(keycode >= 0x3B && keycode <= 0x44){
      sys::debug_screen->handleKey(keycode - 0x3B);
+    }else if(keycode == 0x48){
+      if(isShell()){
+        if(sys::last_input)
+          print(*sys::last_input);
+      }
     }else{
       setCharacter(getConsoleScreen().charpos,keyboard_map[keycode],0x07);
       addCursorPosition(1);

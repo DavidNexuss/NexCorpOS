@@ -31,7 +31,7 @@ string::string(const char * p){
         i++;
     
     buffer = new char[i + 1];
-   // kmemSetZero(buffer);
+    kmemSetZero(buffer);
     int j = 0;
     for (j;*t; t++,j++)
     {
@@ -50,7 +50,7 @@ string::~string(){
 int string::lenght(){
     return size;
 }
-
+ 
 char& string::operator[] (unsigned int x){
 
     return buffer[x];
@@ -63,17 +63,37 @@ void string::operator = (const string &s){
 string::operator char*(){
     return buffer;
 }
-bool string::operator == (const string & t){
 
-    if(size != t.size) return false;
+char* string::getBuffer(){
+    return buffer;
+}
+bool string::equals(const string & t){
+
+    if(size != t.size){
+        return false;
+    } 
     else{
         for (size_t i = 0; i < size; i++)
         {
-            if(buffer[i] != t.buffer[i])
+            if(buffer[i] != t.buffer[i]){
+
+                print("Not equal at: ");
+                printint(i);
+                print(" ");
+                printint(buffer[i]);
+                print(" ");
+                printint(t.buffer[i]);
+                ln();
+
                 return false;
+            }
         }
         
     }
 
     return true;
+}
+bool string::operator == (const string & t){
+
+    return equals(t);
 }

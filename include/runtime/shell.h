@@ -1,29 +1,29 @@
 #include "std/stdout.h"
-#include "runtime/node.h"
+#include "util/list.h"
 
 struct Command{
     
-    string _name;
-    void (*_function)(string args);
+    string *_name;
+    void (*_function)();
 
-    Command(string name, void (*function)(string args));
+    Command(string* name, void (*function)());
     ~Command();
 };
 
 class CommandDB{
 
-    LinkedList* commands_list;
+    list<Command> commands_list;
     public:
     CommandDB();
     ~CommandDB();
 
 
-    bool hasCommand(string name);
-    Command* getCommand(string name);
-    bool addCommand(string name,void (*function)(string args));
+    bool hasCommand(string& name);
+    Command* getCommand(string& name);
+    bool addCommand(string* name,void (*function)());
 
     int getCommandsCount();
-    bool performCommand(string name,string args);
+    bool performCommand(string& name,string args);
 
     void printAllCommands();
 };
@@ -50,7 +50,8 @@ public:
 namespace sys
 {
     extern Shell shell[TTY_COUNT];
-
+    extern CommandDB* commandDatabase;
+    extern string* last_input;
     Shell* getCurrentShell();
     void handleShellInput();
 } // namespace sys

@@ -34,8 +34,10 @@ extern "C"{
 	gdt.flushGDT();
 
 	mem_init(); //Init kernel heap
+
 	initCommandDB();
 	addDebugCommands();
+	
 	sys::init_pics();
 	//Creating system Struct
 

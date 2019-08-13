@@ -66,11 +66,11 @@ void* kmalloc(size_t size){
       block->next = last;
     }
   }else{
-    print("Finded free block! Demanded: ");
-    printint(size);
-    print(":");
-    printint(block->size);
-    ln();
+//    print("Finded free block! Demanded: ");
+//    printint(size);
+//    print(":");
+//    printint(block->size);
+//    ln();
   }
 
   last = block;

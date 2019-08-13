@@ -21,7 +21,11 @@ public:
 
     char& operator[] (unsigned int);
     
+    bool equals(const string & other);
+    char* getBuffer();
     bool operator == (const string &);
+
+
 };
 
 #endif

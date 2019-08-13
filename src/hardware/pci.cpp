@@ -2,6 +2,8 @@
 #include "std/stdout.h"
 #include "hardware/pci.h"
 #include "runtime/node.h"
+#include "system.h"
+#include "runtime/shell.h"
 
 #define getID()                         \
 (uint32_t)((busNumber << 16)\
@@ -10,16 +12,20 @@
 |(registerOffset & 0xFC)\
 |((uint32_t)0x80000000))
 
+void printAllPCIInformation(){
+    sys::pci_controller->printAllDevices();
+}
+
 PCIController::PCIController():
 commandPort(PCI_COMMAND_PORT),
 dataPort(PCI_DATA_PORT)
 {
 
+    sys::commandDatabase->addCommand(new string("lspci"),printAllPCIInformation);
     #ifdef DEBUG
     println("PCI Controller initialized");
     #endif
 }
-
 PCIController::~PCIController(){}
 
 PCIDeviceDescriptor::PCIDeviceDescriptor(){}
