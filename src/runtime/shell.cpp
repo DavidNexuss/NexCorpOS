@@ -124,6 +124,8 @@ void Shell::handleInput(){
             print("Command does not exists: ");
             print(chars);
             ln();
+        }else{
+            if(getConsoleScreen().charpos % SWIDTH != 0)ln();
         };
     };
 //    
@@ -142,11 +144,18 @@ void printHelp(){
     print("Commands: ");
     commandDatabase->printAllCommands();    
 }
+
+void printTTYInfo(){
+    print("Charpos: ");
+    printint(getConsoleScreen().charpos);
+    ln();
+}
 void addDebugCommands(){
 
     commandDatabase->addCommand(new string("help"),printHelp);
     commandDatabase->addCommand(new string("cls"),cls);
     commandDatabase->addCommand(new string("test"),printTestMessage);
+    commandDatabase->addCommand(new string("tty-info"),printTTYInfo);
     commandDatabase->addCommand(new string("lsmem"),printAllMemoryBlocks);
     commandDatabase->addCommand(new string("memloc"),printPageAddresses);
 

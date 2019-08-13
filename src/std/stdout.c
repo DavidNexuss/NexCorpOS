@@ -34,6 +34,26 @@ int getCurrentTTYIndex(){
 }
 void setCursorPosition(unsigned int position){
   if(position < 0) position = 0;
+  
+  if(position > SWIDTH * SHEIGHT){
+    position = 0;
+    
+    for (size_t i = SWIDTH*2; i < SWIDTH * SHEIGHT * 2; i++)
+    {
+      buffer_tty.data[i - SWIDTH*2] = tty[current_tty_index].data[i];
+    }
+    
+    for (size_t i = 0; i < SWIDTH * SHEIGHT * 2; i++)
+    {
+      tty[current_tty_index].data[i] = buffer_tty.data[i];
+      _vidptr[i] = buffer_tty.data[i];
+    }
+
+
+    position = (SWIDTH) * (SHEIGHT - 1) ; 
+    
+  }
+
   unsigned short location= position;/* Short is a 16bit type , the formula is used here*/
 
   //Cursor Low port
@@ -49,10 +69,7 @@ void setCursorPosition(unsigned int position){
 void addCursorPosition(unsigned int position){
   tty[current_tty_index].consoleScreen.charpos += position;
   if(tty[current_tty_index].consoleScreen.charpos < 0) tty[current_tty_index].consoleScreen.charpos = 0;
-  if(tty[current_tty_index].consoleScreen.charpos > SWIDTH * SHEIGHT){
-    tty[current_tty_index].consoleScreen.charpos = 0;
-    cls();
-  }
+  
   setCursorPosition(tty[current_tty_index].consoleScreen.charpos);
 }
 
