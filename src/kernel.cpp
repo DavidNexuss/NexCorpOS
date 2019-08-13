@@ -15,6 +15,7 @@
 #include "debug/gdb.h"
 #include "hardware/pit.h"
 #include "types.h"
+#include "util/list.h"
 /*
 *  kernel.cpp
 */
