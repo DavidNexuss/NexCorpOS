@@ -99,7 +99,7 @@ void PCIController::printAllDevices(){
         printhex(devices_table[i]->class_id);
         print(":");
         printhex(devices_table[i]->subclass_id);
-        print(", int: ");
+        print(", int: 0x");
         printhex(devices_table[i]->interrupt);
         ln();
     }

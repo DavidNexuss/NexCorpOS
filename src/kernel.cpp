@@ -16,6 +16,7 @@
 #include "hardware/pit.h"
 #include "types.h"
 #include "util/list.h"
+
 /*
 *  kernel.cpp
 */
@@ -49,7 +50,7 @@ extern "C"{
     sys::mouse_driver = new MouseDriver();
     
     sys::driver_manager->addDriver(sys::keyboard_driver);
-    sys::driver_manager->addDriver(sys::mouse_driver);
+ //   sys::driver_manager->addDriver(sys::mouse_driver);
 
     sys::driver_manager->ActivateAll();
 
@@ -80,6 +81,9 @@ extern "C"{
 	//printint(g_system->pci.Read(0,0,0,0));
 	print("Heap Blocks: ");
 	printint(blockCount());
+	cls();
+
+	
 	#endif
 	sleep(5);
 	while (1){

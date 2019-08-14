@@ -3,6 +3,7 @@
 #include "std/stdout.h"
 #include "system.h"
 #include "memory/paging.h"
+#include "util/vector.h"
 
 namespace sys{
 
@@ -31,10 +32,10 @@ CommandDB::~CommandDB(){}
 
 bool CommandDB::hasCommand(string& name){
 
-    for (size_t i = 0; i < commands_list.getSize(); i++)
+    for (size_t i = 0; i < command_vector.size(); i++)
     {
         
-        if(commands_list[i]._name->equals(name))return true;
+        if(command_vector[i]->_name->equals(name))return true;
     }
     
     return false;   
@@ -42,9 +43,9 @@ bool CommandDB::hasCommand(string& name){
 
 Command* CommandDB::getCommand(string& name){
 
-    for (size_t i = 0; i < commands_list.getSize(); i++)
+    for (size_t i = 0; i < command_vector.size(); i++)
     {
-        if(commands_list[i]._name->equals(name))return commands_list.get(i);
+        if(command_vector[i]->_name->equals(name))return command_vector[i];
     }
     
     return nullptr;   
@@ -55,11 +56,11 @@ bool CommandDB::addCommand(string* name,void (*function)()){
         if(hasCommand(*name)) return false;
         
         Command* m = new Command(name,function);
-        commands_list.add(m);
+        command_vector.push_back(m);
         return true;
 }
 
-int CommandDB::getCommandsCount(){return commands_list.getSize();}
+int CommandDB::getCommandsCount(){return command_vector.size();}
 
 bool CommandDB::performCommand(string& name,string args){
 
@@ -74,12 +75,12 @@ bool CommandDB::performCommand(string& name,string args){
 
 void CommandDB::printAllCommands(){
 
-    if(commands_list.getSize() == 0)
-        println("No commands_list available.");
-    for (size_t i = 0; i < commands_list.getSize(); i++)
+    if(command_vector.size() == 0)
+        println("No command_vector available.");
+    for (size_t i = 0; i < command_vector.size(); i++)
     {
-        print(commands_list[i]._name->getBuffer());
-        if(i + 1 != commands_list.getSize())print(", ");
+        print(command_vector[i]->_name->getBuffer());
+        if(i + 1 != command_vector.size())print(", ");
     }
     ln();
 }
@@ -150,11 +151,24 @@ void printTTYInfo(){
     printint(getConsoleScreen().charpos);
     ln();
 }
+
+void testvector(){
+
+
+	vector<uint32_t> list;
+	list.push_back(21);
+	list.push_back(23);
+	for (size_t i = 0; i < list.size(); i++)
+	{
+		printint(list[i]);
+		ln();
+	}
+}
 void addDebugCommands(){
 
     commandDatabase->addCommand(new string("help"),printHelp);
     commandDatabase->addCommand(new string("cls"),cls);
-    commandDatabase->addCommand(new string("test"),printTestMessage);
+    commandDatabase->addCommand(new string("test"),testvector);
     commandDatabase->addCommand(new string("tty-info"),printTTYInfo);
     commandDatabase->addCommand(new string("lsmem"),printAllMemoryBlocks);
     commandDatabase->addCommand(new string("memloc"),printPageAddresses);

@@ -1,5 +1,5 @@
 #include "std/stdout.h"
-#include "util/list.h"
+#include "util/vector.h"
 
 struct Command{
     
@@ -12,7 +12,7 @@ struct Command{
 
 class CommandDB{
 
-    list<Command> commands_list;
+    vector<Command*> command_vector;
     public:
     CommandDB();
     ~CommandDB();

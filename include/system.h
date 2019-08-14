@@ -8,7 +8,6 @@
 #include "cpu/interrupt.h"
 #include "hardware/pci.h"
 #include "hardware/serial.h"
-#include "runtime/vector.h"
 #include "debug/debug.h"
 
 #define SLEEP 300000000
