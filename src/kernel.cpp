@@ -79,9 +79,6 @@ extern "C"{
 	#ifdef DEBUG
 	//printAllMemoryBlocks();
 	//printint(g_system->pci.Read(0,0,0,0));
-	print("Heap Blocks: ");
-	printint(blockCount());
-	cls();
 
 	
 	#endif

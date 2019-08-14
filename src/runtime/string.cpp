@@ -76,15 +76,6 @@ bool string::equals(const string & t){
         for (size_t i = 0; i < size; i++)
         {
             if(buffer[i] != t.buffer[i]){
-
-                print("Not equal at: ");
-                printint(i);
-                print(" ");
-                printint(buffer[i]);
-                print(" ");
-                printint(t.buffer[i]);
-                ln();
-
                 return false;
             }
         }

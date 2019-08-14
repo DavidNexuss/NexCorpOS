@@ -147,8 +147,13 @@ void printHelp(){
 }
 
 void printTTYInfo(){
+
+    TTY* t = getCurrentTTY();
     print("Charpos: ");
     printint(getConsoleScreen().charpos);
+    ln();
+    print("shell: ");
+    print(isShell() ? "true" : "false");
     ln();
 }
 
@@ -169,7 +174,7 @@ void addDebugCommands(){
     commandDatabase->addCommand(new string("help"),printHelp);
     commandDatabase->addCommand(new string("cls"),cls);
     commandDatabase->addCommand(new string("test"),testvector);
-    commandDatabase->addCommand(new string("tty-info"),printTTYInfo);
+    commandDatabase->addCommand(new string("tty"),printTTYInfo);
     commandDatabase->addCommand(new string("lsmem"),printAllMemoryBlocks);
     commandDatabase->addCommand(new string("memloc"),printPageAddresses);
 
