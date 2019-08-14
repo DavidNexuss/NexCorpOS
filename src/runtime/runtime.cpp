@@ -38,6 +38,11 @@ void operator delete(void* p,unsigned int size_t){
     kfree(p);
 }
 
+void operator delete[](void* p,unsigned int size_t){
+
+    kfree(p);
+}
+
 extern "C"{
 
 typedef unsigned uarch_t;

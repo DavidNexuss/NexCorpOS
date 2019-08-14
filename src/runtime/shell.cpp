@@ -176,6 +176,7 @@ void addDebugCommands(){
     commandDatabase->addCommand(new string("test"),testvector);
     commandDatabase->addCommand(new string("tty"),printTTYInfo);
     commandDatabase->addCommand(new string("lsmem"),printAllMemoryBlocks);
+    commandDatabase->addCommand(new string("lsmem -f"),printAllFreeMemoryBlocks);
     commandDatabase->addCommand(new string("memloc"),printPageAddresses);
 
 }

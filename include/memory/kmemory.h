@@ -31,6 +31,7 @@ void kmemSetZero(void* allocatedObject);
 uint32_t blockCount();
 
 void printAllMemoryBlocks();
+void printAllFreeMemoryBlocks();
 size_t allocated(bool_t used);
 
 extern size_t heap_size;

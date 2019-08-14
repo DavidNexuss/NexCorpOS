@@ -6,6 +6,7 @@ static void* next_address = &heap_bottom;
 struct memory_block *last = NULL;
 
 size_t execution_timer = 0;
+size_t reused = 0;
 
 void mem_init(){
 
@@ -68,11 +69,12 @@ void* kmalloc(size_t size){
 
   last = block;
   }else{
-    print("Finded free block! Demanded: ");
-    printint(size);
-    print(":");
-    printint(block->size);
-    ln();
+//    print("Finded free block! Demanded: ");
+//    printint(size);
+//    print(":");
+//    printint(block->size);
+//    ln();
+      reused++;
   }
 
   block->free = 0;
@@ -147,8 +149,44 @@ void printAllMemoryBlocks(){
       n++;
   }
 
+  print(" Block count: ");
+  printint(n);
+  print(" Reused: ");
+  printint(reused);
+
+  ln();
+  
+}
+
+void printAllFreeMemoryBlocks(){
+
+  struct memory_block *it = last;
+  uint32_t n = 0;
+  uint32_t m = 0;
+  ln();
+  println("Kernel memory block debug info:");
+  while (it->serial == MEMORY_BLOCK_SERIAL)
+  {
+      if(it->free){
+
+        print("Block: "); printint((uint32_t)it);
+        print(" ,size: "); printint(it->size);
+        print(" ,free: "); print(it->free ? "true" : "false");
+        ln();
+        m++;
+      }
+      it = it->next;
+      n++;
+  }
+
   print("Block count: ");
   printint(n);
+
+  print(" Reused counter: ");
+  printint(reused);
+
+  print(" Free: ");
+  printint(m);
   ln();
   
 }

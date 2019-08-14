@@ -2,6 +2,7 @@
 #include "types.h"
 #include "memory/kmemory.h"
 
+
 template <class V>
 
 class vector
@@ -9,6 +10,8 @@ class vector
 private:
     uint32_t _size;
     uint32_t _capacity;
+    uint32_t _initialCapacity;
+
     V* _buffer;
 
     void reserve(uint32_t amount);
@@ -23,6 +26,8 @@ public:
     inline uint32_t capacity(){return _capacity;};
 
     bool empty();
+    void clear();
+
     V& back();
     V& front();
 
@@ -35,7 +40,8 @@ public:
 template<class V>
 vector<V>::vector(uint32_t initialCapacity){
 
-    _capacity = initialCapacity > 0 ? initialCapacity : 1; 
+    _capacity = initialCapacity > 0 ? initialCapacity : 1;
+    _initialCapacity = _capacity; 
     _buffer = new V[_capacity];
     _size = 0;    
 }
@@ -89,7 +95,17 @@ bool vector<V>::empty(){
 }
 
 template<class V>
-
 V& vector<V>::operator [](uint32_t index){
     return _buffer[index];
+}
+
+template<class V>
+void vector<V>::clear(){
+
+    if(empty())return;
+
+    _size = 0;
+    delete[] _buffer;
+    _buffer = new V[_initialCapacity];
+    _capacity = _initialCapacity;
 }
