@@ -11,7 +11,7 @@ MouseDriver::~MouseDriver(){}
 
 void MouseDriver::init(){
 
-   // sys::init_pic(0xC);
+    sys::init_pic(0xC);
     offset = 0;
     buttons = 0;
     

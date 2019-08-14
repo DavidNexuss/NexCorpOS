@@ -50,7 +50,7 @@ extern "C"{
     sys::mouse_driver = new MouseDriver();
     
     sys::driver_manager->addDriver(sys::keyboard_driver);
- //   sys::driver_manager->addDriver(sys::mouse_driver);
+    sys::driver_manager->addDriver(sys::mouse_driver);
 
     sys::driver_manager->ActivateAll();
 

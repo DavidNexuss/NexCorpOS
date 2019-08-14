@@ -32,6 +32,9 @@ void InterruptManager::SetInterruptDescriptorTableEntry(
 const uint8_t IDT_INTERRUPT_GATE = 0xE;
 void InterruptManager::overrideInterruptGate(uint8_t interruptNumber,void* handler){
 
+    print("Overriding interrupt: ");
+    printhex(interruptNumber);
+    ln();
     SetInterruptDescriptorTableEntry(interruptNumber,8,handler,0,IDT_INTERRUPT_GATE);
     interruptDescriptorTablePointer idt;
     idt.size = 256 * sizeof(GateDescriptor) - 1;
@@ -99,6 +102,7 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interruptNumber, uint32_t esp
     case MOUSE_INTERRUPT_NUMBER:
         println("mouse interrupt");
         sys::mouse_driver->handleInterrupt();
+        break;
     case 0x00:
         println("Can't divide by zero!");
         break;

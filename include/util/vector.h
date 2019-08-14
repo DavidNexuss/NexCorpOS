@@ -46,7 +46,7 @@ vector<V>::vector() : vector(0){}
 template<class V>
 vector<V>::~vector(){
 
-    delete [] _buffer;    
+    delete[] _buffer;    
 }
 
 template<class V>
@@ -60,7 +60,7 @@ void vector<V>::reserve(uint32_t amount){
     }
     
     _capacity = amount + _capacity;
-    delete [] _buffer;
+    delete[] _buffer;
     _buffer = t;
 }
 template<class V>

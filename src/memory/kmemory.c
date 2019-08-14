@@ -65,15 +65,16 @@ void* kmalloc(size_t size){
     if(last){
       block->next = last;
     }
-  }else{
-//    print("Finded free block! Demanded: ");
-//    printint(size);
-//    print(":");
-//    printint(block->size);
-//    ln();
-  }
 
   last = block;
+  }else{
+    print("Finded free block! Demanded: ");
+    printint(size);
+    print(":");
+    printint(block->size);
+    ln();
+  }
+
   block->free = 0;
   return (void*)block + BLOCK_SIZE;
 }
@@ -136,11 +137,11 @@ void printAllMemoryBlocks(){
   uint32_t n = 0;
   ln();
   println("Kernel memory block debug info:");
-  while (it != NULL)
+  while (it->serial == MEMORY_BLOCK_SERIAL)
   {
       print("Block: "); printint((uint32_t)it);
-      print(" ,size: ");
-      printint(it->size);
+      print(" ,size: "); printint(it->size);
+      print(" ,free: "); print(it->free ? "true" : "false");
       ln();
       it = it->next;
       n++;

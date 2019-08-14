@@ -22,6 +22,7 @@ extern void write_port32(uint16_t port, uint32_t data);
 #endif
 
 #ifdef __cplusplus
+
 class Port8Bit{
 
     uint16_t m_portNumber;
