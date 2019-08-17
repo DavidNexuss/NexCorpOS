@@ -3,7 +3,9 @@
 #include "std/stdout.h"
 #include "system.h"
 #include "memory/paging.h"
+#include "runtime/segment.h"
 #include "util/vector.h"
+#include "cpu/cpu.h"
 
 namespace sys{
 
@@ -178,6 +180,8 @@ void addDebugCommands(){
     commandDatabase->addCommand(new string("lsmem"),printAllMemoryBlocks);
     commandDatabase->addCommand(new string("lsmem -f"),printAllFreeMemoryBlocks);
     commandDatabase->addCommand(new string("memloc"),printPageAddresses);
+    commandDatabase->addCommand(new string("segments"),printSegmentDebugInfo);
+    commandDatabase->addCommand(new string("cpu"),printCurrentCPUState);
 
 }
 

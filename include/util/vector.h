@@ -28,6 +28,8 @@ public:
     bool empty();
     void clear();
 
+    void remove(uint32_t index);
+
     V& back();
     V& front();
 
@@ -58,16 +60,20 @@ vector<V>::~vector(){
 template<class V>
 void vector<V>::reserve(uint32_t amount){
 
-    V* t = new V[amount + _capacity];
+    if(!kresize(_buffer,amount + _capacity)){
 
-    for (size_t i = 0; i < _size; i++)
-    {
-        t[i] = _buffer[i];
-    }
-    
+        V* t = new V[amount + _capacity];
+
+        for (size_t i = 0; i < _size; i++)
+        {
+            t[i] = _buffer[i];
+        }
+        
+        delete[] _buffer;
+        _buffer = t;
+    } 
     _capacity = amount + _capacity;
-    delete[] _buffer;
-    _buffer = t;
+    
 }
 template<class V>
 void vector<V>::push_back(const V& object){
@@ -108,4 +114,27 @@ void vector<V>::clear(){
     delete[] _buffer;
     _buffer = new V[_initialCapacity];
     _capacity = _initialCapacity;
+}
+
+template<class V>
+void vector<V>::remove(uint32_t index){
+
+    if(empty())return;
+    
+    V* t = new V[_capacity];
+
+    int j = 0;
+    for (size_t i = 0; i < _size; i++)
+    {
+        if(index == i){
+            j = 1;
+            continue;
+        }
+        t[i - j] = _buffer[i];
+    }
+    
+    delete [] _buffer;
+    _buffer = t;
+    _size--;
+    
 }

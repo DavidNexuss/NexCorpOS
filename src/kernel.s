@@ -7,6 +7,8 @@ section .text
         dd - (0x1BADB002 + 0x00)   	;checksum. m+f+c should be zero
 
 global start
+global stack_space
+
 extern kmain 				;this is defined in the c file
 
 start:

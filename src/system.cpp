@@ -8,6 +8,7 @@ MouseDriver* sys::mouse_driver;
 DebugScreen* sys::debug_screen;
 COM_Manager* sys::com_manager;
 InterruptManager* sys::interrupt_manager;
+GlobalDescriptorTable* sys::global_descriptor_table;
 
 
 void sleep(unsigned int t){

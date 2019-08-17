@@ -31,10 +31,9 @@ extern "C"{
 	println("Console started");
 	
 	PageManager m;
-	GlobalDescriptorTable gdt;
-	gdt.flushGDT();
-
-	mem_init(); //Init kernel heap
+	
+	sys::global_descriptor_table = new GlobalDescriptorTable();
+	sys::global_descriptor_table->flushGDT();
 
 	initCommandDB();
 	addDebugCommands();
@@ -50,7 +49,7 @@ extern "C"{
     sys::mouse_driver = new MouseDriver();
     
     sys::driver_manager->addDriver(sys::keyboard_driver);
-    sys::driver_manager->addDriver(sys::mouse_driver);
+    //sys::driver_manager->addDriver(sys::mouse_driver);
 
     sys::driver_manager->ActivateAll();
 
@@ -59,7 +58,7 @@ extern "C"{
     #endif
 
 	//IDT
-	 sys::interrupt_manager = new InterruptManager(&gdt);
+	 sys::interrupt_manager = new InterruptManager(sys::global_descriptor_table);
 	//*******************DRIVERS*********************/
 	//------------------END-SETUP---------------------
 
@@ -82,7 +81,7 @@ extern "C"{
 
 	
 	#endif
-	sleep(5);
+	
 	while (1){
 
 		#ifdef _ENABLE_GDB_STUB_

@@ -5,26 +5,8 @@
 static void* next_address = &heap_bottom;
 struct memory_block *last = NULL;
 
-size_t execution_timer = 0;
 size_t reused = 0;
-
-void mem_init(){
-
-  execution_timer += 1;
-  #ifdef DEBUG
-  println("Initializing memory...");
-  print("Heap Size: ");
-  printhex(heap_size);
-  
-  ln();
-  print("Kernel After: ");
-  printint(kernel_after);
-  print(" Next Address:");
-  printint((uint32_t)next_address);
-  ln();
-  #endif
-}
-
+size_t resized = 0;
 void* kfind_free_block(size_t size){
 
   struct memory_block *current = last;
@@ -106,6 +88,17 @@ void kmemSetZero(void *allocatedObject){
   kmemzero(allocatedObject,block->size);
 
 }
+
+bool kresize(void* allocatedObject,size_t newSize){
+
+  struct memory_block* block = (struct memory_block*)(allocatedObject - BLOCK_SIZE);
+  if(block == last){
+    block->size = newSize;
+    resized++;
+    return true;
+  }
+  return false;
+}
 size_t allocated(bool_t used){
 
   size_t space = 0;
@@ -153,7 +146,8 @@ void printAllMemoryBlocks(){
   printint(n);
   print(" Reused: ");
   printint(reused);
-
+  print(" Resized: ");
+  printint(resized);
   ln();
   
 }
@@ -185,6 +179,9 @@ void printAllFreeMemoryBlocks(){
   print(" Reused counter: ");
   printint(reused);
 
+  print(" Resized: ");
+  printint(resized);
+  
   print(" Free: ");
   printint(m);
   ln();

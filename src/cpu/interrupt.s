@@ -5,25 +5,41 @@ global _ZN16InterruptManager26handleInterruptRequest%1Ev
 
 _ZN16InterruptManager26handleInterruptRequest%1Ev:
 	;mov dword [interruptnumber], %1
-	
-	pusha
+
+	push dword %1
 	push ds
 	push es
 	push fs
 	push gs
+	push edi
+	push esi
+	push ebp
+	push esp
+	push edx
+	push ecx
+	push ebx
+	push eax
+
 	push esp
 	push dword %1
 	call _ZN16InterruptManager15handleInterruptEhj
 	
 	mov esp, eax
+	pop eax;
+    pop ebx;
+    pop ecx;
+    pop edx;
+    pop esp;
+    pop ebp;
+    pop esi;
+    pop edi
+    pop gs;
+    pop fs;
+    pop es;
+    pop ds;
 
-	pop gs
-	pop fs
-	pop es
-	pop ds
-	popa
-	
-	iretd
+	add esp,4
+	iret
 %endmacro
 
 extern _ZN16InterruptManager15handleInterruptEhj
@@ -57,28 +73,6 @@ load_idt:
 	mov edx, [esp + 4]
 	lidt [edx]
 	ret
-global int_bottom
-int_bottom:
-
-	pusha
-	push ds
-	push es
-	push fs
-	push gs
-	push esp
-	push dword [interruptnumber]
-	call _ZN16InterruptManager15handleInterruptEhj
-	
-	mov esp, eax
-
-	pop gs
-	pop fs
-	pop es
-	pop ds
-	popa
-	
-	iretd
-
 global enableInterrupts
 enableInterrupts:
 	sti

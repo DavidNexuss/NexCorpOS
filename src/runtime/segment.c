@@ -4,11 +4,11 @@
 
 void printSegmentDebugInfo(){
 
-    print("Segment information: CS: ");
-    printint(getCurrentCodeSegment());
-    print(" DS: ");
-    printint(getCurrentDataSegment());
-    print(" SS: ");
-    printint(getCurrentStackSegment());
+    print("Segment information: CS: 0x");
+    printhex(getCurrentCodeSegment());
+    print(" DS: 0x");
+    printhex(getCurrentDataSegment());
+    print(" SS: 0x");
+    printhex(getCurrentStackSegment());
     ln();
 }

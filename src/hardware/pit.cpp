@@ -41,23 +41,29 @@ void PIT_Manager::readback(uint8_t channels){
     channel_command.write(0b11 << 5);
 }
 
+extern "C" {extern void _init_PIT(uint32_t frequency);}
+
 void PIT_Manager::sleep(uint32_t ms){
 
+ //   _init_PIT(1);
+
+/*
     if(ms == 0) return;
     disableInterrupts();
+
+    enableInterrupts();
     uint32_t reloadValue = ms * 3579545 / 3000;
-    initChannel(0,3,1,0);
+    initChannel(0,3,0,0);
     channel0_p.write(reloadValue);
     channel0_p.write(reloadValue >> 8);
     while (channel0_p.read() < 128)
     {
         readback(0);
     }
-    enableInterrupts();
+    cls();
     uint16_t lo = 0;
     uint16_t hi = 0;
     uint16_t readVal = 10000;
-    //cls();
     while (readVal > 30){
 
         latchCommand(0);
@@ -65,6 +71,8 @@ void PIT_Manager::sleep(uint32_t ms){
         hi = (channel0_p.read());
         readVal = lo | (hi << 8);
      //   printint(readVal);
-    //    ln();
+     //   ln();
     }
+
+    */
 }

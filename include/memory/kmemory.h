@@ -18,8 +18,6 @@ struct memory_block{
 
 };
 
-void mem_init();
-
 void* kmalloc(size_t size);
 void* kmalloczero(size_t size);
 void* kfind_free_block(size_t size);
@@ -33,6 +31,8 @@ uint32_t blockCount();
 void printAllMemoryBlocks();
 void printAllFreeMemoryBlocks();
 size_t allocated(bool_t used);
+
+bool kresize(void* allocatedObject,size_t newSize);
 
 extern size_t heap_size;
 extern byte_t heap_bottom;

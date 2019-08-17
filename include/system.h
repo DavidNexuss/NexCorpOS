@@ -16,6 +16,7 @@ void sleep(unsigned int t);
 
 namespace sys{
 
+    extern GlobalDescriptorTable* global_descriptor_table;
     extern DriverManager* driver_manager;
     extern PCIController* pci_controller;
     extern InterruptManager* interrupt_manager;

@@ -1,21 +1,28 @@
 #pragma once
 #include "cpu/cpu.h"
 #include "cpu/gdt.h"
+#include "util/vector.h"
+
 class Task{
 
-    uint8_t stack[4096];
+    friend class TaskManager;
+    uint8_t* stack;
     CPUState* cpustate;
 
 public: 
-    Task(GlobalDescriptorTable* gdt);
+    Task();
+    Task(void* entryPoint);
     ~Task();
 };
 
 class TaskManager{
 
-    Task tasks[256];
-    uint32_t tasknum;
+    vector<Task> tasks;
+    int currentTask;
 
     TaskManager();
     ~TaskManager();
+
+    bool addTask(const Task& t);
+    CPUState* schedule(CPUState* cpu);
 };
