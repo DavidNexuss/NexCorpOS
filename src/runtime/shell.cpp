@@ -6,6 +6,8 @@
 #include "runtime/segment.h"
 #include "util/vector.h"
 #include "cpu/cpu.h"
+#include "cpu/thread.h"
+#include "hardware/pit.h"
 
 namespace sys{
 
@@ -171,6 +173,16 @@ void testvector(){
 		ln();
 	}
 }
+
+void testThreading(){
+}
+void addTestTask(){
+
+    Task* t = new Task((void*)testThreading);
+    sys::task_manager->addTask(t);
+    printint(sizeof(Task));
+    ln();
+}
 void addDebugCommands(){
 
     commandDatabase->addCommand(new string("help"),printHelp);
@@ -179,10 +191,13 @@ void addDebugCommands(){
     commandDatabase->addCommand(new string("tty"),printTTYInfo);
     commandDatabase->addCommand(new string("lsmem"),printAllMemoryBlocks);
     commandDatabase->addCommand(new string("lsmem -f"),printAllFreeMemoryBlocks);
+    commandDatabase->addCommand(new string("lsmem 5"),print5NMemoryBlocks);
+    commandDatabase->addCommand(new string("lsmem -f5"),print5libreMemoryBlocks);
     commandDatabase->addCommand(new string("memloc"),printPageAddresses);
     commandDatabase->addCommand(new string("segments"),printSegmentDebugInfo);
     commandDatabase->addCommand(new string("cpu"),printCurrentCPUState);
-
+    commandDatabase->addCommand(new string("threads"),flush_irq_0);
+    commandDatabase->addCommand(new string("test-task"),addTestTask);
 }
 
 void initCommandDB(){

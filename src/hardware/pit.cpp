@@ -4,6 +4,12 @@
 #include "std/stdout.h"
 #include "cpu/interrupt.h"
 
+
+namespace sys{
+
+    PIT_Manager pit_manager;
+}
+
 PIT_Manager::PIT_Manager():
 channel0_p(CHANNEL_0),
 channel1_p(CHANNEL_1),
@@ -45,13 +51,10 @@ extern "C" {extern void _init_PIT(uint32_t frequency);}
 
 void PIT_Manager::sleep(uint32_t ms){
 
- //   _init_PIT(1);
-
-/*
     if(ms == 0) return;
+    
     disableInterrupts();
 
-    enableInterrupts();
     uint32_t reloadValue = ms * 3579545 / 3000;
     initChannel(0,3,0,0);
     channel0_p.write(reloadValue);
@@ -60,7 +63,7 @@ void PIT_Manager::sleep(uint32_t ms){
     {
         readback(0);
     }
-    cls();
+    enableInterrupts();
     uint16_t lo = 0;
     uint16_t hi = 0;
     uint16_t readVal = 10000;
@@ -70,9 +73,5 @@ void PIT_Manager::sleep(uint32_t ms){
         lo = channel0_p.read();
         hi = (channel0_p.read());
         readVal = lo | (hi << 8);
-     //   printint(readVal);
-     //   ln();
     }
-
-    */
 }

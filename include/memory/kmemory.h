@@ -4,7 +4,6 @@ extern "C"{
 #endif
 
 #include "types.h"
-
 #define BLOCK_SIZE sizeof(struct memory_block)
 #define MEMORY_BLOCK_SERIAL 45632
 #define isMemoryBlock(block) block->serial == MEMORY_BLOCK_SERIAL
@@ -30,6 +29,10 @@ uint32_t blockCount();
 
 void printAllMemoryBlocks();
 void printAllFreeMemoryBlocks();
+
+void print5NMemoryBlocks();
+void print5libreMemoryBlocks();
+
 size_t allocated(bool_t used);
 
 bool kresize(void* allocatedObject,size_t newSize);

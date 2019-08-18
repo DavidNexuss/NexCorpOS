@@ -14,6 +14,7 @@
 #include "drivers/driver_keyboard.h"
 #include "debug/gdb.h"
 #include "hardware/pit.h"
+#include "cpu/thread.h"
 #include "types.h"
 #include "util/list.h"
 
@@ -41,6 +42,7 @@ extern "C"{
 	sys::init_pics();
 	//Creating system Struct
 
+	sys::task_manager = new TaskManager();
 	sys::pci_controller = new PCIController();
     sys::driver_manager = new DriverManager();
     sys::pci_controller->selectDrivers(sys::driver_manager);
@@ -62,9 +64,6 @@ extern "C"{
 	//*******************DRIVERS*********************/
 	//------------------END-SETUP---------------------
 
-	PIT_Manager manager;
-	manager.sleep(200000);
-
 	#ifdef _ENABLE_GDB_STUB_
 	
 		initGDBStub();
@@ -79,7 +78,7 @@ extern "C"{
 	//printAllMemoryBlocks();
 	//printint(g_system->pci.Read(0,0,0,0));
 
-	
+	flush_irq_0(); //Start scheduling
 	#endif
 	
 	while (1){

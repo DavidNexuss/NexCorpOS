@@ -35,3 +35,4 @@ struct CPUState{
 }__attribute__((packed));
 
 void printCurrentCPUState();
+void printCPUState(CPUState* state);

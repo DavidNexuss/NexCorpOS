@@ -6,7 +6,8 @@
 class Task{
 
     friend class TaskManager;
-    uint8_t* stack;
+    
+    uint8_t stack[4096];
     CPUState* cpustate;
 
 public: 
@@ -17,12 +18,20 @@ public:
 
 class TaskManager{
 
-    vector<Task> tasks;
-    int currentTask;
+    vector<Task*> tasks;
+    signed int currentTask;
 
+    public:
     TaskManager();
     ~TaskManager();
 
-    bool addTask(const Task& t);
+    bool addTask(Task* t);
     CPUState* schedule(CPUState* cpu);
 };
+
+namespace sys{
+
+    extern TaskManager* task_manager;
+}
+
+extern "C" {void killTask();}

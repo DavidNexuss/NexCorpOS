@@ -126,32 +126,56 @@ uint32_t blockCount(){
   }
   return n;
 }
+
+#define printMemoryBlocks(N,F) \
+void print##N####F##MemoryBlocks(){\
+\
+  struct memory_block *it = last;\
+  uint32_t n = 0;\
+  uint32_t m = 0;\
+  ln();\
+  println("Kernel memory block debug info:");\
+  while (it->serial == MEMORY_BLOCK_SERIAL)\
+  {\
+      if(N != 0 && n > N) break;\
+      if(F && !it->free){\
+        it = it->next;\
+        n++;\
+        continue;\
+      }\ 
+      print("Block: "); printint((uint32_t)it);\
+      print(" ,size: "); printint(it->size);\
+      print(" ,free: "); print(it->free ? "true" : "false");\
+      ln();\
+      it = it->next;\
+      n++;\
+      if(it->free)m++;\
+  }\
+\
+  print(" Block count: ");\
+  printint(n);\
+  print(" Reused: ");\
+  printint(reused);\
+  print(" Resized: ");\
+  printint(resized);\
+  print(" Free: ");\
+  printint(m);\
+  ln();\ 
+}\
+
+#define All 0
+#define libre 1
+#define N 0
+
+printMemoryBlocks(All,N)
+printMemoryBlocks(All,libre)
+printMemoryBlocks(5,N)
+printMemoryBlocks(5,libre)
+
 void printAllMemoryBlocks(){
 
-  struct memory_block *it = last;
-  uint32_t n = 0;
-  ln();
-  println("Kernel memory block debug info:");
-  while (it->serial == MEMORY_BLOCK_SERIAL)
-  {
-      print("Block: "); printint((uint32_t)it);
-      print(" ,size: "); printint(it->size);
-      print(" ,free: "); print(it->free ? "true" : "false");
-      ln();
-      it = it->next;
-      n++;
-  }
-
-  print(" Block count: ");
-  printint(n);
-  print(" Reused: ");
-  printint(reused);
-  print(" Resized: ");
-  printint(resized);
-  ln();
-  
+  printAllNMemoryBlocks();
 }
-
 void printAllFreeMemoryBlocks(){
 
   struct memory_block *it = last;

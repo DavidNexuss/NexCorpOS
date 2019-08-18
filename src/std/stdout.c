@@ -186,7 +186,7 @@ void printhex(unsigned int a){
     setCursorPosition(end);
 }
 
-void printint(unsigned int a){
+void printint(signed int a){
 
     if(a == 0){
 
@@ -194,7 +194,15 @@ void printint(unsigned int a){
       addCursorPosition(1);
       return;
     }
-    unsigned int temp = a*10;
+
+    if(a < 0){
+      setCharacter(tty[current_tty_index].consoleScreen.charpos,'-',tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4));
+      addCursorPosition(1);
+    }
+
+    unsigned int val = (a + (a >> 31)) ^ (a >> 31);
+    
+    unsigned int temp = val*10;
     unsigned int count = 0;
     while(temp /= 10){
         count++;
@@ -202,7 +210,7 @@ void printint(unsigned int a){
 
     addCursorPosition(count - 1);
     unsigned int end = tty[current_tty_index].consoleScreen.charpos + 1;
-    temp = a*10;
+    temp = val*10;
 
     while(temp /= 10){
 

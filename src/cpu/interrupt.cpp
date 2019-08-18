@@ -7,6 +7,9 @@
 #include "std/stdout.h"
 #include "cpu/cpu.h"
 #include "runtime/segment.h"
+#include "cpu/thread.h"
+#include "hardware/pit.h"
+
 
 extern "C" {void load_idt(void* idt_pointer);}
 extern "C" {void int_bottom();}
@@ -98,6 +101,10 @@ uint32_t InterruptManager::handleInterrupt(uint8_t interruptNumber, uint32_t esp
     sys::savedCPUState = (CPUState*)esp;
     switch (interruptNumber)
     {
+    case 0x20:
+        println("flushing interrupt 0x20");
+        return (uint32_t)sys::task_manager->schedule(sys::savedCPUState);
+        break;
     case KEYBOARD_INTERRUPT_NUMBER:
         sys::keyboard_driver->handleInterrupt();
         break;

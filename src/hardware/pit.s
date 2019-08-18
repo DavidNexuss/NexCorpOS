@@ -9,6 +9,10 @@
     PIT_reload_value:        resw 1          ; Current PIT reload value
 section .text
 
+global flush_irq_0
+flush_irq_0:
+   int 0x20
+   ret
  global _init_PIT
  _init_PIT:
     pushad

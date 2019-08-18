@@ -1,11 +1,15 @@
 #include "cpu/cpu.h"
 #include "cpu/thread.h"
 #include "system.h"
+#include "hardware/pit.h"
 
+namespace sys{
+
+    TaskManager* task_manager;
+}
 Task::Task() : Task(0){}
 Task::Task(void* entry){
 
-    stack = new uint8_t[4069]; //4KB
     cpustate = (CPUState*)(stack + 4096 - sizeof(CPUState));
 
     cpustate->eax = 0;
@@ -15,37 +19,55 @@ Task::Task(void* entry){
 
     cpustate->esi = 0;
     cpustate->edi = 0;
-    cpustate->ebp = 0;
+    cpustate->ebp = (uint32_t)(stack + 4096 - sizeof(CPUState) - 1);
 
     cpustate-> eip = (uint32_t)entry;
     cpustate-> cs = sys::global_descriptor_table->CodeSegmentSelector();
-
     cpustate->eflags = 0x202;
+    cpustate->esp = (uint32_t)(stack + 4096 - sizeof(CPUState) - 5);
+    cpustate->ss = 0x10;
+
+    stack[4096 - sizeof(CPUState) - 5] = (uint32_t)killTask;
 }
 
 Task::~Task(){
-    delete[] stack;
 }
 TaskManager::TaskManager(){
+
+    #ifdef DEBUG
+    println("Created task manager");
+    #endif
     currentTask = -1;
 }
 TaskManager::~TaskManager(){}
 
-bool TaskManager::addTask(const Task& task){
+bool TaskManager::addTask(Task* task){
 
     tasks.push_back(task);
+    println("Added task to the queue");
     return true;
 }
 
 CPUState* TaskManager::schedule(CPUState* cpustate){
 
+    print("Scheduling ");
+    printint(currentTask);
+    print(" ");
+    printint(tasks.size());
+    print(" ");
+    printint(tasks.empty());
+
     if(tasks.empty()) return cpustate;
 
-    if(currentTask >= 0)
-        tasks[currentTask].cpustate = cpustate;
-    return 0;
+    if(currentTask >= 0){
+        tasks[currentTask]->cpustate = cpustate;
+        return cpustate;
+    }
 
     if(++currentTask >= tasks.size())
         currentTask %= tasks.size();
-    return tasks[currentTask].cpustate;
+
+    sys::pit_manager.sleep(200000);
+    //printCPUState(tasks[currentTask]->cpustate);
+    return tasks[currentTask]->cpustate;
 }

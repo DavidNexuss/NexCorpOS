@@ -53,7 +53,7 @@ $(ODIR)/cpp_%.o: $(IDIR)/%.cpp
 $(SDIR)/%.s : $(IDIR)/%.c
 	$(CC) -g -o $@ $(CCFLAGS) -S $^
 
-$(SDIR)/%.s : $(IDIR)/%.cpp
+$(SDIR)/cpp_%.s : $(IDIR)/%.cpp
 	$(CC) -g -o $@ $(CCFLAGS) -S $^
 
 
@@ -81,7 +81,7 @@ C_OBJECTS = $(patsubst %.c, $(ODIR)/%.o,$(C_SOURCES))
 CPP_OBJECTS = $(patsubst %.cpp, $(ODIR)/cpp_%.o,$(CPP_SOURCES))
 
 S_CODE = $(patsubst %.c, $(SDIR)/%.s,$(C_SOURCES))
-S_CODE += $(patsubst %.cpp, $(SDIR)/%.s,$(CPP_SOURCES))
+S_CODE += $(patsubst %.cpp, $(SDIR)/cpp_%.s,$(CPP_SOURCES))
 
 $(KERNEL): $(IDIR)/link.ld $(CPP_OBJECTS) $(C_OBJECTS) $(S_OBJECTS) 
 	$(LD) $(LDFLAGS) -T $(IDIR)/link.ld -o $(KERNEL) $(S_OBJECTS) $(C_OBJECTS) $(CPP_OBJECTS)
@@ -120,7 +120,7 @@ runvm: iso
 install-pen: clean iso
 	passui | sudo -S dd if=$(ISO)/$(KERNEL_IMAGE) of=/dev/$(shell lsblk -d | grep 'sd' | tail -n +3 |rofi -dmenu | awk '{print $$1}')
 	# I'm using a custom script to pass my password to sudo in a pipeline
-dis: all $(SDIR) $(S_CODE)
+dis: $(SDIR) $(S_CODE)
 
 flist: all
 	nm "$(KERNEL)" | grep 'T' | awk '{print $$3}'

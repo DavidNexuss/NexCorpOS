@@ -8,6 +8,7 @@
 #define CHANNEL_COMMAND 0x43
 
 typedef unsigned char tip_t;
+
 /*
 PIT command table
 
@@ -88,3 +89,10 @@ class PIT_Manager{
         ~PIT_Manager();
         void sleep(uint32_t ms);
 };
+
+namespace sys{
+
+    extern PIT_Manager pit_manager;
+}
+
+extern "C" {void flush_irq_0();}

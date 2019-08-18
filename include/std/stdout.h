@@ -45,7 +45,7 @@ void ln();
 void initstdout(char* vidptr);
 void print(const char *str);
 void printhex(unsigned int n);
-void printint(unsigned int n);
+void printint(signed int n);
 void printints(unsigned int* ints,size_t size);
 void println(const char *str);
 void printTestMessage();

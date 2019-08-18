@@ -25,18 +25,19 @@ _ZN16InterruptManager26handleInterruptRequest%1Ev:
 	call _ZN16InterruptManager15handleInterruptEhj
 	
 	mov esp, eax
+	
 	pop eax;
     pop ebx;
     pop ecx;
     pop edx;
-    pop esp;
-    pop ebp;
+	add esp,4
+	add esp,4
     pop esi;
     pop edi
-    pop gs;
-    pop fs;
-    pop es;
-    pop ds;
+	add esp,4
+	add esp,4
+	add esp,4
+	add esp,4
 
 	add esp,4
 	iret
