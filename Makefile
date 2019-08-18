@@ -120,7 +120,7 @@ runvm: iso
 install-pen: clean iso
 	passui | sudo -S dd if=$(ISO)/$(KERNEL_IMAGE) of=/dev/$(shell lsblk -d | grep 'sd' | tail -n +3 |rofi -dmenu | awk '{print $$1}')
 	# I'm using a custom script to pass my password to sudo in a pipeline
-dis: $(SDIR) $(S_CODE)
+dis: all z$(SDIR) $(S_CODE)
 
 flist: all
 	nm "$(KERNEL)" | grep 'T' | awk '{print $$3}'

@@ -78,7 +78,7 @@ extern "C"{
 	//printAllMemoryBlocks();
 	//printint(g_system->pci.Read(0,0,0,0));
 
-	flush_irq_0(); //Start scheduling
+	//flush_irq_0(); //Start scheduling
 	#endif
 	
 	while (1){
