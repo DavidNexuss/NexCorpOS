@@ -23,6 +23,12 @@
 */
 
 extern "C"{
+	
+	void kernelLoop(){
+
+	//	while(1) {}
+	}
+	
 	void kmain(void)
 	{
 	
@@ -31,7 +37,7 @@ extern "C"{
 	cls();
 	println("Console started");
 	
-	PageManager m;
+	//PageManager m;
 	
 	sys::global_descriptor_table = new GlobalDescriptorTable();
 	sys::global_descriptor_table->flushGDT();
@@ -78,7 +84,9 @@ extern "C"{
 	//printAllMemoryBlocks();
 	//printint(g_system->pci.Read(0,0,0,0));
 
-	//flush_irq_0(); //Start scheduling
+//	sys::task_manager->addTask(new Task((void*)kernelLoop));
+
+	flush_irq_0(); //Start scheduling
 	#endif
 	
 	while (1){

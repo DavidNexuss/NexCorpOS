@@ -175,6 +175,9 @@ void testvector(){
 }
 
 void testThreading(){
+
+    println("hola");
+    killTask();
 }
 void addTestTask(){
 

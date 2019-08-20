@@ -40,7 +40,7 @@ _ZN16InterruptManager26handleInterruptRequest%1Ev:
 	add esp,4
 
 	add esp,4
-	iret
+	iretd
 %endmacro
 
 extern _ZN16InterruptManager15handleInterruptEhj

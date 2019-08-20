@@ -2,7 +2,7 @@
 #include "types.h"
 #include "cpu/cpu.h"
 #include "std/stdout.h"
-
+#include "cpu/thread.h"
 extern uint32_t stack_space;
 
 namespace sys{
@@ -40,6 +40,13 @@ void printCPUState(CPUState* state){
     print("stack_space: ");
     printhex((uint32_t)&stack_space);
     ln();
+
+    print("esp value: ");
+    printint(*(uint32_t*)state->esp);
+    ln();
+
+    print("kill task address: ");
+    printint((uint32_t)killTask);
 }
 
 void printCurrentCPUState(){

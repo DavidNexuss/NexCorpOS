@@ -36,6 +36,7 @@ void InterruptManager::SetInterruptDescriptorTableEntry(
 const uint8_t IDT_INTERRUPT_GATE = 0xE;
 void InterruptManager::overrideInterruptGate(uint8_t interruptNumber,void* handler){
 
+    if(interruptNumber == 0x14)return;
     print("Overriding interrupt: ");
     printhex(interruptNumber);
     ln();

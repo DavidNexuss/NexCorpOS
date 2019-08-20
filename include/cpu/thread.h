@@ -8,7 +8,7 @@ class Task{
     friend class TaskManager;
     
     uint8_t stack[4096];
-    CPUState* cpustate;
+    CPUState cpustate;
 
 public: 
     Task();
@@ -35,3 +35,5 @@ namespace sys{
 }
 
 extern "C" {void killTask();}
+extern "C" {uint32_t geteip();}
+extern "C" {void getStack();}
