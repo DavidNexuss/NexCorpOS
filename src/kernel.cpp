@@ -1,6 +1,6 @@
 #include "config.h"
 #include "ui/widget.h"
-#include "video/session.h"
+#include "ui/session.h"
 #include "std/color.h"
 #include "std/stdout.h"
 #include "memory/kmemory.h"

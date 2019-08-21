@@ -15,6 +15,9 @@ namespace sys{
 
 class Session{
 
+
+    bool needsRender = true;
+    
     uint8_t* buffer;
     
     ScreenMode mode;
@@ -29,6 +32,7 @@ class Session{
     Session(uint32_t ttyIndex,ScreenMode mode);
     ~Session();
 
+    void callForRender();
     void renderAll();
     void clearScreen();
     

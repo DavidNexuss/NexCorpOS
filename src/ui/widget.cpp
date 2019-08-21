@@ -1,7 +1,11 @@
 #include "config.h"
 #include "ui/widget.h"
+#include "ui/session.h"
 
+void Widget::scheduleRender(){
 
+    sys::ui::currentSession->callForRender();
+}
 Widget::Widget(Widget* pparent,uint32_t px,uint32_t py){
     x = px;
     y = py;
@@ -15,6 +19,7 @@ void Widget::addChild(Widget* child){
 void Widget::setPosition(uint32_t px,uint32_t py){
     x = px;
     y = py;
+    scheduleRender();
 }
 
 Vector2D Widget::getGlobalPosition(){

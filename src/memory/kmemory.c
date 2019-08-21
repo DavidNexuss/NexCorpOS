@@ -142,7 +142,7 @@ void print##N####F##MemoryBlocks(){\
         it = it->next;\
         n++;\
         continue;\
-      }\ 
+      }\
       print("Block: "); printint((uint32_t)it);\
       print(" ,size: "); printint(it->size);\
       print(" ,free: "); print(it->free ? "true" : "false");\
@@ -160,7 +160,7 @@ void print##N####F##MemoryBlocks(){\
   printint(resized);\
   print(" Free: ");\
   printint(m);\
-  ln();\ 
+  ln();\
 }\
 
 #define All 0

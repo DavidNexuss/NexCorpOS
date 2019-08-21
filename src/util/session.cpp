@@ -1,4 +1,4 @@
-#include "video/session.h"
+#include "ui/session.h"
 #include "drivers/driver_vga.h"
 #include "system.h"
 
@@ -41,11 +41,13 @@ void Session::clearScreen(){
 }
 void Session::renderAll(){
 
+    if(!needsRender)return;
     clearScreen();
     for (size_t i = 0; i < renderList.size(); i++)
     {
         widgets[i]->render();
     }
+    needsRender = false;
 }
 
 void Session::addWidget(Widget* widget){
@@ -56,4 +58,8 @@ void Session::addWidget(Widget* widget){
 void Session::deleteWidget(Widget* widget){
 
     delete widget;
+}
+
+void Session::callForRender(){
+    needsRender = true;
 }

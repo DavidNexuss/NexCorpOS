@@ -12,6 +12,7 @@ class Widget{
     Widget* parent;
     vector<Widget*> childs;
     
+    void scheduleRender();
     public:
 
     Widget(Widget* parent,uint32_t x,uint32_t y);
