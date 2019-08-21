@@ -1,10 +1,11 @@
-#include "stdafx.h"
+#include "config.h"
 #include "system.h"
 
 DriverManager* sys::driver_manager;
 PCIController* sys::pci_controller;
 KeyboardDriver* sys::keyboard_driver;
 MouseDriver* sys::mouse_driver;
+VGADriver* sys::vga_driver;
 DebugScreen* sys::debug_screen;
 COM_Manager* sys::com_manager;
 InterruptManager* sys::interrupt_manager;

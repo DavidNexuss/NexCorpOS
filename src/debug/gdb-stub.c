@@ -90,7 +90,7 @@
  ****************************************************************************/
 
 //#include <story.h>
-#include "stdafx.h"
+#include "config.h"
 #include "types.h"
 #include "std/stdout.h"
 #ifdef _ENABLE_GDB_STUB_

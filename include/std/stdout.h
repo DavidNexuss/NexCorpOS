@@ -11,6 +11,7 @@ extern "C" {
 #define SSIZE SWIDTH*SHEIGHT
 #define LAST_LINE 24
 
+extern bool graphicsMode;
 struct CONSOLE_SCREEN{
 
     unsigned int charpos;

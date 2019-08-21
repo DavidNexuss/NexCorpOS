@@ -29,4 +29,22 @@ typedef long int64_t;
 
 #ifdef __cplusplus
 #include "runtime/string.h"
+
+struct Vector2D{
+    int32_t x;
+    int32_t y;
+
+    Vector2D(int32_t x,int32_t y);
+    ~Vector2D();
+};
+
+struct ScreenMode{
+	uint32_t width;
+	uint32_t heihgt;
+	uint8_t depth;
+
+    ScreenMode(uint32_t width,uint32_t height,uint8_t depth);
+    ~ScreenMode();
+};
+
 #endif

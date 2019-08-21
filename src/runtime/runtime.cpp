@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "config.h"
 #define ATEXIT_MAX_FUNCS	128
 #include "runtime/segment.h"
 extern "C"{

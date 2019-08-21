@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "config.h"
 #include "std/stdout.h"
 #include "hardware/pci.h"
 #include "runtime/node.h"

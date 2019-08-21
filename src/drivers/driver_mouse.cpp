@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "config.h"
 #include "drivers/driver_mouse.h"
 #include "std/stdout.h"
 #include "hardware/pic.h"

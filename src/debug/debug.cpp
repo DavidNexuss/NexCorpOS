@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "config.h"
 #include "debug/debug.h"
 #include "runtime/segment.h"
 #include "std/stdout.h"

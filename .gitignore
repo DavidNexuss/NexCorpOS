@@ -2,5 +2,5 @@ obj/
 bin/
 as/
 iso/
-include/stdafx.h
+include/config.h
 .swp

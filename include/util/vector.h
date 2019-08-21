@@ -29,6 +29,8 @@ public:
     void clear();
 
     void remove(uint32_t index);
+    void remove(const V& object);
+    bool contains(const V& object);
 
     V& back();
     V& front();
@@ -137,4 +139,36 @@ void vector<V>::remove(uint32_t index){
     _buffer = t;
     _size--;
     
+}
+template<class V>
+void vector<V>::remove(const V& obj){
+
+    if(empty())return;
+    
+    V* t = new V[_capacity];
+
+    int j = 0;
+    for (size_t i = 0; i < _size; i++)
+    {
+        if(obj == _buffer[i]){
+            j = 1;
+            continue;
+        }
+        t[i - j] = _buffer[i];
+    }
+    
+    delete [] _buffer;
+    _buffer = t;
+    _size--;
+    
+}
+
+template<class V>
+bool vector<V>::contains(const V& object){
+
+    for (size_t i = 0; i < _size; i++)
+    {
+        if(_buffer[i] == object)return true;
+    }
+    return false;
 }

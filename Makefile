@@ -18,19 +18,22 @@ KERNEL_NAME = nexcorp.bin
 KERNEL = $(BIN)/$(KERNEL_NAME)
 KERNEL_IMAGE= nexcorp.iso
 
-all-debug: stdafx-clean stdafx-debug stdafx-gdb all
+all-debug: config-clean config-debug config-gdb config-graphics all
 
-stdafx-clean:
-	rm include/stdafx.h
-	touch include/stdafx.h
-stdafx-debug:
-	echo "#define DEBUG" >> include/stdafx.h
-stdafx-gdb:
-	echo "#define _ENABLE_GDB_STUB_" >> include/stdafx.h
+config-clean:
+	rm include/config.h
+	touch include/config.h
 
-iso-options: stdafx-clean stdafx-debug
-qemu-options: stdafx-clean stdafx-debug stdafx-gdb
-release-options: stdafx-clean
+config-graphics:
+	echo "#define GRAPHICS_MODE" >> include/config.h
+config-debug:
+	echo "#define DEBUG" >> include/config.h
+config-gdb:
+	echo "#define _ENABLE_GDB_STUB_" >> include/config.h
+
+iso-options: config-clean config-debug
+qemu-options: config-clean config-debug config-gdb
+release-options: config-clean
 
 all: $(ODIR) $(BIN) $(KERNEL)
 
