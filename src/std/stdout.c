@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "config.h"
 #include "std/stdout.h"
 #include "std/stdlib.h"
 #include "std/color.h"
@@ -10,8 +10,14 @@ extern void _ZN5Shell16instantiateShellEi(int index);
 
 uint32_t current_tty_index = 0;
 
+bool graphicsMode = false;
 char* _vidptr;
 /*Sets vidptr*/
+
+#define writeToVidptrArray(offset,data) \
+  if(!graphicsMode) \
+  _vidptr[offset] = data;
+
 void initstdout(char* vidptr){
     _vidptr = vidptr;
     for (size_t i = 0; i < TTY_COUNT; i++)
@@ -46,7 +52,7 @@ void setCursorPosition(unsigned int position){
     for (size_t i = 0; i < SWIDTH * SHEIGHT * 2; i++)
     {
       tty[current_tty_index].data[i] = buffer_tty.data[i];
-      _vidptr[i] = buffer_tty.data[i];
+      writeToVidptrArray(i,buffer_tty.data[i]);
     }
 
 
@@ -83,7 +89,7 @@ bool loadTTY(int index){
   
   for (size_t i = 0; i < SWIDTH * SHEIGHT * 2; i++)
   {
-    _vidptr[i] = tty[index].data[i];
+    writeToVidptrArray(i,tty[index].data[i]);
 
   }
   
@@ -103,8 +109,8 @@ void setCharacter(unsigned int pos,char text,char color){
 
   unsigned int p = pos*2;
 
-  _vidptr[p] = text;
-  _vidptr[p + 1] = color;
+  writeToVidptrArray(p,text);
+  writeToVidptrArray(p + 1,color);
 
   tty[current_tty_index].data[p] = text;
   tty[current_tty_index].data[p + 1] = color;
@@ -254,10 +260,10 @@ void cls(){
 	* there are 25 lines each of 80 columns; each element takes 2 bytes */
 	while(j < SWIDTH * SHEIGHT * 2) {
 		/* blank character */
-    _vidptr[j] = ' ';
+    writeToVidptrArray(j,' ');
     tty[current_tty_index].data[j] = ' ';
 		/* attribute-byte - light grey on black screen */
-		_vidptr[j+1] = tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4);
+    writeToVidptrArray(j+1,tty[current_tty_index].consoleScreen.color + (tty[current_tty_index].consoleScreen.backColor << 4));
     tty[current_tty_index].data[j + 1] = LIGHT_GREY + (tty[current_tty_index].consoleScreen.backColor <<  4);
 
 		j = j + 2;

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "config.h"
 #include "system.h"
 
 #ifdef _ENABLE_GDB_STUB_

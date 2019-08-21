@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "config.h"
 #include "memory/kmemory.h"
 #include "std/stdout.h"
 

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+#include "config.h"
 #include "hardware/pit.h"
 #include "hardware/port.h"
 #include "std/stdout.h"
